@@ -12,7 +12,7 @@ namespace Completed
 
 {
 
-	public class CosmosManager : MonoBehaviour
+	public class GalaxyManager : MonoBehaviour
 	{
 		// Using Serializable allows us to embed a class with sub properties in the inspector.
 		[Serializable]
@@ -36,7 +36,7 @@ namespace Completed
 		public GameObject[] systemTiles;                                //Array of galaxy prefabs.
         public ulong randSeed;                                          //64-bit unsigned integer seed for RNG
 
-        private Transform cosmosHolder;                                  //A variable to store a reference to the transform of Cosmos object.
+        private Transform galaxyHolder;                                  //A variable to store a reference to the transform of Galaxy object.
 		private List <Vector3> gridPositions = new List <Vector3> ();   //A list of possible locations to place tiles.
 
 
@@ -60,10 +60,10 @@ namespace Completed
 
 
 		//Sets up the outer walls and floor (background) of the space board.
-		void CosmosSetup ()
+		void GalaxySetup ()
 		{
             //Instantiate Cosmos and set cosmosHolder to its transform.
-            cosmosHolder = new GameObject ("Cosmos").transform;
+            galaxyHolder = new GameObject ("Galaxy").transform;
 
 			//Loop along x axis, starting from -1 (to fill corner) with floor or outerwall edge tiles.
 			for(int x = -1; x < columns + 1; x++)
@@ -81,7 +81,7 @@ namespace Completed
 						Instantiate (toInstantiate, new Vector3 (x, y, 0f), Quaternion.identity) as GameObject;
 
                     //Set the parent of our newly instantiated object instance to cosmosHolder, this is just organizational to avoid cluttering hierarchy.
-                    instance.transform.SetParent (cosmosHolder);
+                    instance.transform.SetParent (galaxyHolder);
 				}
 			}
 		}
@@ -91,7 +91,7 @@ namespace Completed
 		public void SetupScene (int level)
 		{
             //Creates the grid with galaxies
-            CosmosSetup();
+            GalaxySetup();
 
 			//Reset our list of gridpositions.
 			InitialiseList ();            
