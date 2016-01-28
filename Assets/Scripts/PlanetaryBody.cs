@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlanetaryBody : MonoBehaviour {
 
 	private float _rotationSpeed = 30; // Degrees / Second
 	private float _rotationDirection = 1; // 1 = clockwise, -1 = counterclockwise, 0 = none.
+
+    private XXHash randomHash = new XXHash(12345);
+
+    private int _progress = 1;
 
 	private float _size = 1; // Units
 	public float Size {
@@ -19,30 +24,54 @@ public class PlanetaryBody : MonoBehaviour {
 
 	private LayeredSprite _layeredSprite;
 
-	// Use this for initialization
-	void Start () {
-		_layeredSprite = GetComponent<LayeredSprite>();
-		Size = _size;
-	}
+    // Use this for initialization
+    void Start()
+    {
+        _layeredSprite = GetComponent<LayeredSprite>();
+        Randomize(0u);
+    }
 
-	public void Randomize() {
-		_rotationSpeed = Random.Range(0f,40f);
-		Size = Random.Range(0.5f,1.5f);
-		if (Random.Range(0,2) == 1) {
-			_rotationDirection = 1;
-		}
-		else {
-			_rotationDirection = -1;
-		}
-		_layeredSprite.Randomize();
-	}
+    public void Randomize(uint i)
+    {
+        Debug.Log("Creating planet from number: " + i);
+        _rotationSpeed = (i % 40);
+        if (i % 2 == 0)
+            _rotationDirection = 1;
+        else
+            _rotationDirection = -1;
+
+        Debug.Log("Rotational Speed: " + _rotationSpeed);
+
+        Size = ((i % 10) / 10.0f) + .5f;
+        Debug.Log("Size: " + Size);
+
+        _layeredSprite.Randomize(i);
+    }
+
+    public int PointToNumber(int x, int y)
+    {
+        return CantorPairing(PositiveMapping(x), PositiveMapping(y));
+    }
+
+    private int CantorPairing(int f1, int f2)
+    {
+        return ((f1 + f2)*(f1 + f2 + 1) / 2 + f2);
+    }
+
+    private int PositiveMapping(int n)
+    {
+        if (n <= 0)
+            return n * 2;
+        else
+            return -n * 2 - 1;
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown("space")) {
 			Debug.Log(Nomenclature.GetRandomWord());
-			Randomize();
-		}
+			Randomize(randomHash.GetHash(_progress++));
+        }
 		transform.Rotate(new Vector3(0,0, _rotationSpeed * -_rotationDirection * Time.deltaTime));
 	}
 }

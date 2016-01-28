@@ -59,9 +59,9 @@ public class LayeredSprite : MonoBehaviour {
 
 	/* End DEBUG ~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~ */
 
-	public void Randomize() {
-		RandomizeColors();
-		RandomizeShowLayers();
+	public void Randomize(uint i) {
+		RandomizeColors(i);
+		RandomizeShowLayers(i);
 	}
 
 	private void LoadSprites() {
@@ -81,7 +81,7 @@ public class LayeredSprite : MonoBehaviour {
 
 	}
 
-	private void RandomizeColors() {
+	private void RandomizeColors(uint i) {
 		if (!isStar) {
 			SetColors(Utility.GetRandomColor(), Utility.GetRandomColor());
 		}
@@ -121,10 +121,19 @@ public class LayeredSprite : MonoBehaviour {
 		_spriteLayers[index].gameObject.SetActive(show);
 	}
 
-	private void RandomizeShowLayers() {
-		for(int i = 0; i < _spriteLayers.Length; i++) {
-			bool rand = (Random.Range(0,2) == 1);
-			ShowLayer(i,rand);
+	private void RandomizeShowLayers(uint i) {
+
+        // N layers to show
+        // currently generates boolean for each layer
+        //
+
+        BitArray b = new BitArray(new int[] { (int)i });
+
+        if (b.Length > _spriteLayers.Length)
+            Debug.Log("ERROR TOO MANY LAYERS");
+        for (int j = 0; j < _spriteLayers.Length; j++)
+        {
+			ShowLayer(j, b[j]);
 		}
 	}
 }

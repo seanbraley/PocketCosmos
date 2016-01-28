@@ -1,0 +1,30 @@
+﻿Merge branch 'master' into develop
+
+# Conflicts:
+#	ProjectSettings/ProjectSettings.asset
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch develop
+# Your branch is up-to-date with 'origin/develop'.
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	new file:   Assets/HashFunction.cs
+#	new file:   Assets/HashFunction.cs.meta
+#	modified:   Assets/Scenes/system_test.unity
+#	modified:   Assets/Scripts/LayeredSprite.cs
+#	modified:   Assets/Scripts/PlanetaryBody.cs
+#	modified:   Assets/Scripts/Utility.cs
+#	new file:   Assets/XXHash.cs
+#	new file:   Assets/XXHash.cs.meta
+#	modified:   ProjectSettings/ProjectSettings.asset
+#
+

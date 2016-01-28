@@ -17,6 +17,14 @@ public class Utility : MonoBehaviour {
 		return new Color(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f));
 	}
 
+    public static Color GetRandomColor(uint i)
+    {
+        uint r = i % 255;
+        int g = (int)(i / 2f % 255);
+        int b = (int)(i * 2f % 255);
+        return new Color(r, g, b);
+    }
+
 	public static Color ChangeColorBrightness(Color color, float correctionFactor)
 	{
 	    float red = (float)color.r;
