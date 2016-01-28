@@ -42,7 +42,7 @@ public class PlanetaryBody : MonoBehaviour {
 
         Debug.Log("Rotational Speed: " + _rotationSpeed);
 
-        Size = ((i % 10) / 10.0f) + .5f;
+        Size = (((i % 10) / 10.0f) + .5f) * 5;
         Debug.Log("Size: " + Size);
 
         _layeredSprite.Randomize(i);
