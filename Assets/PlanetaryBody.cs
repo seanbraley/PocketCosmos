@@ -9,6 +9,8 @@ public class PlanetaryBody : MonoBehaviour {
 
     private XXHash randomHash = new XXHash(12345);
 
+    private int _progress = 1;
+
 	private float _size = 1; // Units
 	public float Size {
 		get {
@@ -22,49 +24,29 @@ public class PlanetaryBody : MonoBehaviour {
 
 	private LayeredSprite _layeredSprite;
 
-	// Use this for initialization
-	void Start () {
-		_layeredSprite = GetComponent<LayeredSprite>();
-		Size = _size;
-        int m = 1000;
-        List<int> intlist = new List<int>();
-        for (int i = -m; i < m; i++)
-        {
-            for (int j = -m; j < m; j++)
-            {
-                if (i != 0 && j != 0)
-                {
-                    //Debug.Log(string.Format("<{0},{1}> => {2}", i, j, PointToNumber(i, j)));
-                    intlist.Add(PointToNumber(i, j));
-                }
-            }
-        }
-        intlist.Sort();
-        int prevNumber = 0;
-        bool duplicates = false;
-        foreach (int i in intlist)
-        {
-            if (i == prevNumber)
-                duplicates = true;
-            prevNumber = i;
-        }
-        if (duplicates)
-            Debug.Log("There were duplicates :(");
-        else
-            Debug.Log("A-OK Captain!");
+    // Use this for initialization
+    void Start()
+    {
+        _layeredSprite = GetComponent<LayeredSprite>();
+        Randomize(0u);
     }
 
-	public void Randomize() {
-		_rotationSpeed = Random.Range(0f,40f);
-		Size = Random.Range(0.5f,1.5f);
-		if (Random.Range(0,2) == 1) {
-			_rotationDirection = 1;
-		}
-		else {
-			_rotationDirection = -1;
-		}
-		_layeredSprite.Randomize();
-	}
+    public void Randomize(uint i)
+    {
+        Debug.Log("Creating planet from number: " + i);
+        _rotationSpeed = (i % 40);
+        if (i % 2 == 0)
+            _rotationDirection = 1;
+        else
+            _rotationDirection = -1;
+
+        Debug.Log("Rotational Speed: " + _rotationSpeed);
+
+        Size = ((i % 10) / 10.0f) + .5f;
+        Debug.Log("Size: " + Size);
+
+        _layeredSprite.Randomize(i);
+    }
 
     public int PointToNumber(int x, int y)
     {
@@ -88,10 +70,7 @@ public class PlanetaryBody : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown("space")) {
 			Debug.Log(Nomenclature.GetRandomWord());
-			Randomize();
-            Debug.Log(randomHash.GetHash(1));
-            Debug.Log(randomHash.GetHash(2));
-            Debug.Log(randomHash.GetHash(3));
+			Randomize(randomHash.GetHash(_progress++));
         }
 		transform.Rotate(new Vector3(0,0, _rotationSpeed * -_rotationDirection * Time.deltaTime));
 	}
