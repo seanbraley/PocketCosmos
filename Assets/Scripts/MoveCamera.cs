@@ -68,7 +68,7 @@ public class MoveCamera : MonoBehaviour
         if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetKey(KeyCode.UpArrow))
         {
             float newSize = cameraZoom / 1.5f;
-            cameraZoom = Mathf.Max(5, newSize);
+            cameraZoom = Mathf.Max(1, newSize);
         }
         if (Input.GetAxis("Mouse ScrollWheel") < 0 || Input.GetKey(KeyCode.DownArrow))
         {

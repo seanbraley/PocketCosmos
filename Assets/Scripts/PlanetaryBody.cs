@@ -6,12 +6,25 @@ public class PlanetaryBody : MonoBehaviour {
 
 	private float _rotationSpeed = 30; // Degrees / Second
 	private float _rotationDirection = 1; // 1 = clockwise, -1 = counterclockwise, 0 = none.
-
+    
     private XXHash randomHash = new XXHash(12345);
 
     private int _progress = 1;
+    
+    private GameObject _orbits = null;   // what this planetary body orbits
+    public GameObject Orbits
+    {
+        get
+        {
+            return _orbits;
+        }
+        set
+        {
+            _orbits = value;
+        }
+    }
 
-	private float _size = 1; // Units
+    private float _size = 1; // Units
 	public float Size {
 		get {
 			return _size;
