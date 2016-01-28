@@ -75,15 +75,21 @@ public class LayeredSprite : MonoBehaviour {
 		}
 	}
 
-	public void SetColors(Color baseColor, Color layerColor) {
+	public void SetColors(Color baseColor, Color layerColor)
+    {
 		BaseColor = baseColor;
 		LayerColor = layerColor;
-
+        Debug.Log("Base color");
+        Debug.Log(baseColor);
 	}
 
 	private void RandomizeColors(uint i) {
 		if (!isStar) {
-			SetColors(Utility.GetRandomColor(), Utility.GetRandomColor());
+            // need to get two random numbers from this
+            byte[] org = System.BitConverter.GetBytes(i);
+            ushort first = System.BitConverter.ToUInt16(org, 0);
+            ushort second = System.BitConverter.ToUInt16(org, 2);
+            SetColors(Utility.GetRandomColor(first), Utility.GetRandomColor(second));
 		}
 		else
 		{
@@ -129,8 +135,9 @@ public class LayeredSprite : MonoBehaviour {
 
         BitArray b = new BitArray(new int[] { (int)i });
 
-        if (b.Length > _spriteLayers.Length)
+        if (b.Length < _spriteLayers.Length)
             Debug.Log("ERROR TOO MANY LAYERS");
+
         for (int j = 0; j < _spriteLayers.Length; j++)
         {
 			ShowLayer(j, b[j]);
