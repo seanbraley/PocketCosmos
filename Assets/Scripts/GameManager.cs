@@ -53,8 +53,11 @@ namespace Completed
                 {
                     uint num = Procedural.PointToNumber(i + offsetX, j + offsetY);
                     BitArray b = new BitArray(new int[] { (int)num });
-                    //Debug.Log(num);
-                    bool starExists = b[5] ^ b[4];
+
+                    bool starExists = (Mathf.Pow(num, Mathf.Abs(i)) % Mathf.Abs(j) == 0) &
+                        (Mathf.Pow(num, Mathf.Abs(j)) % Mathf.Abs(i) == 0);
+                    
+                    //bool starExists = (b[5] & b[4]) ^ b[18];
 
                     /* off-grid
                     byte[] tmp = System.BitConverter.GetBytes(num);

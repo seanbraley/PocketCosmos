@@ -48,25 +48,28 @@ public static class Procedural
     public static Color GetRandomStarColor(ushort i)
     {
         float rand = Random.Range(0f, 1f);
-        int choice = i % 3;
+        float choice = i % 100 / 100f;
         int r = 0;
         int g = 0;
         int b = 0;
 
-        if (choice == 0) // RedGreen star
+        if (choice > .75) // RedGreen star
         {
+            Debug.Log("Red star");
             r = 255 - (i % (255 / 20));
             g = 255 - ((i * 2) % (255 / 20));
             b = 0 + ((i / 2) % (255 / 10));
         }
-        else if (choice == 1) // not
+        else if (choice > .5) // not
         {
+            Debug.Log("Not Red star");
             r = 255 - (i % (255 / 20));
             g = 0 + ((i / 2) % (255 / 20));
             b = 0 + ((i / 2) % (255 / 10));
         }
         else // all
         {
+            Debug.Log("Other");
             r = 255 - (i % (255 / 20));
             g = 255 - ((i * 2) % (255 / 20));
             b = 255 - ((i / 2) % (255 / 20));

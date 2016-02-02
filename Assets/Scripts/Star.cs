@@ -8,12 +8,14 @@ public class Star : PlanetaryBody {
 
     void Start()
     {
+        _layeredSprite = GetComponent<LayeredSprite>();
         myNumber = Procedural.GetNumber(Procedural.PointToNumber((int)transform.position.x, (int)transform.position.y));
         Generate();
     }
 
     private void Generate()
     {
+        Size = 1f;
         _layeredSprite.Randomize(myNumber);
     }
 }
