@@ -92,8 +92,12 @@ public class LayeredSprite : MonoBehaviour {
             SetColors(Utility.GetRandomColor(first), Utility.GetRandomColor(second));
 		}
 		else
-		{
-			SetColors(GetRandomStarColor(),GetRandomStarColor());
+        {
+            byte[] org = System.BitConverter.GetBytes(i);
+            ushort first = System.BitConverter.ToUInt16(org, 0);
+            ushort second = System.BitConverter.ToUInt16(org, 2);
+            SetColors(Procedural.GetRandomColor(first), Procedural.GetRandomColor(second));
+            SetColors(Procedural.GetRandomStarColor(first), Procedural.GetRandomStarColor(second));
 		}
 	}
 

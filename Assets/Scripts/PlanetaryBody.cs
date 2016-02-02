@@ -7,7 +7,6 @@ public class PlanetaryBody : MonoBehaviour {
 	private float _rotationSpeed = 30; // Degrees / Second
 	private float _rotationDirection = 1; // 1 = clockwise, -1 = counterclockwise, 0 = none.
     
-    private XXHash randomHash = new XXHash(12345);
 
     private int _progress = 1;
     
@@ -35,13 +34,13 @@ public class PlanetaryBody : MonoBehaviour {
 		}
 	}
 
-	private LayeredSprite _layeredSprite;
+	protected LayeredSprite _layeredSprite;
 
     // Use this for initialization
     void Start()
     {
         _layeredSprite = GetComponent<LayeredSprite>();
-        Randomize(0u);
+        //Randomize(0u);
     }
 
     public void Randomize(uint i)
@@ -60,30 +59,12 @@ public class PlanetaryBody : MonoBehaviour {
 
         _layeredSprite.Randomize(i);
     }
-
-    public int PointToNumber(int x, int y)
-    {
-        return CantorPairing(PositiveMapping(x), PositiveMapping(y));
-    }
-
-    private int CantorPairing(int f1, int f2)
-    {
-        return ((f1 + f2)*(f1 + f2 + 1) / 2 + f2);
-    }
-
-    private int PositiveMapping(int n)
-    {
-        if (n <= 0)
-            return n * 2;
-        else
-            return -n * 2 - 1;
-    }
 	
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown("space")) {
 			Debug.Log(Nomenclature.GetRandomWord());
-			Randomize(randomHash.GetHash(_progress++));
+			//Randomize(randomHash.GetHash(_progress++));
         }
 		transform.Rotate(new Vector3(0,0, _rotationSpeed * -_rotationDirection * Time.deltaTime));
 	}
