@@ -77,7 +77,7 @@ GameObject:
   - 114: {fileID: 11493440}
   m_Layer: 0
   m_Name: Star
-  m_TagString: Untagged
+  m_TagString: Star
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5da302100a9eedd4eac5877607d6cdfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myNumber: 0
 --- !u!198 &19806724
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1805,7 +1806,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Star
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 167330}
