@@ -1,0 +1,11 @@
+UI:
+Menu template - https://unity3d.com/learn/tutorials/modules/beginner/live-training-archive/game-jam-template
+
+
+Skybox:
+Purple Space Nebula Skybox - https://www.assetstore.unity3d.com/en/#!/content/25117
+
+
+Music:
+Space Music (Blind Shift) - http://opengameart.org/content/space-music-blind-shift
+ambient_menu - http://opengameart.org/content/ambientmenu
