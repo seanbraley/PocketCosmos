@@ -73,4 +73,5 @@ public class PlanetaryBody : MonoBehaviour {
         }
 		transform.Rotate(new Vector3(0,0, _rotationSpeed * -_rotationDirection * Time.deltaTime));
 	}
+
 }

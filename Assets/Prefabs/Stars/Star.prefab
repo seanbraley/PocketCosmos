@@ -75,6 +75,7 @@ GameObject:
   - 198: {fileID: 19806724}
   - 199: {fileID: 19982478}
   - 114: {fileID: 11493440}
+  - 50: {fileID: 5077560}
   m_Layer: 0
   m_Name: Star
   m_TagString: Star
@@ -146,6 +147,23 @@ Transform:
   - {fileID: 438506}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!50 &5077560
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167330}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &11414556
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -170,6 +188,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myNumber: 0
+  planetPrefab:
+  - {fileID: 179486, guid: 63f61d91097fa4946964ea17c10fada4, type: 2}
+  - {fileID: 192934, guid: 47aa7d7df64224147b11110563f8c72f, type: 2}
+  - {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
 --- !u!198 &19806724
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1808,9 +1830,29 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: planetPrefab.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_TagString
       value: Star
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: planetPrefab.Array.data[0]
+      value: 
+      objectReference: {fileID: 179486, guid: 63f61d91097fa4946964ea17c10fada4, type: 2}
+    - target: {fileID: 0}
+      propertyPath: planetPrefab.Array.data[1]
+      value: 
+      objectReference: {fileID: 192934, guid: 47aa7d7df64224147b11110563f8c72f, type: 2}
+    - target: {fileID: 0}
+      propertyPath: planetPrefab.Array.data[2]
+      value: 
+      objectReference: {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 167330}
