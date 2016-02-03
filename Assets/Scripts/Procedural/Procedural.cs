@@ -95,6 +95,28 @@ public static class Procedural
         int b = (int)(i * 2 % 255);
         return new Color(r, g, b);
     }
+
+    public static bool StarExists(int x, int y)
+    {
+        uint num = PointToNumber(x, y);
+
+        BitArray b = new BitArray(new int[] { (int)num });
+
+        byte[] bytes = System.BitConverter.GetBytes(num);
+        char a1 = (char)bytes[0];
+        char a2 = (char)bytes[1];
+        char a3 = (char)bytes[2];
+        char a4 = (char)bytes[3];
+
+        Debug.Log(string.Format("Chars: {0}, {1}, {2}, {3}", a1, a2, a3, a4));
+        return (char.IsLetter(a1) || char.IsLetter(a2) || char.IsLetter(a3) || char.IsLetter(a3));
+        //Debug.Log(b.ToString());
+
+
+
+        //return (Mathf.Pow(num, x) % y == 0) & (Mathf.Pow(num, y) % x == 0);  // This looks nice for the positive quadrant(s)
+    }
+
     /*
     public static void SetPlanetaryBody(ref PlanetaryBody b, uint i)
     {
