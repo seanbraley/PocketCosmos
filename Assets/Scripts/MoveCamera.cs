@@ -147,18 +147,13 @@ public class MoveCamera : MonoBehaviour
             int numSegments = 128;
             float radius = obj.transform.localScale.x / 2;
 
-            /*
+            
 			if (Camera.main.orthographicSize > 500) {
 				if (obj.tag == "Star") {
 					radius = obj.GetComponent<Light>().range;
 				}
-				if (obj.tag == Planet.TAG) {
-					DrawOutline(obj.GetComponent<Planet>().homeStar.gameObject);
-					return;
-				}
 			}
-			*/
-
+			
             outliner.SetVertexCount(numSegments + 1);
 
             float deltaTheta = (2.0f * Mathf.PI) / numSegments;
