@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;       //Allows us to use Lists. 
+using System.Collections.Generic;
 
 namespace Completed
 {
@@ -11,8 +12,15 @@ namespace Completed
 
         private int offsetX;
         private int offsetY;
+
+        private Vector2 virtualPosition = Vector2.zero;
+
+        private int movementCounterX = 0;
+        private int movementCounterY = 0;
         
         public GameObject[] starPrefabs;
+
+        public List<GameObject> stars = new List<GameObject>();
 
         //Awake is always called before any Start functions
         void Awake()
@@ -42,9 +50,9 @@ namespace Completed
             offsetX = 0;
             offsetY = 0;
 
-            for (int i = -100; i < 100; i++)
+            for (int i = -40; i < 40; i++)
             {
-                for (int j = -100; j < 100; j++)
+                for (int j = -40; j < 40; j++)
                 {
                     uint num = Procedural.PointToNumber(i + offsetX, j + offsetY);
                     BitArray b = new BitArray(new int[] { (int)num });
@@ -64,7 +72,7 @@ namespace Completed
                     if (starExists)
                     {
                         Debug.Log(string.Format("Star Created at: <{0}, {1}>", i, j));
-                        Instantiate(starPrefabs[0], new Vector2(i, j), Quaternion.identity);
+                        stars.Add((GameObject)Instantiate(starPrefabs[0], new Vector2(i, j), Quaternion.identity));
                     }
                 }
             }
@@ -76,7 +84,44 @@ namespace Completed
         //Update is called every frame.
         void Update()
         {
-
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                foreach (GameObject s in stars)
+                {
+                    s.transform.Translate(Vector2.down);
+                }
+                movementCounterY--;
+                if (movementCounterY > 10)
+                {
+                    movementCounterY = 0;
+                    // Generate row of 10 accross top and remove row along bottom
+                    
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                foreach (GameObject s in stars)
+                {
+                    s.transform.Translate(Vector2.up);
+                }
+                movementCounterY++;
+            }
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                foreach (GameObject s in stars)
+                {
+                    s.transform.Translate(Vector2.right);
+                }
+                movementCounterX++;
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                foreach (GameObject s in stars)
+                {
+                    s.transform.Translate(Vector2.left);
+                }
+                movementCounterX--;
+            }
         }
     }
 
