@@ -47,9 +47,9 @@ namespace Completed
             offsetX = 0;
             offsetY = 0;
 
-            for (int i = -10; i < 10; i++)
+            for (int i = -100; i < 100; i++)
             {
-                for (int j = -10; j < 10; j++)
+                for (int j = -100; j < 100; j++)
                 {
                     uint num = Procedural.PointToNumber(i + offsetX, j + offsetY);
                     BitArray b = new BitArray(new int[] { (int)num });

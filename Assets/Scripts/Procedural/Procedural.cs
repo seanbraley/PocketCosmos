@@ -100,8 +100,14 @@ public static class Procedural
     {
         uint num = PointToNumber(x, y);
 
-        BitArray b = new BitArray(new int[] { (int)num });
+        float num2 = num / Mathf.PI;
+        float num3 = num2 - Mathf.RoundToInt(num2);
+        Debug.Log(num3);
+        return (Mathf.Abs(num3) > 0.47f);
 
+        //BitArray b = new BitArray(new int[] { (int)num });
+
+        /* Does not work
         byte[] bytes = System.BitConverter.GetBytes(num);
         char a1 = (char)bytes[0];
         char a2 = (char)bytes[1];
@@ -111,6 +117,7 @@ public static class Procedural
         Debug.Log(string.Format("Chars: {0}, {1}, {2}, {3}", a1, a2, a3, a4));
         return (char.IsLetter(a1) || char.IsLetter(a2) || char.IsLetter(a3) || char.IsLetter(a3));
         //Debug.Log(b.ToString());
+        */
 
 
 
