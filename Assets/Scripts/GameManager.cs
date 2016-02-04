@@ -91,7 +91,7 @@ namespace Completed
                     s.transform.Translate(Vector2.down);
                 }
                 movementCounterY--;
-                if (movementCounterY > 10)
+                if (movementCounterY < -10)
                 {
                     movementCounterY = 0;
                     // Generate row of 10 accross top and remove row along bottom
@@ -105,6 +105,12 @@ namespace Completed
                     s.transform.Translate(Vector2.up);
                 }
                 movementCounterY++;
+                if (movementCounterY > 10)
+                {
+                    movementCounterY = 0;
+                    // Generate row of 10 accross top and remove row along bottom
+
+                }
             }
             else if (Input.GetKeyDown(KeyCode.A))
             {
@@ -113,6 +119,12 @@ namespace Completed
                     s.transform.Translate(Vector2.right);
                 }
                 movementCounterX++;
+                if (movementCounterX > 10)
+                {
+                    movementCounterX = 0;
+                    // Generate row of 10 accross top and remove row along bottom
+
+                }
             }
             else if (Input.GetKeyDown(KeyCode.D))
             {
@@ -121,6 +133,12 @@ namespace Completed
                     s.transform.Translate(Vector2.left);
                 }
                 movementCounterX--;
+                if (movementCounterY < -10)
+                {
+                    movementCounterX = 0;
+                    // Generate row of 10 accross top and remove row along bottom
+
+                }
             }
         }
     }
