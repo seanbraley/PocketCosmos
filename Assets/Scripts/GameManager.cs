@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections;       //Allows us to use Lists. 
 
 namespace Completed
 {
-    using System.Collections.Generic;       //Allows us to use Lists. 
-
+    
     public class GameManager : MonoBehaviour
     {
 
         public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
-        private GalaxyManager galaxyScript;                       //Store a reference to our GalaxyManager which will set up the level.
-                                                                  //private int level = 1;                                  //Current sector number, expressed in game as "Sector 1".
+
         private int offsetX;
         private int offsetY;
-
+        
         public GameObject[] starPrefabs;
 
         //Awake is always called before any Start functions
@@ -33,15 +31,12 @@ namespace Completed
 
             //Sets this to not be destroyed when reloading scene
             DontDestroyOnLoad(gameObject);
-
-            //Get a component reference to the attached GalaxyManager script
-            galaxyScript = GetComponent<GalaxyManager>();
-
-            //Call the InitGame function to initialize the first level 
+            
+            //Call the InitGame function to initialize the starting level 
             InitGame();
         }
 
-        //Initializes the game for each level.
+        //Initializes the game level.
         void InitGame()
         {
             offsetX = 0;
@@ -73,10 +68,6 @@ namespace Completed
                     }
                 }
             }
-
-
-            //Call the SetupScene function of the GalaxyManager script, pass it current level number.
-            //galaxyScript.SetupScene(level);
 
         }
 
