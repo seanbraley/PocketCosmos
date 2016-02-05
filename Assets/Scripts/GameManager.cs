@@ -117,9 +117,11 @@ namespace Completed
             GameObject[] newStars = new GameObject[80];
             int helper = 0;
             for (int i = 40; i > -40; i--) // iterate from up/down positive y to negative y
+            {
                 if (Procedural.StarExists(i, virtualPos))
-                    newStars[helper++] = (GameObject)Instantiate(starPrefabs[0], new Vector2(x, i), Quaternion.identity);
-
+                    newStars[helper] = (GameObject)Instantiate(starPrefabs[0], new Vector2(x, i), Quaternion.identity);
+                helper++;
+            }
             return newStars;
         }
 
@@ -251,7 +253,6 @@ namespace Completed
                 ShiftLeft();
                 watch.Stop();
                 Debug.Log(string.Format("Shift Left took: {0}ms", watch.ElapsedMilliseconds));
-
             }
             else if (Input.GetKeyDown(KeyCode.D))
             {
