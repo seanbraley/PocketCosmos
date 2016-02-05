@@ -28,12 +28,6 @@ namespace Completed
 
         public GameObject[] starPrefabs;
 
-        public List<GameObject> stars = new List<GameObject>();
-
-        public Dictionary<uint, GameObject> starsDic = new Dictionary<uint, GameObject>();
-
-        public GameObject[,] allStars = new GameObject[80, 80];
-
         static List<GameObject[]> starsList = new List<GameObject[]>();
 
         //Awake is always called before any Start functions
@@ -64,36 +58,19 @@ namespace Completed
             // rows iterate -40 --> 40 (inner)
             // columns iterate 40 --> -40
             // Hold y constant while iterating through x's
-            for (int y = 40; y > -40; y--) // Y value
+            for (int y = 40; y >= -40; y--) // Y value
             {
-                GameObject[] tmp = new GameObject[80];
-                for (int x = -40; x < 40; x++) // X value
+                GameObject[] tmp = new GameObject[81];
+                for (int x = -40; x <= 40; x++) // X value
                 {
                     if (Procedural.StarExists(x, y))
                     {
                         tmp[x + 40] = (GameObject)Instantiate(starPrefabs[0], new Vector2(x, y), Quaternion.identity);
                         //Debug.Log(string.Format("Star Created at: <{0}, {1}>", x, y));
                     }
-
-                    //uint num = Procedural.PointToNumber(j, i);
-                    //BitArray b = new BitArray(new int[] { (int)num });
-
-                    //bool starExists = Procedural.StarExists(x, y);
-
-                    //bool starExists = (b[5] & b[4]) ^ b[18];
-
-                    /* off-grid
-                    byte[] tmp = System.BitConverter.GetBytes(num);
-                    ushort first = System.BitConverter.ToUInt16(tmp, 0);
-                    ushort second = System.BitConverter.ToUInt16(tmp, 1);
-
-                    float x = (first % 100) / 100f;
-                    float y = (second % 100) / 100f;
-                    */
                 }
                 starsList.Add(tmp);
             }
-
         }
 
         /// <summary>
@@ -103,8 +80,8 @@ namespace Completed
         /// <returns></returns>
         GameObject[] GetRowOfStars(int y, int virtualPos)
         {
-            GameObject[] newStars = new GameObject[80];
-            for (int i = -40; i < 40; i++)
+            GameObject[] newStars = new GameObject[81];
+            for (int i = -40; i <= 40; i++)
                 if (Procedural.StarExists(i, virtualPos))
                     newStars[i+40] = (GameObject)Instantiate(starPrefabs[0], new Vector2(i, y), Quaternion.identity);
 
@@ -114,9 +91,9 @@ namespace Completed
 
         GameObject[] GetColumnOfStars(int x, int virtualPos)
         {
-            GameObject[] newStars = new GameObject[80];
+            GameObject[] newStars = new GameObject[81];
             int helper = 0;
-            for (int i = 40; i > -40; i--) // iterate from up/down positive y to negative y
+            for (int i = 40; i >= -40; i--) // iterate from up/down positive y to negative y
             {
                 if (Procedural.StarExists(i, virtualPos))
                     newStars[helper] = (GameObject)Instantiate(starPrefabs[0], new Vector2(x, i), Quaternion.identity);
@@ -162,7 +139,7 @@ namespace Completed
         void ShiftDown()
         {
             virtualPosition.y--;  // y = -1
-            GameObject[] newStars = GetRowOfStars(-39, (int)virtualPosition.y - 40); // -41
+            GameObject[] newStars = GetRowOfStars(-40, (int)virtualPosition.y - 40); // -41
             foreach (GameObject s in starsList[0])  // first row
                 if (s != null)
                     Destroy(s);
@@ -192,39 +169,18 @@ namespace Completed
         void ShiftLeft()
         {
             virtualPosition.x--;
-            GameObject[] newStars = GetColumnOfStars(-39, (int)virtualPosition.x - 40);
+            GameObject[] newStars = GetColumnOfStars(-40, (int)virtualPosition.x - 40);
             int helper = 0;
             foreach (GameObject[] starRow in starsList)
             {
-                if (starRow[79] != null)
-                    Destroy(starRow[79]);
+                if (starRow[80] != null)
+                    Destroy(starRow[80]);
                 GameObject[] newArr = new GameObject[starRow.Length];
                 System.Array.Copy(starRow, 0, newArr, 1, starRow.Length - 1);
                 newArr[0] = newStars[helper];
                 starsList[helper++] = newArr;
             }
             ShiftAllStars(Vector2.right);
-        }
-
-        void TryAddStar(int x, int y)
-        {
-            if (Procedural.StarExists(x, y))
-            {
-                uint num = Procedural.PointToNumber(x, y);
-                starsDic.Add(num, (GameObject)Instantiate(starPrefabs[0], new Vector2(x, y), Quaternion.identity));
-            }
-        }
-
-        void TryRemoveStar(int x, int y)
-        {
-            uint num = Procedural.PointToNumber(x, y);
-            GameObject tmpStar = null;
-            starsDic.TryGetValue(num, out tmpStar);
-            if (tmpStar != null)
-            {
-                starsDic.Remove(num);
-                Destroy(tmpStar, 0f);
-            }
         }
 
         //Update is called every frame.
