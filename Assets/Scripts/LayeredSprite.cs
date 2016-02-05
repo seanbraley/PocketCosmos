@@ -79,8 +79,8 @@ public class LayeredSprite : MonoBehaviour {
     {
 		BaseColor = baseColor;
 		LayerColor = layerColor;
-        Debug.Log("Base color");
-        Debug.Log(baseColor);
+        //Debug.Log("Base color");
+        //Debug.Log(baseColor);
 	}
 
 	private void RandomizeColors(uint i) {

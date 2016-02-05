@@ -55,21 +55,21 @@ public static class Procedural
 
         if (choice > .75) // RedGreen star
         {
-            Debug.Log("Red star");
+            //Debug.Log("Red star");
             r = 255 - (i % (255 / 20));
             g = 255 - ((i * 2) % (255 / 20));
             b = 0 + ((i / 2) % (255 / 10));
         }
         else if (choice > .5) // not
         {
-            Debug.Log("Not Red star");
+            //Debug.Log("Not Red star");
             r = 255 - (i % (255 / 20));
             g = 0 + ((i / 2) % (255 / 20));
             b = 0 + ((i / 2) % (255 / 10));
         }
         else // all
         {
-            Debug.Log("Other");
+            //Debug.Log("Other");
             r = 255 - (i % (255 / 20));
             g = 255 - ((i * 2) % (255 / 20));
             b = 255 - ((i / 2) % (255 / 20));
@@ -79,17 +79,17 @@ public static class Procedural
 
     public static Color GetRandomColor(ushort i)
     {
-        Debug.Log("Getting random colour from number: " + i);
+        //Debug.Log("Getting random colour from number: " + i);
         int r = i % 255;
         int g = (int)(i / 2f % 255);
         int b = (int)(i * 2f % 255);
-        Debug.Log(System.String.Format("RGB: {0}, {1}, {2}", r, g, b));
+        //Debug.Log(System.String.Format("RGB: {0}, {1}, {2}", r, g, b));
         return new Color(r / 255.0f, g / 255.0f, b / 255.0f);
     }
 
     public static Color GetRandomColor(uint i)
     {
-        Debug.Log("Getting random colour from seed");
+        //Debug.Log("Getting random colour from seed");
         uint r = i % 255;
         int g = (int)(i / 2 % 255);
         int b = (int)(i * 2 % 255);
@@ -102,7 +102,7 @@ public static class Procedural
 
         float num2 = num / Mathf.PI;
         float num3 = num2 - Mathf.RoundToInt(num2);
-        Debug.Log(num3);
+        //Debug.Log(num3);
         return (Mathf.Abs(num3) > 0.47f);
 
         //BitArray b = new BitArray(new int[] { (int)num });
