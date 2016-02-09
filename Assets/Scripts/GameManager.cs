@@ -186,7 +186,7 @@ namespace Completed
         //Update is called every frame.
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) || SwipeManager.swipeDirection == Swipe.Up)
             {
                 watch.Reset();
                 watch.Start();
@@ -194,7 +194,7 @@ namespace Completed
                 watch.Stop();
                 Debug.Log(string.Format("Shift Up took: {0}ms", watch.ElapsedMilliseconds));
             }
-            else if (Input.GetKeyDown(KeyCode.S))
+            else if (Input.GetKeyDown(KeyCode.S) || SwipeManager.swipeDirection == Swipe.Down)
             {
                 watch.Reset();
                 watch.Start();
@@ -202,7 +202,7 @@ namespace Completed
                 watch.Stop();
                 Debug.Log(string.Format("Shift Down took: {0}ms", watch.ElapsedMilliseconds));
             }
-            else if (Input.GetKeyDown(KeyCode.A))
+            else if (Input.GetKeyDown(KeyCode.A) || SwipeManager.swipeDirection == Swipe.Left)
             {
                 watch.Reset();
                 watch.Start();
@@ -210,7 +210,7 @@ namespace Completed
                 watch.Stop();
                 Debug.Log(string.Format("Shift Left took: {0}ms", watch.ElapsedMilliseconds));
             }
-            else if (Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetKeyDown(KeyCode.D) || SwipeManager.swipeDirection == Swipe.Right)
             {
                 watch.Reset();
                 watch.Start();
