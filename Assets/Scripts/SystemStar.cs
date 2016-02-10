@@ -16,8 +16,9 @@ public class SystemStar : MonoBehaviour {
 	public float rotationSpeed;
 	private float minDist = 5000;
 	private float maxDist = 10000;
+
 	public GameObject[] planets;
-	public GameObject planetPrefab;
+	public GameObject[] planetPrefab;
 
 	private Player player;
 
@@ -85,8 +86,9 @@ public class SystemStar : MonoBehaviour {
 		Vector3 planetPos = transform.position;
 		for (int i = 0; i < numPlanets; i++) {
 			planetPos += new Vector3 (transform.localScale.x*0.8f*PLANET_DISTANCE_CONSTANT,0,0);
-			planets[i] = Instantiate(planetPrefab,planetPos,Quaternion.identity) as GameObject;
-			planets[i].GetComponent<Planet>().SetOrbitParent(this.gameObject);
+            // TO-DO: choose a planet from one of the prefab planets
+			planets[i] = Instantiate(planetPrefab[1],planetPos,Quaternion.identity) as GameObject;
+			planets[i].GetComponent<PlanetaryBody>().Orbits = this.gameObject;
 			planets[i].name = name + System.Convert.ToChar (65+i);
 		}
 	}
