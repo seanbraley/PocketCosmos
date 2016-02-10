@@ -25,7 +25,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 468988}
   - 114: {fileID: 11431324}
-  - 114: {fileID: 11412948}
+  - 114: {fileID: 11435260}
+  - 120: {fileID: 12089826}
   m_Layer: 0
   m_Name: SmoothPlanet 1
   m_TagString: Planet
@@ -318,17 +319,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 462110}
   m_RootOrder: 6
---- !u!114 &11412948
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 129640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6332c8896251c40a937b8942fa8f76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11431324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -341,6 +331,63 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStar: 0
+--- !u!114 &11435260
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790045962dc5bb1449c0d3c60def7854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orbitSpeed: 0
+  orbitPath: {fileID: 0}
+  orbitParent: {fileID: 0}
+  homeStar: {fileID: 0}
+  homePlanet: {fileID: 0}
+  rotationSpeed: 0
+  moons: []
+--- !u!120 &12089826
+LineRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129640}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    startWidth: 1
+    endWidth: 1
+    m_StartColor:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_EndColor:
+      serializedVersion: 2
+      rgba: 4294967295
+  m_UseWorldSpace: 1
 --- !u!212 &21212000
 SpriteRenderer:
   m_ObjectHideFlags: 1
