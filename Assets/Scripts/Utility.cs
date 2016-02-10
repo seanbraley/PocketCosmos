@@ -1,21 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Utility : MonoBehaviour {
+/// <summary>
+/// Utility class
+/// </summary>
+public class Utility : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    /// <summary>
+    /// Enumerables for resource types
+    /// </summary>
+    public enum ResourceType { Power, Population, Spacebux, Unknown }
 
-	public static Color GetRandomColor() {
+
+    /// <summary>
+    /// Enumerables for ownership types
+    /// </summary>
+    public enum OwnershipType { Player, Enemy, None, Unknown }
+    
+
+    public static Color GetRandomColor() {
 		return new Color(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f));
 	}
+
 
     public static Color GetRandomColor(ushort i)
     {
@@ -27,6 +34,7 @@ public class Utility : MonoBehaviour {
         return new Color(r / 255.0f, g / 255.0f, b / 255.0f);
     }
 
+
     public static Color GetRandomColor(uint i)
     {
         Debug.Log("Getting random colour from seed");
@@ -35,6 +43,7 @@ public class Utility : MonoBehaviour {
         int b = (int)(i * 2 % 255);
         return new Color(r, g, b);
     }
+
 
 	public static Color ChangeColorBrightness(Color color, float correctionFactor)
 	{
@@ -48,4 +57,5 @@ public class Utility : MonoBehaviour {
 
 	    return new Color(red,green,blue);
 	}
+
 }

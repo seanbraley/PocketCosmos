@@ -26,6 +26,7 @@ GameObject:
   - 4: {fileID: 468988}
   - 114: {fileID: 11431324}
   - 114: {fileID: 11412948}
+  - 114: {fileID: 11479268}
   m_Layer: 0
   m_Name: SmoothPlanet 1
   m_TagString: Planet
@@ -341,6 +342,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStar: 0
+--- !u!114 &11479268
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c39d37a4fcc8eb4fa8109a12fba92cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  available: 0
+  amountGenerated: 0
+  _resourceType: 3
 --- !u!212 &21212000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -633,6 +648,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: Planet
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: _resourceType
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

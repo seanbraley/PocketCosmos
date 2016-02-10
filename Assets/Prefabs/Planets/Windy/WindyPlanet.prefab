@@ -169,6 +169,7 @@ GameObject:
   - 4: {fileID: 444008}
   - 114: {fileID: 11436564}
   - 114: {fileID: 11493186}
+  - 114: {fileID: 11444884}
   m_Layer: 0
   m_Name: WindyPlanet
   m_TagString: Planet
@@ -239,7 +240,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 179486}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.75, y: -2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 404740}
@@ -330,6 +331,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStar: 0
+--- !u!114 &11444884
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c39d37a4fcc8eb4fa8109a12fba92cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  available: 0
+  amountGenerated: 0
+  _resourceType: 3
 --- !u!114 &11493186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -621,6 +636,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: Planet
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: _resourceType
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
