@@ -3,8 +3,11 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
+    private Camera _camera;
+
 	// Use this for initialization
 	void Start () {
+        _camera = GetComponent<Camera>();
         if (Input.touchCount > 0)  // Android
         {
             Debug.Log("In Android for movement");
@@ -13,10 +16,18 @@ public class CameraController : MonoBehaviour {
         {
             Debug.Log("Desktop");
         }
+        _camera.orthographicSize = 10;
     }
 	
     void Update()  // LateUpdate() ?
     {
+
+        if (Input.GetAxis("Mouse ScrollWheel") < 0 && _camera.orthographicSize < 20) {
+            _camera.orthographicSize *= 1.5f;
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") > 0 && _camera.orthographicSize > 5) {
+            _camera.orthographicSize /= 1.5f;
+        }
         /*
         if (Input.touchCount > 0)  // Android
         {

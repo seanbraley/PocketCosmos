@@ -19,7 +19,7 @@ namespace Completed
          */
         public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
 
-        private Vector2 virtualPosition = Vector2.zero;
+        public Vector2 virtualPosition = Vector2.zero;
 
         private int movementCounterX = 0;
         private int movementCounterY = 0;
@@ -111,7 +111,7 @@ namespace Completed
             foreach (GameObject[] row in starsList)
                 foreach (GameObject s in row)
                     if (s != null)
-                        s.transform.Translate(direction);
+                        s.transform.position += (Vector3) direction;
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace Completed
         //Update is called every frame.
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.W) || SwipeManager.swipeDirection == Swipe.Up)
+            if (Input.GetKey(KeyCode.W) || SwipeManager.swipeDirection == Swipe.Up)
             {
                 watch.Reset();
                 watch.Start();
@@ -194,7 +194,7 @@ namespace Completed
                 watch.Stop();
                 Debug.Log(string.Format("Shift Up took: {0}ms", watch.ElapsedMilliseconds));
             }
-            else if (Input.GetKeyDown(KeyCode.S) || SwipeManager.swipeDirection == Swipe.Down)
+            else if (Input.GetKey(KeyCode.S) || SwipeManager.swipeDirection == Swipe.Down)
             {
                 watch.Reset();
                 watch.Start();
@@ -202,7 +202,7 @@ namespace Completed
                 watch.Stop();
                 Debug.Log(string.Format("Shift Down took: {0}ms", watch.ElapsedMilliseconds));
             }
-            else if (Input.GetKeyDown(KeyCode.A) || SwipeManager.swipeDirection == Swipe.Left)
+            else if (Input.GetKey(KeyCode.A) || SwipeManager.swipeDirection == Swipe.Left)
             {
                 watch.Reset();
                 watch.Start();
@@ -210,7 +210,7 @@ namespace Completed
                 watch.Stop();
                 Debug.Log(string.Format("Shift Left took: {0}ms", watch.ElapsedMilliseconds));
             }
-            else if (Input.GetKeyDown(KeyCode.D) || SwipeManager.swipeDirection == Swipe.Right)
+            else if (Input.GetKey(KeyCode.D) || SwipeManager.swipeDirection == Swipe.Right)
             {
                 watch.Reset();
                 watch.Start();

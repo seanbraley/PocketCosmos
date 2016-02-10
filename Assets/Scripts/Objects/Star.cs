@@ -23,24 +23,34 @@ public class Star : PlanetaryBody {
 
     private GameObject[] _planets;  // orbiting children
 
+    private Vector2 _offset;
+
+    public bool debug = false;
+
+    private float _pingPongOffset;
+
     void Start()
     {
+        _pingPongOffset = Random.Range(0f,1f);
         _layeredSprite = GetComponent<LayeredSprite>();
         myNumber = Procedural.GetNumber(Procedural.PointToNumber((int)transform.position.x, (int)transform.position.y));
         Generate();
         SetChildren();
+        _offset = new Vector2(1/Procedural.GetNumber(myNumber),1/Procedural.GetNumber(myNumber));
+        transform.position += (Vector3) _offset;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        transform.Rotate(0,0,Random.Range(10,50)*Time.deltaTime);
+        Size = Mathf.PingPong(Time.time + _pingPongOffset,0.5f);
     }    
 
     // Procedurally generate the star
     private void Generate()
     {
-        Size = 1f;
+        Size = 0.5f;
         _layeredSprite.Randomize(myNumber);
     }
 
@@ -49,5 +59,4 @@ public class Star : PlanetaryBody {
     {
         
     }    
-   
 }
