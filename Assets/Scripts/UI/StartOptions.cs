@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Audio;
-
+using UnityEngine.UI;
 
 public class StartOptions : MonoBehaviour {
 
+    bool okToProceed = false;
+    public Text mesageBox;                                              // Set in inspector - message to user text display
+    public InputField userfield;                                        // Set in inspector - username field
+    public InputField passfield;                                        // Set in inspector - password field
 
-
-	public int sceneToStart = 1;										//Index number in build settings of scene to load if changeScenes is true
+    public int sceneToStart = 1;										//Index number in build settings of scene to load if changeScenes is true
 	public bool changeScenes;											//If true, load a new scene when Start is pressed, if false, fade out UI and continue in single scene
 	public bool changeMusicOnStart;										//Choose whether to continue playing menu music or start a new music clip
 	public int musicToChangeTo = 0;										//Array index in array MusicClips to change to if changeMusicOnStart is true.
@@ -65,7 +68,30 @@ public class StartOptions : MonoBehaviour {
 	}
 
 
-	public void LoadDelayed()
+    public void LoginButtonClicked()
+    {
+        if (userfield.text == "test" && passfield.text == "test")
+        {
+            okToProceed = true;
+        }
+        else {
+            okToProceed = false;
+        }
+        // TODO: Server login hooks that authenticate userfield and passfield
+        // Retrieve profile if correct and log in        
+
+        if (okToProceed) {
+            Debug.Log("Logging in...");
+            //Use invoke to delay calling of LoadDelayed by half the length of fadeColorAnimationClip
+            Invoke("LoadDelayed", fadeColorAnimationClip.length * .5f);
+
+            //Set the trigger of Animator animColorFade to start transition to the FadeToOpaque state.
+            animColorFade.SetTrigger("fade");
+        }
+    }
+
+
+    public void LoadDelayed()
 	{
 		//Pause button now works if escape is pressed since we are no longer in Main menu.
 		inMainMenu = false;
