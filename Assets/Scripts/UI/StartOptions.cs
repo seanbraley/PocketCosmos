@@ -65,7 +65,17 @@ public class StartOptions : MonoBehaviour {
 	}
 
 
-	public void LoadDelayed()
+    public void LoginButtonClicked()
+    {
+        // TO-DO: handle login information.
+        // See this for a start? http://unity-tutorials.blogspot.ca/2013/03/tutorial-1.html
+
+        // if successful
+        StartButtonClicked();
+    }
+
+
+    public void LoadDelayed()
 	{
 		//Pause button now works if escape is pressed since we are no longer in Main menu.
 		inMainMenu = false;

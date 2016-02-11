@@ -189,7 +189,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 0
   planets: []
-  planetPrefab: {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
+  planetPrefab:
+  - {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
+  - {fileID: 192934, guid: 47aa7d7df64224147b11110563f8c72f, type: 2}
+  - {fileID: 179486, guid: 63f61d91097fa4946964ea17c10fada4, type: 2}
 --- !u!198 &19806724
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1828,6 +1831,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: planets.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: planetPrefab.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -1842,7 +1849,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: planetPrefab.Array.data[0]
       value: 
-      objectReference: {fileID: 179486, guid: 63f61d91097fa4946964ea17c10fada4, type: 2}
+      objectReference: {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
     - target: {fileID: 0}
       propertyPath: planetPrefab.Array.data[1]
       value: 
@@ -1850,7 +1857,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: planetPrefab.Array.data[2]
       value: 
-      objectReference: {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
+      objectReference: {fileID: 179486, guid: 63f61d91097fa4946964ea17c10fada4, type: 2}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x
       value: 1
@@ -1867,6 +1874,18 @@ Prefab:
       propertyPath: planetPrefab
       value: 
       objectReference: {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
+    - target: {fileID: 0}
+      propertyPath: planets.Array.data[0]
+      value: 
+      objectReference: {fileID: 192934, guid: 47aa7d7df64224147b11110563f8c72f, type: 2}
+    - target: {fileID: 0}
+      propertyPath: planets.Array.data[1]
+      value: 
+      objectReference: {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
+    - target: {fileID: 0}
+      propertyPath: planets.Array.data[2]
+      value: 
+      objectReference: {fileID: 179486, guid: 63f61d91097fa4946964ea17c10fada4, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 167330}
