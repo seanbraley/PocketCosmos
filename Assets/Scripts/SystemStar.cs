@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SystemStar : MonoBehaviour {
+public class SystemStar : PlanetaryBody {
 
 	public static string TAG = "Star";
 	public static float STELLAR_DISTANCE_CONSTANT = 1.35f;
 	public static float PLANET_DISTANCE_CONSTANT = 1.75f;
-	public static int MAX_PLANETS = 4;
-	public static float MIN_ROTATION = 5;
-	public static float MAX_ROTATION = 15;
-	public static float MIN_SIZE = 20f;
-	public static float MAX_SIZE = 20f;
+	public static int MIN_PLANETS = 6;
+	public static int MAX_PLANETS = 6;
+    public static int MIN_ROTATION = 5;
+	public static int MAX_ROTATION = 15;
+	public static int MIN_SIZE = 50;
+	public static int MAX_SIZE = 60;
 
 	private bool discovered;
 	public float rotationSpeed;
@@ -19,9 +20,13 @@ public class SystemStar : MonoBehaviour {
 	public GameObject[] planets;
 	public GameObject planetPrefab;
 
+    private static int testSeed = 42;
+
+    public System.Random myRNG;
+
 	private Player player;
 
-	private Renderer renderer;
+    private Renderer renderer;
 
 
 	/*~*~*~*~*~*~*~*~*~*~*~* Initialization *~*~*~*~*~*~*~*~*~*~*~*/
@@ -29,66 +34,97 @@ public class SystemStar : MonoBehaviour {
 	 * beginning of the game session.
 	 */
 	
-	void Start () {
-		Random.seed = 42;
-		Initialize ();
+	void Start()
+    {
+        base.Start();
+        parentBody = null;
+        //Initialize();
+        // testing
+        Initialize(42);
 	}
 
-	/* void Initialize ():
+    void Initialize(int value)
+    {
+        // Sets basic things
+        Randomize(value);
+
+        Size = localRNG.Next(MIN_SIZE, MAX_SIZE);
+
+        // The necessity of these should be checked
+        renderer = GetComponent<Renderer>();
+        player = Camera.main.GetComponent<Player>();
+
+        // Modify the sprite
+        _layeredSprite.Randomize((uint)localRNG.Next());
+
+        // Set up the solar system
+        BuildSolarSystem(localRNG.Next(MIN_PLANETS, MAX_PLANETS));
+    }
+
+    void Initialize(uint value)
+    {
+        myRNG = new System.Random((int)value);
+        Initialize();
+    }
+
+    /* void Initialize ():
 	 * 		For initial creation of stars in a new game.
 	 * 		Randomizes:
 	 * 			Name
 	 * 			Rotation
 	 * 			Size
 	 */
-	void Initialize () {
+
+    void Initialize () {
 		renderer = GetComponent<Renderer>();
-		player = Camera.main.GetComponent<Player> ();
-		float rot = Random.Range (MIN_ROTATION, MAX_ROTATION);
-		float starSize = Random.Range (MIN_SIZE, MAX_SIZE);
-		Build (rot, starSize);
-	}
+        player = Camera.main.GetComponent<Player>();
+        rotationSpeed = myRNG.Next(MIN_ROTATION, MAX_ROTATION);
 
-	/* void Build (float rotation, float size, Color color)
-	 * 		For creation of a star according to saved data.
-	 * 		Also used to implement the random values created by Initialize ();
-	 */
-	void Build (float rotation, float size) {
-		rotationSpeed = rotation;
-		transform.localScale = new Vector3 (size, size, size);
-		BuildSolarSystem();
-	}
+        float size = 20f;
+        transform.localScale = new Vector3(size, size, size);
+
+		BuildSolarSystem(localRNG.Next(MIN_PLANETS, MAX_PLANETS+1));
+    }
+
+    void BuildSolarSystem(int numPlanets)
+    {
+        planets = new GameObject[numPlanets];
+        Vector3 planetOrbitPos = transform.position;
+
+        for (int i = 0; i < numPlanets; i++)
+        {
+            planetOrbitPos += new Vector3(transform.localScale.x * PLANET_DISTANCE_CONSTANT, 0);
+            planets[i] = Instantiate(planetPrefab, planetOrbitPos, Quaternion.identity) as GameObject;
+            planets[i].GetComponent<Planet>().name = name + System.Convert.ToChar(65 + i);
+            planets[i].GetComponent<Planet>().Randomize(localRNG.Next());
+            planets[i].GetComponent<Planet>().Initialize(this, i + 1);
+        }
+    }
 
 
-
-	/*~*~*~*~*~*~*~*~*~*~*~* Instantiation *~*~*~*~*~*~*~*~*~*~*~*/
-	/* All code under this subheading will be called once per star,
-	 * Upon discovery of the star.
-	 */
-
-	/* void BuildSolarSystem ()
-	 * 		Builds a solar system with a random number of planets.
-	 */
-	public void BuildSolarSystem () {
-		BuildSolarSystem (Random.Range (1, MAX_PLANETS + 1));
-	}
-
-	/* void BuildSolarSystem (int numPlanets)
+    /* void BuildSolarSystem (int numPlanets)
 	 * 		Builds a solar system with a set number of planets.
 	 * 		The planets will be generated randomly.
 	 */
-	public void BuildSolarSystem(int numPlanets) {
-		if (discovered)
+    public void BuildSolarSystem(int numPlanets, bool discovered)
+    {
+		if (discovered)  // Only call this once?
 			return;
 		discovered = true;
 		planets = new GameObject[numPlanets];
 		Vector3 planetPos = transform.position;
-		for (int i = 0; i < numPlanets; i++) {
-			planetPos += new Vector3 (transform.localScale.x*0.8f*PLANET_DISTANCE_CONSTANT,0,0);
-			planets[i] = Instantiate(planetPrefab,planetPos,Quaternion.identity) as GameObject;
-			planets[i].GetComponent<Planet>().SetOrbitParent(this.gameObject);
-			planets[i].name = name + System.Convert.ToChar (65+i);
-		}
+		for (int i = 0; i < numPlanets; i++)
+        {
+            planetPos += new Vector3(transform.localScale.x * 0.8f * PLANET_DISTANCE_CONSTANT, 0, 0);
+            planets[i] = Instantiate(planetPrefab, planetPos, Quaternion.identity) as GameObject;
+            planets[i].GetComponent<Planet>().SetOrbitParent(this.gameObject);
+            planets[i].name = name + System.Convert.ToChar(65 + i);  // Ehhh Bee Seee Dee EEEE efff geee...
+            planets[i].GetComponent<Planet>().Randomize(localRNG.Next());
+            planets[i].GetComponent<Planet>().Initialize(this, i);
+
+
+            //planets[i]
+        }
 	}
 
 	/* void SpawnNeighbors()
