@@ -13,7 +13,7 @@ public class LayeredSprite : MonoBehaviour {
 		}
 		set {
 			_baseColor = value;
-			_spriteBase.color = _baseColor;
+			_spriteBase.color = value;
 		}
 	}
 
@@ -64,7 +64,7 @@ public class LayeredSprite : MonoBehaviour {
 		RandomizeShowLayers(i);
 	}
 
-	private void LoadSprites() {
+	public void LoadSprites() {
 		foreach(Transform t in transform) {
 			if (t.name == "SpriteBase") {
 				_spriteBase = t.GetComponent<SpriteRenderer>();
@@ -77,11 +77,32 @@ public class LayeredSprite : MonoBehaviour {
 
 	public void SetColors(Color baseColor, Color layerColor)
     {
-		BaseColor = baseColor;
+        BaseColor = baseColor;
 		LayerColor = layerColor;
         //Debug.Log("Base color");
         //Debug.Log(baseColor);
 	}
+
+    /// <summary>
+    /// Randomize colors for planet
+    /// </summary>
+    /// <param name="first">first color</param>
+    /// <param name="second">second color</param>
+    /// <param name="order">which is the planet</param>
+    private void RandomizeColors(int first, int second, int order)
+    {
+        SetColors(Procedural.GetRandomColor((ushort)first, order), Procedural.GetRandomColor((ushort)second, order));
+    }
+
+    /// <summary>
+    /// Only called for stars
+    /// </summary>
+    /// <param name="first"></param>
+    /// <param name="second"></param>
+    private void RandomizeColors(int first, int second)
+    {
+        SetColors(Procedural.GetRandomStarColor((ushort)first), Procedural.GetRandomStarColor((ushort)second));
+    }
 
 	private void RandomizeColors(uint i) {
 		if (!isStar) {
@@ -96,7 +117,7 @@ public class LayeredSprite : MonoBehaviour {
             byte[] org = System.BitConverter.GetBytes(i);
             ushort first = System.BitConverter.ToUInt16(org, 0);
             ushort second = System.BitConverter.ToUInt16(org, 2);
-            SetColors(Procedural.GetRandomColor(first), Procedural.GetRandomColor(second));
+            //SetColors(Procedural.GetRandomColor(first), Procedural.GetRandomColor(second));
             SetColors(Procedural.GetRandomStarColor(first), Procedural.GetRandomStarColor(second));
 		}
 	}

@@ -47,7 +47,6 @@ public static class Procedural
 
     public static Color GetRandomStarColor(ushort i)
     {
-        float rand = Random.Range(0f, 1f);
         float choice = i % 100 / 100f;
         int r = 0;
         int g = 0;
@@ -74,7 +73,34 @@ public static class Procedural
             g = 255 - ((i * 2) % (255 / 20));
             b = 255 - ((i / 2) % (255 / 20));
         }
-        return new Color(r/255f, g/255f, b/255f);
+        return new Color(r / 255f, g / 255f, b / 255f);
+    }
+
+    public static Color GetRandomColor(ushort i, int order)
+    {
+        int r;
+        int g;
+        int b;
+
+        if (order <= 2)  // Favour reds
+        {
+            r = 255 - (i % (255 / 20));
+            g = 255 - ((i * 2) % (255 / 20));
+            b = 0 + ((i / 2) % (255 / 10));
+        }
+        else if (order > 2 & order <= 4)  // Favour greens 
+        {
+            r = 255 - ((i * 2) % (255 / 20));
+            g = 255 - (i % (255 / 20));
+            b = 0 + ((i / 2) % (255 / 10));
+        }
+        else  // Favour blues
+        {
+            r = 0 + ((i / 2) % (255 / 10));
+            g = 255 - ((i * 2) % (255 / 20));
+            b = 255 - (i % (255 / 20));
+        }
+        return new Color(r / 255f, g / 255f, b / 255f);
     }
 
     public static Color GetRandomColor(ushort i)
