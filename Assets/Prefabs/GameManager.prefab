@@ -39,8 +39,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36e2c64c5e9091149863d63ca723974e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  virtualPosition: {x: 0, y: 0}
   starPrefabs:
-  - {fileID: 167330, guid: 2ffe30e8bb899154f8c0718d58d816cd, type: 2}
+  - {fileID: 104812, guid: d8c1ae706c28fff4583c53930702443a, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -52,6 +53,10 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: starPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 104812, guid: d8c1ae706c28fff4583c53930702443a, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 146748}

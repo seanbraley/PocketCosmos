@@ -19,6 +19,10 @@ namespace Completed
          */
         public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
 
+        // for clicking on an object
+        public GameObject selected;                               // Selected star
+        private float clickTimer = 0;
+
         public Vector2 virtualPosition = Vector2.zero;
 
         private int movementCounterX = 0;
@@ -183,6 +187,54 @@ namespace Completed
             ShiftAllStars(Vector2.right);
         }
 
+
+        public GameObject FindGameObjectAtPosition(Vector3 posn)
+        {
+            // get all colliders that intersect pos:
+            Collider[] cols;
+            if (Camera.main.orthographicSize > 30)
+                cols = Physics.OverlapSphere(posn, Camera.main.orthographicSize / 5);
+            else {
+                cols = Physics.OverlapSphere(posn, 10);
+            }
+            // find the nearest one:
+            float dist = Mathf.Infinity;
+            GameObject nearest = null;
+            foreach (Collider col in cols)
+            {
+                // find the distance to pos:
+                float d = Vector3.Distance(posn, col.transform.position);
+                if (d < dist)
+                { // if closer...
+                    dist = d; // save its distance... 
+                    nearest = col.gameObject; // and its gameObject
+                }
+            }
+            return nearest;
+        }
+
+
+        // ----- Handles UI directional buttons
+        public void LeftButton() {
+            ShiftLeft();
+        }
+
+        public void RightButton()
+        {
+            ShiftRight();
+        }
+
+        public void UpButton()
+        {
+            ShiftUp();
+        }
+
+        public void DownButton()
+        {
+            ShiftDown();
+        }
+
+
         //Update is called every frame.
         void Update()
         {
@@ -218,6 +270,59 @@ namespace Completed
                 watch.Stop();
                 Debug.Log(string.Format("Shift Right took: {0}ms", watch.ElapsedMilliseconds));
             }
-        }
+            
+            //CLICK HANDLER
+            if (Input.GetMouseButtonUp(0))
+            {
+                // clickTimer is a remannt from Liam's prototype code.
+                if (clickTimer < 0.25f)
+                {
+                    Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    if (FindGameObjectAtPosition(clickPos) != null)
+                    {
+                        // de-select previous star and turn off halo if applicable
+                        GameObject prevSelect = selected;
+                        if (prevSelect != null) {
+                            Component hlo = prevSelect.GetComponent("Halo");
+                            hlo.GetType().GetProperty("enabled").SetValue(hlo, false, null);
+                        }
+                        selected = FindGameObjectAtPosition(clickPos);
+                        // Highlight selection by turning on the halo
+                        Component halo = selected.GetComponent("Halo");
+                        halo.GetType().GetProperty("enabled").SetValue(halo, true, null);
+                    }
+                    else
+                        // Turn off the halo
+                    selected = null;
+                }
+                clickTimer = 0;
+            }
+
+            // Mobile platform touch input handler
+#if UNITY_ANDROID || UNITY_IOS
+            if (Input.touchCount >= 1) {
+                Vector3 touchPos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+                if (FindGameObjectAtPosition(touchPos) != null)
+                {
+                    // de-select previous star and turn off halo if applicable
+                    GameObject prevSelect = selected;
+                    if (prevSelect != null)
+                    {
+                        Component hlo = prevSelect.GetComponent("Halo");
+                        hlo.GetType().GetProperty("enabled").SetValue(hlo, false, null);
+                    }
+                    selected = FindGameObjectAtPosition(touchPos);
+                    // Highlight selection by turning on the halo
+                    Component halo = selected.GetComponent("Halo");
+                    halo.GetType().GetProperty("enabled").SetValue(halo, true, null);
+                }
+                else {
+                    selected = null;
+                }
+            }            
+#endif
+
+        } // end Update()
     }
+   
 }

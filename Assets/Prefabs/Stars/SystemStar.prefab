@@ -74,8 +74,9 @@ GameObject:
   - 114: {fileID: 11414556}
   - 198: {fileID: 19806724}
   - 199: {fileID: 19982478}
-  - 50: {fileID: 5077560}
   - 114: {fileID: 11486036}
+  - 135: {fileID: 13527844}
+  - 54: {fileID: 5417356}
   m_Layer: 0
   m_Name: SystemStar
   m_TagString: Star
@@ -147,23 +148,21 @@ Transform:
   - {fileID: 438506}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!50 &5077560
-Rigidbody2D:
-  serializedVersion: 2
+--- !u!54 &5417356
+Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 167330}
-  m_UseAutoMass: 0
+  serializedVersion: 2
   m_Mass: 1
-  m_LinearDrag: 0
+  m_Drag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
   m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &11414556
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -190,6 +189,18 @@ MonoBehaviour:
   rotationSpeed: 0
   planets: []
   planetPrefab: {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
+--- !u!135 &13527844
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167330}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &19806724
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1867,6 +1878,10 @@ Prefab:
       propertyPath: planetPrefab
       value: 
       objectReference: {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 167330}
