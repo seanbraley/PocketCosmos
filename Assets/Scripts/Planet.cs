@@ -18,9 +18,11 @@ public class Planet : PlanetaryBody {
 	public static int MAX_SIZE = 60;
 	public static float MIN_ORBIT = 0.8f;
 	public static float MAX_ORBIT = 1.2f;
+    public static int MIN_ORBIT_SPEED = 5;
+    public static int MAX_ORBIT_SPEED = 10;
 	public static int MIN_ROTATION = 2;
 	public static int MAX_ROTATION = 5;
-	public static float ORBIT_CONSTANT = 75;
+	public static float ORBIT_CONSTANT = 55;
 	public static int ORBIT_PATH_SEGMENTS = 128;
 	public static float ORBIT_PATH_WIDTH = 0.004f;
 	public static float MOON_CHANCE = 0.25f;
@@ -71,15 +73,26 @@ public class Planet : PlanetaryBody {
         transform.localScale = new Vector3(Size, Size, Size);
 
         // Orbit Speed is a function of distance from orbit parent (whether it be a planet or star)
-        orbitSpeed = localRNG.Next(15, 30);
+        orbitSpeed = localRNG.Next(MIN_ORBIT_SPEED, MAX_ORBIT_SPEED);
 
         // Randomize Location around orbit parent (for illusion of time passing)
         // Consider actually counting the amount of time the user has been away.
         transform.position = (transform.position - parentBody.transform.position).normalized * ORBIT_CONSTANT * planetNum + parentBody.transform.position;
         transform.RotateAround(parentBody.transform.position, Vector3.forward, localRNG.Next(0, 360));
-        
+
         // Set Color
-        _layeredSprite.Randomize((uint)localRNG.Next());
+        if (planetNum <= 2)
+        {
+            _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "red");
+        }
+        else if (planetNum > 2 & planetNum < 4)
+        {
+            _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "green");
+        }
+        else
+        {
+            _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "blue");
+        }
 
         // Draw orbit path (same color as planet)
         orbitPath = GetComponent<LineRenderer>();

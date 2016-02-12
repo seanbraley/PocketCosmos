@@ -6,7 +6,7 @@ public class SystemStar : PlanetaryBody {
 	public static string TAG = "Star";
 	public static float STELLAR_DISTANCE_CONSTANT = 1.35f;
 	public static float PLANET_DISTANCE_CONSTANT = 1.75f;
-	public static int MIN_PLANETS = 2;
+	public static int MIN_PLANETS = 6;
 	public static int MAX_PLANETS = 6;
     public static int MIN_ROTATION = 5;
 	public static int MAX_ROTATION = 15;
