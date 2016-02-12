@@ -21,6 +21,8 @@ namespace Completed
 
         // for clicking on an object
         public GameObject selected;                               // Selected star
+        public uint selectedID = 0;                              // Selected star's number
+
         private float clickTimer = 0;
 
         public Vector2 virtualPosition = Vector2.zero;
@@ -287,6 +289,9 @@ namespace Completed
                             hlo.GetType().GetProperty("enabled").SetValue(hlo, false, null);
                         }
                         selected = FindGameObjectAtPosition(clickPos);
+                        selectedID = selected.GetComponent<Star>().myNumber;
+                        // testing
+                        Debug.Log(selected.GetComponent<Star>().myNumber);
                         // Highlight selection by turning on the halo
                         Component halo = selected.GetComponent("Halo");
                         halo.GetType().GetProperty("enabled").SetValue(halo, true, null);
@@ -294,6 +299,7 @@ namespace Completed
                     else
                         // Turn off the halo
                     selected = null;
+                    selectedID = 0;
                 }
                 clickTimer = 0;
             }
@@ -319,9 +325,13 @@ namespace Completed
                 else {
                     selected = null;
                 }
-            }            
+            }
 #endif
-
+            // TBD later with proper loading
+            if (Input.GetKey(KeyCode.Space))
+            {
+                Application.LoadLevel("System");
+            }
         } // end Update()
     }
    
