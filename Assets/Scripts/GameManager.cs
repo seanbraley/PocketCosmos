@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;       //Allows us to use Lists. 
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;  // scene management at run-time.
+using UnityEngine.EventSystems;     // handles input, raycasting, and sending events.
 
 
 namespace Completed
@@ -17,16 +19,24 @@ namespace Completed
          *  ]
          * ]
          */
-        public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
+        public static GameManager instance = null;      //Static instance of GameManager which allows it to be accessed by any other script.
 
         // for clicking on an object
-        public GameObject selected;                               // Selected star
-        private float clickTimer = 0;
+        public GameObject selected;         // Selected star
+        public uint selectedID = 0;         // Selected star's number
+
+        public int SectorLevel = 2;         // These should match scene and sector level numbers in build                    
+        public int SystemLevel = 3;
 
         public Vector2 virtualPosition = Vector2.zero;
+        private Vector2 lastKnownPosition = Vector2.zero;     // so players can return to last position when re-entering sector view
 
         private int movementCounterX = 0;
         private int movementCounterY = 0;
+
+        private int mouseClicks = 0;
+        private float mouseTimer = 0f;
+        private float mouseTimerLimit = .25f;
 
         private System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
 
@@ -34,7 +44,8 @@ namespace Completed
 
         static List<GameObject[]> starsList = new List<GameObject[]>();
 
-        //Awake is always called before any Start functions
+        // Awake is always called before any Start functions
+        // Only called once.
         void Awake()
         {
             //Check if instance already exists
@@ -55,6 +66,70 @@ namespace Completed
             //Call the InitGame function to initialize the starting level 
             InitGame();
         }
+
+        // Start is called once every scene start
+        void Start() {
+            // TODO: handle scene changes
+
+            // Load last known position into virtual position
+            virtualPosition = lastKnownPosition;
+        }
+
+        //Update is called every frame.
+        void Update()
+        {
+
+            if (Input.GetKey(KeyCode.W) || SwipeManager.swipeDirection == Swipe.Up)
+            {
+                watch.Reset();
+                watch.Start();
+                ShiftUp();
+                watch.Stop();
+                Debug.Log(string.Format("Shift Up took: {0}ms", watch.ElapsedMilliseconds));
+            }
+            else if (Input.GetKey(KeyCode.S) || SwipeManager.swipeDirection == Swipe.Down)
+            {
+                watch.Reset();
+                watch.Start();
+                ShiftDown();
+                watch.Stop();
+                Debug.Log(string.Format("Shift Down took: {0}ms", watch.ElapsedMilliseconds));
+            }
+            else if (Input.GetKey(KeyCode.A) || SwipeManager.swipeDirection == Swipe.Left)
+            {
+                watch.Reset();
+                watch.Start();
+                ShiftLeft();
+                watch.Stop();
+                Debug.Log(string.Format("Shift Left took: {0}ms", watch.ElapsedMilliseconds));
+            }
+            else if (Input.GetKey(KeyCode.D) || SwipeManager.swipeDirection == Swipe.Right)
+            {
+                watch.Reset();
+                watch.Start();
+                ShiftRight();
+                watch.Stop();
+                Debug.Log(string.Format("Shift Right took: {0}ms", watch.ElapsedMilliseconds));
+            }
+
+            //CLICK HANDLER
+            checkMouseDoubleClick();
+
+            // Mobile platform touch input handler
+#if UNITY_ANDROID || UNITY_IOS
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                checkTouchDoubleClick();
+            }
+#endif
+            // TBD - testing code
+            if (Input.GetKey(KeyCode.Space) && SceneManager.GetActiveScene().buildIndex == SystemLevel)
+            {
+                // Go back to sector view
+                SceneManager.LoadScene(SectorLevel);
+            }
+        } // end Update()
+
 
         //Initializes the game level.
         void InitGame()
@@ -216,102 +291,152 @@ namespace Completed
 
         // ----- Handles UI directional buttons
         public void LeftButton() {
-            ShiftLeft();
-        }
-
-        public void RightButton()
-        {
-            ShiftRight();
-        }
-
-        public void UpButton()
-        {
-            ShiftUp();
-        }
-
-        public void DownButton()
-        {
-            ShiftDown();
-        }
-
-
-        //Update is called every frame.
-        void Update()
-        {
-            if (Input.GetKey(KeyCode.W) || SwipeManager.swipeDirection == Swipe.Up)
-            {
-                watch.Reset();
-                watch.Start();
-                ShiftUp();
-                watch.Stop();
-                Debug.Log(string.Format("Shift Up took: {0}ms", watch.ElapsedMilliseconds));
-            }
-            else if (Input.GetKey(KeyCode.S) || SwipeManager.swipeDirection == Swipe.Down)
-            {
-                watch.Reset();
-                watch.Start();
-                ShiftDown();
-                watch.Stop();
-                Debug.Log(string.Format("Shift Down took: {0}ms", watch.ElapsedMilliseconds));
-            }
-            else if (Input.GetKey(KeyCode.A) || SwipeManager.swipeDirection == Swipe.Left)
-            {
-                watch.Reset();
-                watch.Start();
+            if (SceneManager.GetActiveScene().buildIndex == SectorLevel) {
+                // Sector view
                 ShiftLeft();
-                watch.Stop();
-                Debug.Log(string.Format("Shift Left took: {0}ms", watch.ElapsedMilliseconds));
             }
-            else if (Input.GetKey(KeyCode.D) || SwipeManager.swipeDirection == Swipe.Right)
+        }
+
+        public void RightButton() {
+            if (SceneManager.GetActiveScene().buildIndex == SectorLevel)
             {
-                watch.Reset();
-                watch.Start();
+                // Sector view
                 ShiftRight();
-                watch.Stop();
-                Debug.Log(string.Format("Shift Right took: {0}ms", watch.ElapsedMilliseconds));
-            }
-            
-            //CLICK HANDLER
-            if (Input.GetMouseButtonUp(0))
+            }            
+        }
+
+        public void UpButton() {
+            if (SceneManager.GetActiveScene().buildIndex == SectorLevel)
             {
-                // clickTimer is a remannt from Liam's prototype code.
-                if (clickTimer < 0.25f)
-                {
-                    Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    if (FindGameObjectAtPosition(clickPos) != null)
-                    {
-                        // de-select previous star and turn off halo if applicable
-                        GameObject prevSelect = selected;
-                        if (prevSelect != null) {
-                            Component hlo = prevSelect.GetComponent("Halo");
-                            hlo.GetType().GetProperty("enabled").SetValue(hlo, false, null);
-                        }
-                        selected = FindGameObjectAtPosition(clickPos);
-                        // Highlight selection by turning on the halo
-                        Component halo = selected.GetComponent("Halo");
-                        halo.GetType().GetProperty("enabled").SetValue(halo, true, null);
-                    }
-                    else
-                        // Turn off the halo
-                    selected = null;
-                }
-                clickTimer = 0;
+                // Sector view
+                ShiftUp();
+            }            
+        }
+
+        public void DownButton() {
+            if (SceneManager.GetActiveScene().buildIndex == SectorLevel)
+            {
+                // Sector view
+                ShiftDown();
+            }
+        }
+
+        // Double and single mouse clicks
+        // Source: http://answers.unity3d.com/answers/315649/view.html
+        void checkMouseDoubleClick() {
+            if (Input.GetMouseButtonDown(0) && GUIUtility.hotControl == 0){
+                mouseClicks++;
+                Debug.Log("Num of mouse clicks ->" + mouseClicks);
             }
 
-            // Mobile platform touch input handler
-#if UNITY_ANDROID || UNITY_IOS
-            if (Input.touchCount >= 1) {
-                Vector3 touchPos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-                if (FindGameObjectAtPosition(touchPos) != null)
+            if (mouseClicks >= 1 && mouseClicks < 3) {
+                mouseTimer += Time.fixedDeltaTime;
+
+                if (mouseClicks == 2) {
+                    if (mouseTimer - mouseTimerLimit < 0) {
+                        Debug.Log("Mouse Double Click");
+                        mouseTimer = 0;
+                        mouseClicks = 0;
+                        /*Here you can add your double click event*/
+                        if (selected != null && SceneManager.GetActiveScene().buildIndex == SectorLevel)
+                        {
+                            // Save last known position
+                            lastKnownPosition = virtualPosition;
+                            // Loads selected star's system
+                            SceneManager.LoadScene(SystemLevel);
+                        }
+                    } else {
+                        Debug.Log("Timer expired");
+                        mouseClicks = 0;
+                        mouseTimer = 0;
+                        /*Here you can add your single click event*/
+                        ClickSectorObject();
+                    }
+                }
+
+                if (mouseTimer > mouseTimerLimit) {
+                    Debug.Log("Timer expired");
+                    mouseClicks = 0;
+                    mouseTimer = 0;
+                    /*Here you can add your single click event*/
+                    ClickSectorObject();
+                }
+            }
+        }
+
+        // Handles click events in the sector scene
+        public void ClickSectorObject() {
+            // Check if the mouse was clicked over a UI element
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                // Not on a UI element so we can proceed
+                Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                if (FindGameObjectAtPosition(clickPos) != null)
                 {
-                    // de-select previous star and turn off halo if applicable
+                    // de-select previous object and turn off halo if applicable
                     GameObject prevSelect = selected;
                     if (prevSelect != null)
                     {
                         Component hlo = prevSelect.GetComponent("Halo");
                         hlo.GetType().GetProperty("enabled").SetValue(hlo, false, null);
                     }
+                    // Set selected object
+                    selected = FindGameObjectAtPosition(clickPos);
+                    selectedID = selected.GetComponent<Star>().myNumber;
+                    // Highlight selection by turning on the halo
+                    Component halo = selected.GetComponent("Halo");
+                    halo.GetType().GetProperty("enabled").SetValue(halo, true, null);
+                }
+                else {
+                    // Turn off the halo
+                    selected = null;
+                    selectedID = 0;
+                }
+            }  
+
+        }
+
+        // Double and single taps
+        // Source: http://sushanta1991.blogspot.ca/2013/10/how-to-detect-double-tap-on-touch.html
+        void checkTouchDoubleClick() {
+            for (var i = 0; i < Input.touchCount; ++i)
+            {
+                if (Input.GetTouch(i).phase == TouchPhase.Began) {
+                    if (Input.GetTouch(i).tapCount == 1) {
+                        /*Here you can add your single click event*/
+                        TouchSectorObject();
+                    }
+                    if (Input.GetTouch(i).tapCount == 2) {                    
+                        /*Here you can add your double click event*/
+                        if (selected != null && SceneManager.GetActiveScene().buildIndex == SectorLevel) {
+                            // Save last known position
+                            lastKnownPosition = virtualPosition;
+                            // Loads selected star's system
+                            SceneManager.LoadScene(SystemLevel);
+                        }
+                    }
+                } // end if
+            } // end for            
+        }
+
+        // Handles touch events in the sector scene
+        void TouchSectorObject() {
+            // Finger is not over a UI element
+            if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            {
+                Vector3 touchPos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+                if (FindGameObjectAtPosition(touchPos) != null)
+                {
+                    // de-select previous object and turn off halo if applicable
+                    GameObject prevSelect = selected;
+                    if (prevSelect != null)
+                    {
+                        Component hlo = prevSelect.GetComponent("Halo");
+                        hlo.GetType().GetProperty("enabled").SetValue(hlo, false, null);
+                    }
+                    // Set selected object
                     selected = FindGameObjectAtPosition(touchPos);
+                    selectedID = selected.GetComponent<Star>().myNumber;
                     // Highlight selection by turning on the halo
                     Component halo = selected.GetComponent("Halo");
                     halo.GetType().GetProperty("enabled").SetValue(halo, true, null);
@@ -319,10 +444,10 @@ namespace Completed
                 else {
                     selected = null;
                 }
-            }            
-#endif
+            }
+        }
 
-        } // end Update()
+        
     }
    
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Completed;        // include this namespace in order to access game manager 
 
 public class SystemStar : PlanetaryBody {
 
@@ -38,10 +39,15 @@ public class SystemStar : PlanetaryBody {
     {
         base.Start();
         parentBody = null;
-        //Initialize();
         // testing
-        Initialize(42);
-	}
+        //Initialize(testSeed);
+        GameObject go = GameObject.Find("GameManager");
+        if (go != null) {
+            testSeed = (int)go.GetComponent<GameManager>().selectedID;
+            Initialize(testSeed);
+        }
+        
+    }
 
     void Initialize(int value)
     {
