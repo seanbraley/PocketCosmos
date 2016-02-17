@@ -29,6 +29,7 @@ namespace Completed
         public int SystemLevel = 3;
 
         public Vector2 virtualPosition = Vector2.zero;
+        private Vector2 lastKnownPosition = Vector2.zero;     // so players can return to last position when re-entering sector view
 
         private int movementCounterX = 0;
         private int movementCounterY = 0;
@@ -69,6 +70,9 @@ namespace Completed
         // Start is called once every scene start
         void Start() {
             // TODO: handle scene changes
+
+            // Load last known position into virtual position
+            virtualPosition = lastKnownPosition;
         }
 
         //Update is called every frame.
@@ -336,6 +340,8 @@ namespace Completed
                         /*Here you can add your double click event*/
                         if (selected != null && SceneManager.GetActiveScene().buildIndex == SectorLevel)
                         {
+                            // Save last known position
+                            lastKnownPosition = virtualPosition;
                             // Loads selected star's system
                             SceneManager.LoadScene(SystemLevel);
                         }
@@ -403,6 +409,8 @@ namespace Completed
                     if (Input.GetTouch(i).tapCount == 2) {                    
                         /*Here you can add your double click event*/
                         if (selected != null && SceneManager.GetActiveScene().buildIndex == SectorLevel) {
+                            // Save last known position
+                            lastKnownPosition = virtualPosition;
                             // Loads selected star's system
                             SceneManager.LoadScene(SystemLevel);
                         }
