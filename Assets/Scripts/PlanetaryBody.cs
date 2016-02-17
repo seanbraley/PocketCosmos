@@ -1,37 +1,47 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Generic class which holds information about planetary bodies and controls rotation / orbit?
+/// </summary>
 public class PlanetaryBody : MonoBehaviour {
 
+    public static int MAX_ROTATION_SPEED = 40;
+    public static int MIN_ROTATION_SPEED = 1;
+
+    public PlanetaryBody parentBody;
+
     // Atttributes relevant to orbit
-	private float _rotationSpeed = 30; // Degrees / Second, speed of planet's own rotational cycle
-	private float _rotationDirection = 1; // 1 = clockwise, -1 = counterclockwise, 0 = none.
-    private float _radius = 10;  // radius of planet's orbit around parent star
-    private float _angularSpeed = 1; // speed of rotation around parent star
+    protected float _rotationSpeed = 30; // Degrees / Second, speed of planet's own rotational cycle
+    protected float _rotationDirection = 1; // 1 = clockwise, -1 = counterclockwise, 0 = none.
+    protected float _radius = 10;  // radius of planet's orbit around parent star
+    protected float _angularSpeed = 1; // speed of rotation around parent star
 
     protected LayeredSprite _layeredSprite;
 
     // Attributes relevant to resources
-    private int _progress = 1;
-    private int _energy = 0;
-    private int _population = 0;
-    private int _spacebuxxx = 0;
+    protected int _progress = 1;
+    protected int _energy = 0;
+    protected int _population = 0;
+    protected int _spacebuxxx = 0;  // yus
 
-    private GameObject _owner = null;   // who owns this planet
+    protected System.Random localRNG;  // Every planetary body has one of these
+
+    protected GameObject _owner = null;   // who owns this planet
     public GameObject Owner
     {
         get { return _owner; }
         set { _owner = value; }
     }
-    
-    private GameObject _orbits = null;   // what this planetary body orbits
+
+    protected GameObject _orbits = null;   // what this planetary body orbits
     public GameObject Orbits
     {
         get { return _orbits; }
         set {  _orbits = value;  }
     }
 
-    private float _size = 1; // Units
+    protected float _size = 1; // Units
 	public float Size {
 		get { return _size; }
 		set {
@@ -41,13 +51,34 @@ public class PlanetaryBody : MonoBehaviour {
 	}
 
 
-    // Use this for initialization
-    void Start()
+    /// <summary>
+    /// Start method will get the layer sprite
+    /// </summary>
+    protected virtual void Start()
     {
         _layeredSprite = GetComponent<LayeredSprite>();
-        //Randomize(0u);
+        _layeredSprite.LoadSprites();
     }
 
+    /// <summary>
+    /// Randomize generic components, set rng etc
+    /// </summary>
+    /// <param name="i">seed for rng</param>
+    public void Randomize(int i)
+    {
+        // set local RNG
+        localRNG = new System.Random(i);
+
+        // Set basic attributes (ie rotation)
+        _rotationSpeed = localRNG.Next(MIN_ROTATION_SPEED, MAX_ROTATION_SPEED);
+        _rotationDirection = (localRNG.NextDouble() > .5) ? 1 : -1;
+
+    }
+
+    /// <summary>
+    /// This should be implemented in each subclass
+    /// </summary>
+    /// <param name="i"></param>
     public void Randomize(uint i)
     {
         Debug.Log("Creating planet from number: " + i);
@@ -66,11 +97,8 @@ public class PlanetaryBody : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
-		if (Input.GetKeyDown("space")) {
-			Debug.Log(Nomenclature.GetRandomWord());
-			//Randomize(randomHash.GetHash(_progress++));
-        }
+	void Update ()
+    {
 		transform.Rotate(new Vector3(0,0, _rotationSpeed * -_rotationDirection * Time.deltaTime));
 	}
 

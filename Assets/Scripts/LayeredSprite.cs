@@ -13,7 +13,7 @@ public class LayeredSprite : MonoBehaviour {
 		}
 		set {
 			_baseColor = value;
-			_spriteBase.color = _baseColor;
+			_spriteBase.color = value;
 		}
 	}
 
@@ -33,7 +33,7 @@ public class LayeredSprite : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		LoadSprites();
-		SetColors(new Color(0.1f,0.6f,0.3f),new Color(0.6f,0.3f,0.9f));
+		//SetColors(new Color(0.1f,0.6f,0.3f),new Color(0.6f,0.3f,0.9f));
 	}
 
 	void Update() {
@@ -64,7 +64,13 @@ public class LayeredSprite : MonoBehaviour {
 		RandomizeShowLayers(i);
 	}
 
-	private void LoadSprites() {
+    public void Randomize(uint i, ref System.Random sourceRNG, string favor)
+    {
+        RandomizeColors(i, ref sourceRNG, favor);
+        RandomizeShowLayers(i);
+    }
+
+	public void LoadSprites() {
 		foreach(Transform t in transform) {
 			if (t.name == "SpriteBase") {
 				_spriteBase = t.GetComponent<SpriteRenderer>();
@@ -77,11 +83,32 @@ public class LayeredSprite : MonoBehaviour {
 
 	public void SetColors(Color baseColor, Color layerColor)
     {
-		BaseColor = baseColor;
+        BaseColor = baseColor;
 		LayerColor = layerColor;
         //Debug.Log("Base color");
         //Debug.Log(baseColor);
 	}
+
+    /// <summary>
+    /// Randomize colors for planet
+    /// </summary>
+    /// <param name="first">first color</param>
+    /// <param name="second">second color</param>
+    /// <param name="order">which is the planet</param>
+    private void RandomizeColors(int first, int second, int order)
+    {
+        SetColors(Procedural.GetRandomColor((ushort)first, order), Procedural.GetRandomColor((ushort)second, order));
+    }
+
+    /// <summary>
+    /// Only called for stars
+    /// </summary>
+    /// <param name="first"></param>
+    /// <param name="second"></param>
+    private void RandomizeColors(int first, int second)
+    {
+        SetColors(Procedural.GetRandomStarColor((ushort)first), Procedural.GetRandomStarColor((ushort)second));
+    }
 
 	private void RandomizeColors(uint i) {
 		if (!isStar) {
@@ -96,10 +123,70 @@ public class LayeredSprite : MonoBehaviour {
             byte[] org = System.BitConverter.GetBytes(i);
             ushort first = System.BitConverter.ToUInt16(org, 0);
             ushort second = System.BitConverter.ToUInt16(org, 2);
-            SetColors(Procedural.GetRandomColor(first), Procedural.GetRandomColor(second));
+            //SetColors(Procedural.GetRandomColor(first), Procedural.GetRandomColor(second));
             SetColors(Procedural.GetRandomStarColor(first), Procedural.GetRandomStarColor(second));
 		}
 	}
+
+    private void RandomizeColors(uint i, ref System.Random sourceRNG, string favor)
+    {
+        Color c1;
+        Color c2;
+        switch (favor)
+        {
+            case "red":
+                c1 = new Color(
+                    sourceRNG.Next(100, 255) / 255f,
+                    sourceRNG.Next(0, 150) / 255f,
+                    sourceRNG.Next(0, 150) / 255f
+                );
+                c2 = new Color(
+                    sourceRNG.Next(100, 255) / 255f,
+                    sourceRNG.Next(0, 150) / 255f,
+                    sourceRNG.Next(0, 150) / 255f
+                );
+                break;
+
+            case "green":
+                c1 = new Color(
+                    sourceRNG.Next(0, 200) / 255f,
+                    sourceRNG.Next(100, 255) / 255f,
+                    sourceRNG.Next(0, 200) / 255f
+                );
+                c2 = new Color(
+                    sourceRNG.Next(0, 200) / 255f,
+                    sourceRNG.Next(100, 255) / 255f,
+                    sourceRNG.Next(0, 200) / 255f
+                );
+                break;
+
+            case "blue":
+                c1 = new Color(
+                    sourceRNG.Next(0, 200) / 255f,
+                    sourceRNG.Next(0, 200) / 255f,
+                    sourceRNG.Next(100, 255) / 255f
+                );
+                c2 = new Color(
+                    sourceRNG.Next(0, 200) / 255f,
+                    sourceRNG.Next(0, 200) / 255f,
+                    sourceRNG.Next(100, 255) / 255f
+                );
+                break;
+            default:
+                c1 = new Color(
+                    sourceRNG.Next(0, 255) / 255f,
+                    sourceRNG.Next(0, 255) / 255f,
+                    sourceRNG.Next(0, 255) / 255f
+                );
+                c2 = new Color(
+                    sourceRNG.Next(0, 255) / 255f,
+                    sourceRNG.Next(0, 255) / 255f,
+                    sourceRNG.Next(0, 255) / 255f
+                );
+                break;
+        }
+        SetColors(c1, c2);
+    }
 
 	private void ShowLayers(bool show) {
 		for(int i = 0; i < _spriteLayers.Length; i++) {
