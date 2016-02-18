@@ -71,7 +71,7 @@ public class Ship : MonoBehaviour {
 		lRend.SetWidth (width/2,width/2);
 
 		int numSegments = 128;
-		float oRadius = origin.transform.localScale.x / 2;
+		float dRadius = origin.transform.localScale.x / 2;
 
 		dRend.SetVertexCount(numSegments + 1);
 		
