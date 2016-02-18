@@ -44,7 +44,7 @@ public class Star : PlanetaryBody {
     void Update()
     {
         transform.Rotate(0,0,Random.Range(10,50)*Time.deltaTime);
-        Size = Mathf.PingPong(Time.time + _pingPongOffset,0.5f);
+        //Size = Mathf.PingPong(Time.time + _pingPongOffset,0.5f);
     }    
 
     // Procedurally generate the star
