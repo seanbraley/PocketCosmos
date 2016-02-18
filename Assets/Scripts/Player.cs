@@ -10,8 +10,7 @@ using Completed;
 /// </summary>
 public class Player : MonoBehaviour {
 
-    public static Player plyr = null;      //Static instance of GameManager which allows it to be accessed by any other script.
-
+    public static Player plyr = null;      //Static instance of GameManager which allows it to be accessed by any other script.    
 
     // for clicking on an object
     public GameObject selected;         // Selected object
@@ -185,7 +184,9 @@ public class Player : MonoBehaviour {
                 GameObject prevSelect = selected;
                 // Set selected object
                 selected = FindGameObjectAtPosition(clickPos);
-                Debug.Log("Clicked smth.");  //testing
+                Debug.Log("Clicked " + selected.name);  //testing
+                //Collect(selected.GetComponent<Population>());  // testing
+                Collect(selected.GetComponent<Spacebux>());  // testing
             }
             else {
                 selected = null;
@@ -281,7 +282,9 @@ public class Player : MonoBehaviour {
                 // Set selected object
                 selected = FindGameObjectAtPosition(touchPos);
                 // Do something
-                Debug.Log("Touched smth.");  //testing
+                Debug.Log("Touched "+ selected.name);  //testing
+                //Collect(selected.GetComponent<Population>());  // testing
+                Collect(selected.GetComponent<Spacebux>());  // testing
             }
             else
             {
