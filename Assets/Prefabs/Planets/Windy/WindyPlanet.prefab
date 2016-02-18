@@ -168,9 +168,13 @@ GameObject:
   m_Component:
   - 4: {fileID: 444008}
   - 114: {fileID: 11436564}
-  - 114: {fileID: 11493186}
   - 54: {fileID: 5422832}
   - 135: {fileID: 13548746}
+  - 114: {fileID: 11476664}
+  - 120: {fileID: 12099250}
+  - 114: {fileID: 11459818}
+  - 114: {fileID: 11417100}
+  - 114: {fileID: 11472174}
   m_Layer: 0
   m_Name: WindyPlanet
   m_TagString: Planet
@@ -335,6 +339,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &11417100
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46982b098cc1e047a24e487bac9105f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 0
 --- !u!114 &11436564
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -347,7 +363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStar: 0
---- !u!114 &11493186
+--- !u!114 &11459818
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -355,9 +371,80 @@ MonoBehaviour:
   m_GameObject: {fileID: 179486}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6332c8896251c40a937b8942fa8f76, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a4625cc497a3184dbe3dd4936abd5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  capacity: 0
+--- !u!114 &11472174
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc0b7424215943d40912d934ab1efda0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 0
+--- !u!114 &11476664
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790045962dc5bb1449c0d3c60def7854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentBody: {fileID: 0}
+  orbitSpeed: 0
+  orbitPath: {fileID: 0}
+  orbitParent: {fileID: 0}
+  homeStar: {fileID: 0}
+  homePlanet: {fileID: 0}
+  moons: []
+  planetNum: 0
+--- !u!120 &12099250
+LineRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179486}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    startWidth: 1
+    endWidth: 1
+    m_StartColor:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_EndColor:
+      serializedVersion: 2
+      rgba: 4294967295
+  m_UseWorldSpace: 1
 --- !u!135 &13548746
 SphereCollider:
   m_ObjectHideFlags: 1
