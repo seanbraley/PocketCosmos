@@ -34,7 +34,11 @@ public class Ship : MonoBehaviour {
 		transform.position = Vector3.MoveTowards(origin.transform.position,
 		                                         destination.transform.position,
 		                                         (origin.transform.localScale.x/2) + (transform.localScale.z/2));
-		transform.LookAt (destination.transform.position,Vector3.up);
+		Vector3 lookPos = destination.transform.position;
+		lookPos = lookPos - transform.position;
+		float angle = Mathf.Atan2(lookPos.y, lookPos.x) * Mathf.Rad2Deg;
+		transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
 		speed = Vector3.Distance (origin.transform.position, destination.transform.position) / timeToDestination;
 	}
 	
@@ -47,7 +51,11 @@ public class Ship : MonoBehaviour {
 		endPos = Vector3.MoveTowards(destination.transform.position,
 		                               origin.transform.position,
 		                               (destination.transform.localScale.x/2) + (transform.localScale.z/2));
-		transform.LookAt (destination.transform.position,Vector3.up);
+		Vector3 lookPos = destination.transform.position;
+		lookPos = lookPos - transform.position;
+		float angle = Mathf.Atan2(lookPos.x, lookPos.y) * Mathf.Rad2Deg;
+		transform.rotation = Quaternion.AngleAxis(angle, Vector3.back);
+
 		transform.position = Vector3.MoveTowards (startPos, endPos, speed * travelTime);
 
 		if (transform.position == endPos) {
@@ -64,7 +72,6 @@ public class Ship : MonoBehaviour {
 
 		int numSegments = 128;
 		float oRadius = origin.transform.localScale.x / 2;
-		float dRadius = destination.transform.localScale.x / 2;
 
 		dRend.SetVertexCount(numSegments + 1);
 		
@@ -85,6 +92,10 @@ public class Ship : MonoBehaviour {
 		lRend.SetPosition (0, transform.position + depth);
 		lRend.SetPosition (1, destination.transform.position + depth);
 
+
+	}
+
+	void OrbitAround(GameObject orbitObject) {
 
 	}
 }
