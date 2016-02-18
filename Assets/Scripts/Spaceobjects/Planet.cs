@@ -14,8 +14,8 @@ public class Planet : PlanetaryBody {
 	public static string TAG = "Planet";
 	public static float MIN_COLOR = 0.25f;
 	public static float MAX_COLOR = 0.75f;
-	public static int MIN_SIZE = 50;
-	public static int MAX_SIZE = 60;
+	public static int MIN_SIZE = 20;
+	public static int MAX_SIZE = 30;
 	public static float MIN_ORBIT = 0.8f;
 	public static float MAX_ORBIT = 1.2f;
     public static int MIN_ORBIT_SPEED = 5;

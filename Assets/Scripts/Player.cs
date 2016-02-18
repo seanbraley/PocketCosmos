@@ -13,7 +13,26 @@ public class Player : MonoBehaviour {
     public static Player plyr = null;      //Static instance of GameManager which allows it to be accessed by any other script.    
 
     // for clicking on an object
-    public GameObject selected;         // Selected object
+    private GameObject _selected;
+    public GameObject selected {
+        get {
+            return _selected;
+        }
+        set {
+            Component halo;
+            if (selected != null) {
+                halo = selected.GetComponent("Halo");
+                halo.GetType().GetProperty("enabled").SetValue(halo, false, null);
+            }
+
+            _selected = value;
+
+            if (selected != null) {
+                halo = selected.GetComponent("Halo");
+                halo.GetType().GetProperty("enabled").SetValue(halo, true, null);
+            }
+        }
+    }
 
     private int mouseClicks = 0;
     private float mouseTimer = 0f;
