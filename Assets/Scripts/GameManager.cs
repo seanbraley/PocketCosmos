@@ -119,12 +119,7 @@ namespace Completed
                 Player.plyr.checkTouchDoubleClick();
             }
 #endif
-            // TBD - testing code
-            if (Input.GetKey(KeyCode.Space) && SceneManager.GetActiveScene().buildIndex == SystemLevel)
-            {
-                // Go back to sector view
-                SceneManager.LoadScene(SectorLevel);
-            }
+            
         } // end Update()
 
 
@@ -300,6 +295,28 @@ namespace Completed
             }
         }
 
+        public void ReturnButton()
+        {
+            if (SceneManager.GetActiveScene().buildIndex == SystemLevel)
+            {
+                ToSectorView();
+            }
+            if (SceneManager.GetActiveScene().buildIndex == SectorLevel)
+            {
+                ToSystemView();
+            }
+        }
+
+
+        void ToSystemView() {
+            // Go back to system view
+            SceneManager.LoadScene(SystemLevel);
+        }
+
+        void ToSectorView() {
+            // Go back to sector view
+            SceneManager.LoadScene(SectorLevel);
+        }
 
     }
        

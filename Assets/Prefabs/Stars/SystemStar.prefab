@@ -77,6 +77,7 @@ GameObject:
   - 114: {fileID: 11486036}
   - 135: {fileID: 13527844}
   - 54: {fileID: 5417356}
+  - 122: {fileID: 12215600}
   m_Layer: 0
   m_Name: SystemStar
   m_TagString: Star
@@ -186,9 +187,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 433e7a73f92d02c4fa2449c93e172e71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentBody: {fileID: 0}
   rotationSpeed: 0
   planets: []
   planetPrefab: {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
+--- !u!122 &12215600
+Halo:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167330}
+  m_Enabled: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_Size: 5
 --- !u!135 &13527844
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -1880,6 +1893,14 @@ Prefab:
       objectReference: {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
     - target: {fileID: 0}
       propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

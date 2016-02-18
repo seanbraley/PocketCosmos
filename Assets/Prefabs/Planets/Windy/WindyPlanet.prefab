@@ -175,6 +175,7 @@ GameObject:
   - 114: {fileID: 11459818}
   - 114: {fileID: 11417100}
   - 114: {fileID: 11472174}
+  - 122: {fileID: 12240036}
   m_Layer: 0
   m_Name: WindyPlanet
   m_TagString: Planet
@@ -445,6 +446,17 @@ LineRenderer:
       serializedVersion: 2
       rgba: 4294967295
   m_UseWorldSpace: 1
+--- !u!122 &12240036
+Halo:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179486}
+  m_Enabled: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4292401407
+  m_Size: 5
 --- !u!135 &13548746
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -737,6 +749,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: Planet
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.rgba
+      value: 4292401407
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

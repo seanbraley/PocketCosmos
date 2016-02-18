@@ -207,6 +207,7 @@ GameObject:
   - 114: {fileID: 11476606}
   - 114: {fileID: 11411396}
   - 114: {fileID: 11444232}
+  - 122: {fileID: 12288272}
   m_Layer: 0
   m_Name: JaggedPlanet
   m_TagString: Planet
@@ -503,6 +504,17 @@ LineRenderer:
       serializedVersion: 2
       rgba: 4294967295
   m_UseWorldSpace: 1
+--- !u!122 &12288272
+Halo:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 192934}
+  m_Enabled: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_Size: 5
 --- !u!135 &13599158
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -859,6 +871,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Size
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
