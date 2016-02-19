@@ -315,7 +315,8 @@ public class Player : MonoBehaviour {
     // Collect resource
     private void Collect(Resource resource)
     {
-        resource.Gather();
+        if (resource != null)
+            resource.Gather();
     }
 
 }

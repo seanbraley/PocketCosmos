@@ -40,7 +40,7 @@ public class DebugShipLaunch : MonoBehaviour {
 			yield return null;
 		}
 		LaunchShip(origin,destination);
-		return true;
+		yield return true;
 	}
 
 	public void LaunchShip(GameObject origin, GameObject destination) {
