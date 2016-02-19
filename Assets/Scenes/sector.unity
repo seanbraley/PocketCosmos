@@ -382,6 +382,14 @@ Prefab:
       propertyPath: starPrefabs.Array.data[0]
       value: 
       objectReference: {fileID: 104812, guid: d8c1ae706c28fff4583c53930702443a, type: 2}
+    - target: {fileID: 11477318, guid: 94189d89c7f53f64e941ef914bce7d70, type: 2}
+      propertyPath: virtualPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477318, guid: 94189d89c7f53f64e941ef914bce7d70, type: 2}
+      propertyPath: virtualPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 94189d89c7f53f64e941ef914bce7d70, type: 2}
   m_IsPrefabParent: 0
@@ -983,7 +991,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1269138999
@@ -1177,7 +1185,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1492384088

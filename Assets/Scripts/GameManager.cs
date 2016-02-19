@@ -28,7 +28,7 @@ namespace Completed
         public int SectorLevel = 2;         // These should match scene and sector level numbers in build                    
         public int SystemLevel = 3;
 
-        public Vector2 virtualPosition = Vector2.zero;
+        public Vector2 virtualPosition;
         private Vector2 lastKnownPosition = Vector2.zero;     // so players can return to last position when re-entering sector view
 
         private int movementCounterX = 0;
@@ -48,6 +48,9 @@ namespace Completed
         // Only called once.
         void Awake()
         {
+            virtualPosition = Vector2.zero;
+            virtualPosition = lastKnownPosition;
+
             //Check if instance already exists
             if (instance == null)
 
@@ -71,14 +74,14 @@ namespace Completed
         void Start() {
             // TODO: handle scene changes
 
-            // Load last known position into virtual position
-            virtualPosition = lastKnownPosition;
+            // Load last known position into virtual position (Needs to happen before starGen)
+            //virtualPosition = lastKnownPosition;
+
         }
 
         //Update is called every frame.
         void Update()
         {
-
             if (Input.GetKey(KeyCode.W) || SwipeManager.swipeDirection == Swipe.Up)
             {
                 watch.Reset();
@@ -99,7 +102,8 @@ namespace Completed
             {
                 watch.Reset();
                 watch.Start();
-                ShiftLeft();
+                //ShiftLeft();
+                LeftButton();
                 watch.Stop();
                 Debug.Log(string.Format("Shift Left took: {0}ms", watch.ElapsedMilliseconds));
             }
@@ -137,10 +141,10 @@ namespace Completed
             // rows iterate -40 --> 40 (inner)
             // columns iterate 40 --> -40
             // Hold y constant while iterating through x's
-            for (int y = 40; y >= -40; y--) // Y value
+            for (int y = (int)virtualPosition.y + 40; y >= (int)virtualPosition.y - 40; y--) // Y value
             {
                 GameObject[] tmp = new GameObject[81];
-                for (int x = -40; x <= 40; x++) // X value
+                for (int x = (int)virtualPosition.x - 40; x <= (int)virtualPosition.x + 40; x++) // X value
                 {
                     if (Procedural.StarExists(x, y))
                     {
