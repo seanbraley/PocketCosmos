@@ -29,6 +29,10 @@ GameObject:
   - 120: {fileID: 12089826}
   - 135: {fileID: 13571396}
   - 54: {fileID: 5427038}
+  - 114: {fileID: 11400276}
+  - 114: {fileID: 11461554}
+  - 114: {fileID: 11474342}
+  - 122: {fileID: 12243782}
   m_Layer: 0
   m_Name: SmoothPlanet 1
   m_TagString: Planet
@@ -336,6 +340,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &11400276
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a4625cc497a3184dbe3dd4936abd5da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 0
 --- !u!114 &11431324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -359,13 +375,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790045962dc5bb1449c0d3c60def7854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentBody: {fileID: 0}
   orbitSpeed: 0
   orbitPath: {fileID: 0}
   orbitParent: {fileID: 0}
   homeStar: {fileID: 0}
   homePlanet: {fileID: 0}
-  rotationSpeed: 0
   moons: []
+  planetNum: 0
+--- !u!114 &11461554
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46982b098cc1e047a24e487bac9105f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 0
+--- !u!114 &11474342
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc0b7424215943d40912d934ab1efda0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 0
 --- !u!120 &12089826
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -376,7 +417,7 @@ LineRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 245eac021811f9e408ff1a5d727c7046, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -396,8 +437,8 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
   m_Parameters:
-    startWidth: 1
-    endWidth: 1
+    startWidth: 2
+    endWidth: 2
     m_StartColor:
       serializedVersion: 2
       rgba: 4294967295
@@ -405,6 +446,17 @@ LineRenderer:
       serializedVersion: 2
       rgba: 4294967295
   m_UseWorldSpace: 1
+--- !u!122 &12243782
+Halo:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129640}
+  m_Enabled: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_Size: 5
 --- !u!135 &13571396
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -709,6 +761,38 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: Planet
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 245eac021811f9e408ff1a5d727c7046, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Parameters.m_EndColor.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Parameters.startWidth
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Parameters.endWidth
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Parameters.m_StartColor.rgba
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
