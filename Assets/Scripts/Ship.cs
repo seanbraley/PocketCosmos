@@ -12,24 +12,39 @@ public class Ship : MonoBehaviour {
 	private float speed;
 
 	public Material render;
-	private LineRenderer dRend;
-	private LineRenderer lRend;
+	private LineRenderer destinationOutlineRenderer;
+	private LineRenderer destinationLineRenderer;
+	private LineRenderer originLineRenderer;
+	private LineRenderer originOutlineRenderer;
 
 	// Use this for initialization
 	void Start () {
 
-		lRend = new GameObject().AddComponent<LineRenderer>() as LineRenderer;
-		lRend.name = "Travel Path";
-		lRend.gameObject.transform.parent = this.transform;
-		dRend = new GameObject().AddComponent<LineRenderer>() as LineRenderer;
-		dRend.name = "Destination Outline";
-		dRend.gameObject.transform.parent = this.transform;
+		destinationLineRenderer = new GameObject().AddComponent<LineRenderer>() as LineRenderer;
+		destinationLineRenderer.name = "Destination Line";
+		destinationLineRenderer.gameObject.transform.parent = this.transform;
+		destinationOutlineRenderer = new GameObject().AddComponent<LineRenderer>() as LineRenderer;
+		destinationOutlineRenderer.name = "Destination Outline";
+		destinationOutlineRenderer.gameObject.transform.parent = this.transform;
 
+		originLineRenderer = new GameObject().AddComponent<LineRenderer>() as LineRenderer;
+		originLineRenderer.name = "Origin Line";
+		originLineRenderer.gameObject.transform.parent = this.transform;
+		originOutlineRenderer = new GameObject().AddComponent<LineRenderer>() as LineRenderer;
+		originOutlineRenderer.name = "Destination Outline";
+		originOutlineRenderer.gameObject.transform.parent = this.transform;
 
-		Color c = new Color (1, 0, 0);
-		render.color = c;
-		dRend.material = render;
-		lRend.material = render;
+		Material redMaterial = new Material(render); 
+		Color red = new Color (1, 0, 0);
+		redMaterial.color = red;
+		destinationOutlineRenderer.material = redMaterial;
+		destinationLineRenderer.material = redMaterial;
+
+		Material greenMaterial = new Material(render);
+		Color green = new Color (0, 1, 0);
+		greenMaterial.color = green;
+		originOutlineRenderer.material = greenMaterial;
+		originLineRenderer.material = greenMaterial;
 
 		transform.position = Vector3.MoveTowards(origin.transform.position,
 		                                         destination.transform.position,
@@ -67,13 +82,17 @@ public class Ship : MonoBehaviour {
 
 	void DrawLines() {
 		float width = 0.025f * Camera.main.orthographicSize;
-		dRend.SetWidth (width,width);
-		lRend.SetWidth (width/2,width/2);
+		destinationOutlineRenderer.SetWidth (width,width);
+		destinationLineRenderer.SetWidth (width/2,width/2);
+		originOutlineRenderer.SetWidth (width,width);
+		originLineRenderer.SetWidth (width/2,width/2);
 
 		int numSegments = 128;
 		float oRadius = origin.transform.localScale.x / 2;
+		float dRadius = destination.transform.localScale.x/2;
 
-		dRend.SetVertexCount(numSegments + 1);
+		destinationOutlineRenderer.SetVertexCount(numSegments + 1);
+		originOutlineRenderer.SetVertexCount(numSegments + 1);
 		
 		float deltaTheta = (2.0f *  Mathf.PI) / numSegments;
 		float theta = 0;
@@ -82,20 +101,31 @@ public class Ship : MonoBehaviour {
 		{
 			float xD = dRadius * Mathf.Cos(theta);
 			float yD = dRadius * Mathf.Sin(theta);
-			Vector3 pos = new Vector3(xD, yD, 20) + destination.transform.position;
-			dRend.SetPosition(i, pos);
+			float xO = oRadius * Mathf.Cos(theta);
+			float yO = oRadius * Mathf.Sin(theta);
+			Vector3 dPos = new Vector3(xD, yD, 20) + destination.transform.position;
+			Vector3 oPos = new Vector3(xD, yD, 20) + origin.transform.position;
+			destinationOutlineRenderer.SetPosition(i, dPos);
+			originOutlineRenderer.SetPosition(i,oPos);
 			theta += deltaTheta;
 		}
 
-		lRend.SetVertexCount (2);
+		destinationLineRenderer.SetVertexCount (2);
 		Vector3 depth = new Vector3 (0, 0, 20);
-		lRend.SetPosition (0, transform.position + depth);
-		lRend.SetPosition (1, destination.transform.position + depth);
+		destinationLineRenderer.SetPosition (0, transform.position + depth);
+		destinationLineRenderer.SetPosition (1, destination.transform.position + depth);
 
+		originLineRenderer.SetVertexCount (2);
+		originLineRenderer.SetPosition (0, transform.position + depth);
+		originLineRenderer.SetPosition (1, origin.transform.position + depth);
 
 	}
 
 	void OrbitAround(GameObject orbitObject) {
+
+	}
+
+	void FlyTowards(GameObject dest) {
 
 	}
 }
