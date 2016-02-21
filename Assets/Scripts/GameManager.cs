@@ -200,6 +200,7 @@ namespace Completed
         void ShiftUp()
         {
             virtualPosition.y++;  // y = 1
+            instance.virtualPosition.y++;  // y = 1
             GameObject[] newStars = GetRowOfStars(40, (int)virtualPosition.y + 40); // 41 (is this getting way ahead of the other?)
             foreach (GameObject s in starsList[starsList.Count - 1])  // Last row
                 if (s != null)
@@ -215,6 +216,7 @@ namespace Completed
         void ShiftDown()
         {
             virtualPosition.y--;  // y = -1
+            instance.virtualPosition.y--;  // y = -1
             GameObject[] newStars = GetRowOfStars(-40, (int)virtualPosition.y - 40); // -41
             foreach (GameObject s in starsList[0])  // first row
                 if (s != null)
@@ -228,6 +230,7 @@ namespace Completed
         void ShiftRight()
         {
             virtualPosition.x++;
+            instance.virtualPosition.x++;
             GameObject[] newStars = GetColumnOfStars(40, (int)virtualPosition.x + 40);
             int helper = 0;
             foreach (GameObject[] starRow in starsList)
@@ -245,6 +248,7 @@ namespace Completed
         void ShiftLeft()
         {
             virtualPosition.x--;
+            instance.virtualPosition.x--;
             GameObject[] newStars = GetColumnOfStars(-40, (int)virtualPosition.x - 40);
             int helper = 0;
             foreach (GameObject[] starRow in starsList)
