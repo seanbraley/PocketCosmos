@@ -19,7 +19,9 @@ public class SystemStar : PlanetaryBody {
 	private float minDist = 5000;
 	private float maxDist = 10000;
 	public GameObject[] planets;
-	public GameObject planetPrefab;
+	public GameObject planetPrefabSmooth;
+	public GameObject planetPrefabJagged;
+	public GameObject planetPrefabWindy;
 
     private static int testSeed = 42;
 
@@ -100,7 +102,14 @@ public class SystemStar : PlanetaryBody {
         for (int i = 0; i < numPlanets; i++)
         {
             planetOrbitPos += new Vector3(transform.localScale.x * PLANET_DISTANCE_CONSTANT, 0);
-            planets[i] = Instantiate(planetPrefab, planetOrbitPos, Quaternion.identity) as GameObject;
+            int planetType = localRNG.Next(2);
+            if (planetType == 1)
+                planets[i] = Instantiate(planetPrefabWindy, planetOrbitPos, Quaternion.identity) as GameObject;
+            else if (planetType == 2)
+                planets[i] = Instantiate(planetPrefabJagged, planetOrbitPos, Quaternion.identity) as GameObject;
+            else
+                planets[i] = Instantiate(planetPrefabSmooth, planetOrbitPos, Quaternion.identity) as GameObject;
+
             planets[i].GetComponent<Planet>().name = name + System.Convert.ToChar(65 + i);
             planets[i].GetComponent<Planet>().Randomize(localRNG.Next());
             planets[i].GetComponent<Planet>().Initialize(this, i + 1);
@@ -122,7 +131,13 @@ public class SystemStar : PlanetaryBody {
 		for (int i = 0; i < numPlanets; i++)
         {
             planetPos += new Vector3(transform.localScale.x * 0.8f * PLANET_DISTANCE_CONSTANT, 0, 0);
-            planets[i] = Instantiate(planetPrefab, planetPos, Quaternion.identity) as GameObject;
+            int planetType = localRNG.Next(2);
+            if (planetType == 1)
+                planets[i] = Instantiate(planetPrefabWindy, planetPos, Quaternion.identity) as GameObject;
+            else if (planetType == 2)
+                planets[i] = Instantiate(planetPrefabJagged, planetPos, Quaternion.identity) as GameObject;
+            else
+                planets[i] = Instantiate(planetPrefabSmooth, planetPos, Quaternion.identity) as GameObject;
             planets[i].GetComponent<Planet>().SetOrbitParent(this.gameObject);
             planets[i].name = name + System.Convert.ToChar(65 + i);  // Ehhh Bee Seee Dee EEEE efff geee...
             planets[i].GetComponent<Planet>().Randomize(localRNG.Next());

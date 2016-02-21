@@ -1427,6 +1427,30 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 11486036, guid: 2ffe30e8bb899154f8c0718d58d816cd, type: 2}
+      propertyPath: planetPrefabRand
+      value: 
+      objectReference: {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
+    - target: {fileID: 11486036, guid: 2ffe30e8bb899154f8c0718d58d816cd, type: 2}
+      propertyPath: planetPrefabJared
+      value: 
+      objectReference: {fileID: 192934, guid: 47aa7d7df64224147b11110563f8c72f, type: 2}
+    - target: {fileID: 11486036, guid: 2ffe30e8bb899154f8c0718d58d816cd, type: 2}
+      propertyPath: planetPrefabWendy
+      value: 
+      objectReference: {fileID: 179486, guid: 63f61d91097fa4946964ea17c10fada4, type: 2}
+    - target: {fileID: 11486036, guid: 2ffe30e8bb899154f8c0718d58d816cd, type: 2}
+      propertyPath: planetPrefabSmooth
+      value: 
+      objectReference: {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
+    - target: {fileID: 11486036, guid: 2ffe30e8bb899154f8c0718d58d816cd, type: 2}
+      propertyPath: planetPrefabJagged
+      value: 
+      objectReference: {fileID: 192934, guid: 47aa7d7df64224147b11110563f8c72f, type: 2}
+    - target: {fileID: 11486036, guid: 2ffe30e8bb899154f8c0718d58d816cd, type: 2}
+      propertyPath: planetPrefabWindy
+      value: 
+      objectReference: {fileID: 179486, guid: 63f61d91097fa4946964ea17c10fada4, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2ffe30e8bb899154f8c0718d58d816cd, type: 2}
   m_IsPrefabParent: 0
