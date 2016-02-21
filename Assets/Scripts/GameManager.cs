@@ -28,8 +28,8 @@ namespace Completed
         public int SectorLevel = 2;         // These should match scene and sector level numbers in build                    
         public int SystemLevel = 3;
 
-        public Vector2 virtualPosition = Vector2.zero;
-        public Vector2 lastKnownPosition = Vector2.zero;     // so players can return to last position when re-entering sector view
+        public Vector2 virtualPosition;
+        public Vector2 lastKnownPosition;     // so players can return to last position when re-entering sector view
 
         private int movementCounterX = 0;
         private int movementCounterY = 0;
@@ -38,7 +38,7 @@ namespace Completed
 
         public GameObject[] starPrefabs;
 
-        static List<GameObject[]> starsList = new List<GameObject[]>();
+        static List<GameObject[]> starsList;
 
         // Awake is always called before any Start functions
         // Only called once.
@@ -59,6 +59,8 @@ namespace Completed
             //Sets this to not be destroyed when reloading scene
             DontDestroyOnLoad(gameObject);
 
+            virtualPosition = instance.virtualPosition;
+
             //Call the InitGame function to initialize the starting level 
             InitGame();
         }
@@ -69,7 +71,7 @@ namespace Completed
             // TODO: handle scene changes
 
             // Load last known position into virtual position
-            virtualPosition = lastKnownPosition;
+            //virtualPosition = lastKnownPosition;
         }
 
         //Update is called every frame.
@@ -126,17 +128,20 @@ namespace Completed
         //Initializes the game level.
         void InitGame()
         {
+            Debug.Log(string.Format("Starting sector view at coordinates: <{0},{1}>", virtualPosition.x, virtualPosition.y));
             // rows iterate -40 --> 40 (inner)
             // columns iterate 40 --> -40
             // Hold y constant while iterating through x's
+            starsList = new List<GameObject[]>();
             for (int y = 40; y >= -40; y--) // Y value
             {
                 GameObject[] tmp = new GameObject[81];
                 for (int x = -40; x <= 40; x++) // X value
                 {
-                    if (Procedural.StarExists(x, y))
+                    if (Procedural.StarExists((int)virtualPosition.x + x, (int)virtualPosition.y + y))
                     {
                         tmp[x + 40] = (GameObject)Instantiate(starPrefabs[0], new Vector2(x, y), Quaternion.identity);
+                        tmp[x + 40].GetComponent<Star>().SetNumber((int)virtualPosition.x + x, (int)virtualPosition.y + y);
                         //Debug.Log(string.Format("Star Created at: <{0}, {1}>", x, y));
                     }
                 }
@@ -310,11 +315,13 @@ namespace Completed
 
         void ToSystemView() {
             // Go back to system view
+            instance.lastKnownPosition = instance.virtualPosition;
             SceneManager.LoadScene(SystemLevel);
         }
 
         void ToSectorView() {
             // Go back to sector view
+            instance.virtualPosition = instance.lastKnownPosition;
             SceneManager.LoadScene(SectorLevel);
         }
 

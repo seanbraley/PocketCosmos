@@ -33,11 +33,15 @@ public class Star : PlanetaryBody {
     {
         _pingPongOffset = Random.Range(0f,1f);
         _layeredSprite = GetComponent<LayeredSprite>();
-        myNumber = Procedural.GetNumber(Procedural.PointToNumber((int)transform.position.x, (int)transform.position.y));
         Generate();
         SetChildren();
         _offset = new Vector2(1/Procedural.GetNumber(myNumber),1/Procedural.GetNumber(myNumber));
         transform.position += (Vector3) _offset;
+    }
+
+    public void SetNumber(int x, int y)
+    {
+        myNumber = Procedural.GetNumber(Procedural.PointToNumber(x, y));
     }
 
     // Update is called once per frame

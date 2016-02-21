@@ -111,7 +111,7 @@ public class Player : MonoBehaviour {
                     /*Here you can add your double click event*/
                     if (selected != null && SceneManager.GetActiveScene().buildIndex == GameManager.instance.SectorLevel)
                     {
-                        // Save last known position
+                        // Save last known position (position is correct here)
                         GameManager.instance.lastKnownPosition = GameManager.instance.virtualPosition;
                         // Loads selected star's system
                         SceneManager.LoadScene(GameManager.instance.SystemLevel);
