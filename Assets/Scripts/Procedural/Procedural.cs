@@ -124,13 +124,14 @@ public static class Procedural
 
     public static bool StarExists(int x, int y)
     {
-        if (x%3==0 && y%3==0)
+        if (x % 3 == 0 && y % 3 == 0)
         {
             uint num = PointToNumber(x, y);
 
             float num2 = num / Mathf.PI;
             float num3 = num2 - Mathf.RoundToInt(num2);
             //Debug.Log(num3);
+            //Debug.Log(string.Format("Number: {0} generated for point <{1}, {2}> created?: {3}", Mathf.Abs(num3), x, y, Mathf.Abs(num3) > 0.46f));
             return (Mathf.Abs(num3) > 0.46f);
         }
         return false;
