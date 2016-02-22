@@ -6,7 +6,23 @@ public class Star : PlanetaryBody {
     // Add specific star properties
     public uint myNumber;
 
-    public bool discovered;
+    private bool _discovered;
+    public bool Discovered {
+        get {
+            return _discovered;
+        }
+        set {
+            Debug.Log("HELLO");
+            if (value) {
+                CurrentWaypoint = HomeStarIcon_Prefab;
+            }
+            else {
+                CurrentWaypoint = UndiscoveredStarIcon_Prefab;
+            }
+            _discovered = value;
+        }
+    }
+
     private float minDist = 5000;
     private float maxDist = 10000;
 
@@ -29,6 +45,28 @@ public class Star : PlanetaryBody {
 
     private System.Random localRNG;
 
+    public GameObject HomeStarIcon_Prefab;
+    public GameObject UndiscoveredStarIcon_Prefab;
+    private GameObject _currentWaypoint;
+    public GameObject CurrentWaypoint {
+        get {
+            return _currentWaypoint;
+        }
+        set {
+            Destroy(_currentWaypoint);
+            if (value == null) {
+                _currentWaypoint = null;
+            }
+            else
+            {
+                _currentWaypoint = Instantiate(value,transform.position + Vector3.back*3,Quaternion.identity) as GameObject;
+                Vector3 SBsize = new Vector3(transform.localScale.x*3,transform.localScale.x*3,transform.localScale.x*3);
+                _currentWaypoint.transform.localScale = SBsize;
+                _currentWaypoint.transform.parent = this.transform;
+            }
+        }
+    }
+
     void Start()
     {
         localRNG = new System.Random((int)myNumber);
@@ -48,11 +86,13 @@ public class Star : PlanetaryBody {
 
         // Update from the game data - check if user has discovered this star or not
         foreach (DiscoveredStar s in PlayerData.playdata.discoveredStarSystems) {
-            if (s.starObj.gameObject == this.gameObject) {
-                discovered = true;
+            if (s.starID == this.myNumber) {
+                Discovered = true;
             }
         }
-
+        if (!Discovered) {
+            CurrentWaypoint = UndiscoveredStarIcon_Prefab;
+        }
     }
 
     public void SetNumber(int x, int y)
@@ -65,6 +105,9 @@ public class Star : PlanetaryBody {
     {
         transform.Rotate(0,0,Random.Range(10,50)*Time.deltaTime);
         //Size = Mathf.PingPong(Time.time + _pingPongOffset,0.5f);
+        if (CurrentWaypoint != null) {
+            CurrentWaypoint.transform.rotation = Quaternion.identity;
+        }
     }    
 
     // Procedurally generate the star

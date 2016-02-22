@@ -69,10 +69,9 @@ namespace Completed
             {
                 // First star system
                 GameObject firstStar = Player.plyr.FindGameObjectAtPosition(Vector3.zero);
-                Debug.Log(firstStar.GetComponent<Star>().myNumber);
-
+                
                 // Discover the star
-                firstStar.GetComponent<Star>().discovered = true;
+                firstStar.GetComponent<Star>().Discovered = true;
                 PlayerData.playdata.discoveredStarSystems.Add(new DiscoveredStar(firstStar));
             }
         }

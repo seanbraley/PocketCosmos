@@ -23,7 +23,7 @@ public class DebugShipLaunch : MonoBehaviour {
 	IEnumerator LaunchSetupCoroutine() {
         //yield return null;
         GameObject origin = Player.plyr.selected;
-		if (origin == null || !origin.GetComponent<Star>().discovered) {
+		if (origin == null || !origin.GetComponent<Star>().Discovered) {
             _currentCoroutine = null;
             Debug.Log("CANT SEND SHIP FROM HERE");
             yield break;
