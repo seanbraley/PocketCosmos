@@ -8,7 +8,7 @@ public class Ship : MonoBehaviour {
 	private Vector3 endPos;
 	public GameObject destination;
 	private float travelTime;
-	public float timeToDestination;
+	private float timeToDestination;
 	private float speed;
 
 	public Material render;
@@ -30,6 +30,8 @@ public class Ship : MonoBehaviour {
 		render.color = c;
 		dRend.material = render;
 		lRend.material = render;
+
+		timeToDestination = Vector3.Distance(origin.transform.position,destination.transform.position) / 5;
 
 		transform.position = Vector3.MoveTowards(origin.transform.position,
 		                                         destination.transform.position,
