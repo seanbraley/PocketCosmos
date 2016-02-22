@@ -31,6 +31,8 @@ public class Ship : MonoBehaviour {
 		dRend.material = render;
 		lRend.material = render;
 
+		timeToDestination = Vector3.Distance(origin.transform.position,destination.transform.position) / 5;
+
 		transform.position = Vector3.MoveTowards(origin.transform.position,
 		                                         destination.transform.position,
 		                                         (origin.transform.localScale.x/2) + (transform.localScale.z/2));
