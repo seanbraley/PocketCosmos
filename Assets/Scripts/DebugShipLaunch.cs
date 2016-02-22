@@ -20,8 +20,13 @@ public class DebugShipLaunch : MonoBehaviour {
 	}
 
 	IEnumerator LaunchSetupCoroutine() {
-		Player.plyr.selected = null;
-		GameObject origin = null;
+		GameObject origin = Player.plyr.selected;
+		if (origin == null) {
+			return false;
+			Debug.Log("CANT SEND SHIP FROM NOWHERE");
+		}
+
+		/*
 		Debug.Log("Select an origin!");
 		while(origin == null) {
 			if (Player.plyr.selected != null) {
@@ -29,6 +34,7 @@ public class DebugShipLaunch : MonoBehaviour {
 			}
 			yield return null;
 		}
+		*/
 
 		GameObject destination = null;
 		Player.plyr.selected = null;
