@@ -10,7 +10,7 @@ public class Population : Resource {
 
     // Use this for initialization
     protected override void Start () {
-        _amountIncrease = 1f;
+        _amountIncrease = 1;
         _progress = 0f;
         _ready = false;
         _planet = this.gameObject.GetComponent<Planet>();

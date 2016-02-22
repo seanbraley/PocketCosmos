@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;  // scene management at run-time.
+using UnityEngine.EventSystems;     // handles input, raycasting, and sending events.
 
 public class StartOptions : View
 {
@@ -112,6 +114,10 @@ public class StartOptions : View
     {
         //We got a successfull login response from the server
         Debug.Log("Logging in...");
+
+        // Update player data
+        PlayerData.playdata.Load(); // TO DO: Pull from server
+
         //Use invoke to delay calling of LoadDelayed by half the length of fadeColorAnimationClip
         Invoke("LoadDelayed", fadeColorAnimationClip.length * .5f);
 
@@ -121,7 +127,7 @@ public class StartOptions : View
     public void LoginFailure(short returnCode)
     {
         //We failed to login
-        Debug.Log(string.Format("Got return code {0}", returnCode));
+        Debug.Log(string.Format("Login failed. Got return code {0}", returnCode));
     }
 
 
@@ -132,7 +138,7 @@ public class StartOptions : View
 
         //Hide the main menu UI element
         showPanels.HideMenu();
-
+        
         //Load the selected scene, by scene index number in build settings
         Application.LoadLevel(sceneToStart);
     }

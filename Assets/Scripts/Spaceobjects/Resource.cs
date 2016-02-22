@@ -8,7 +8,7 @@ public class Resource : MonoBehaviour {
     public float capacity;
 
     //Variables accessible by subclass
-    protected float _amountIncrease;
+    protected uint _amountIncrease;
     protected Utility.ResourceType _resourceType;
     protected Planet _planet;
 
@@ -18,7 +18,7 @@ public class Resource : MonoBehaviour {
     //These methods are virtual and thus can be overriden in child classes
     protected virtual void Start() {
         capacity = 0f;
-        _amountIncrease = 0f;
+        _amountIncrease = 0;
         _resourceType = Utility.ResourceType.Unknown;
     }
 
