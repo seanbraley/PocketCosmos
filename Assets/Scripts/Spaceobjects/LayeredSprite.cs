@@ -59,7 +59,54 @@ public class LayeredSprite : MonoBehaviour {
 
 	/* End DEBUG ~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~ */
 
-	public void Randomize(uint i) {
+    public void RandomizeSectorStar(System.Random sourceRNG)
+    {
+        Color c1;
+        Color c2;
+        switch (sourceRNG.Next(1,2))
+        {
+            case 1:
+                c1 = new Color(
+                    sourceRNG.Next(100, 255) / 255f,
+                    sourceRNG.Next(0, 150) / 255f,
+                    sourceRNG.Next(0, 150) / 255f
+                );
+                c2 = new Color(
+                    sourceRNG.Next(100, 255) / 255f,
+                    sourceRNG.Next(0, 150) / 255f,
+                    sourceRNG.Next(0, 150) / 255f
+                );
+                break;
+
+            case 2:
+                c1 = new Color(
+                    sourceRNG.Next(100, 255) / 255f,
+                    sourceRNG.Next(100, 255) / 255f,
+                    sourceRNG.Next(0, 200) / 255f
+                );
+                c2 = new Color(
+                    sourceRNG.Next(100, 255) / 255f,
+                    sourceRNG.Next(100, 255) / 255f,
+                    sourceRNG.Next(0, 200) / 255f
+                );
+                break;
+            default:
+                c1 = new Color(
+                    sourceRNG.Next(0, 255) / 255f,
+                    sourceRNG.Next(0, 255) / 255f,
+                    sourceRNG.Next(0, 255) / 255f
+                );
+                c2 = new Color(
+                    sourceRNG.Next(0, 255) / 255f,
+                    sourceRNG.Next(0, 255) / 255f,
+                    sourceRNG.Next(0, 255) / 255f
+                );
+                break;
+        }
+        SetColors(Color.white, Color.white);
+    }
+
+    public void Randomize(uint i) {
 		RandomizeColors(i);
 		RandomizeShowLayers(i);
 	}
