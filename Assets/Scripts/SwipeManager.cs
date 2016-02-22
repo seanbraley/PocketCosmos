@@ -28,6 +28,7 @@ public class SwipeManager : MonoBehaviour
             {
                 firstPressPos = new Vector2(t.position.x, t.position.y);
             }
+            
 
             if (t.phase == TouchPhase.Ended)
             {
