@@ -6,7 +6,7 @@ public class Star : PlanetaryBody {
     // Add specific star properties
     public uint myNumber;
 
-    private bool discovered;
+    public bool discovered;
     private float minDist = 5000;
     private float maxDist = 10000;
 
@@ -45,6 +45,14 @@ public class Star : PlanetaryBody {
         _offset = new Vector2(offset_x, offset_y);
         
         transform.position += (Vector3) _offset;
+
+        // Update from the game data - check if user has discovered this star or not
+        foreach (DiscoveredStar s in PlayerData.playdata.discoveredStarSystems) {
+            if (s.starObj.gameObject == this.gameObject) {
+                discovered = true;
+            }
+        }
+
     }
 
     public void SetNumber(int x, int y)

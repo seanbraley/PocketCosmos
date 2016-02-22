@@ -63,16 +63,26 @@ namespace Completed
 
             //Call the InitGame function to initialize the starting level 
             InitGame();
+
+            // First-time player initialization - Get first star, add to discovered star list
+            if (PlayerData.playdata.initialPlay)
+            {
+                // First star system
+                GameObject firstStar = Player.plyr.FindGameObjectAtPosition(Vector3.zero);
+                Debug.Log(firstStar.GetComponent<Star>().myNumber);
+
+                // Discover the star
+                firstStar.GetComponent<Star>().discovered = true;
+                PlayerData.playdata.discoveredStarSystems.Add(new DiscoveredStar(firstStar));
+            }
         }
 
         // Start is called once every scene start
         void Start()
         {
-            // TODO: handle scene changes
 
-            // Load last known position into virtual position
-            //virtualPosition = lastKnownPosition;
         }
+
 
         //Update is called every frame.
         void Update()

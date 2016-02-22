@@ -59,7 +59,11 @@ public class Ship : MonoBehaviour {
 		transform.position = Vector3.MoveTowards (startPos, endPos, speed * travelTime);
 
 		if (transform.position == endPos) {
-			Destroy(this.gameObject);
+            // Discover the gameobject this planet was sent to
+            destination.GetComponent<Star>().discovered = true;
+            PlayerData.playdata.discoveredStarSystems.Add(new DiscoveredStar(destination));
+            Destroy(this.gameObject);
+            
 		}
 
 		DrawLines ();
