@@ -33,7 +33,7 @@ public class Star : PlanetaryBody {
     {
         localRNG = new System.Random((int)myNumber);
 
-        _layeredSprite = GetComponent<LayeredSprite>();
+        base.Start();
 
         Generate();
         SetChildren();
