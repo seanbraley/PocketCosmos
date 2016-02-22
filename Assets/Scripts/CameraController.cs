@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour {
         {
             Debug.Log("Desktop");
         }
-        _camera.orthographicSize = 10;
+        _camera.orthographicSize = 20;
     }
 	
     void Update()  // LateUpdate() ?

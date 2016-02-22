@@ -16,8 +16,8 @@ public class Star : PlanetaryBody {
     public static int MAX_PLANETS = 8;
     public static float MIN_ROTATION = 5;
     public static float MAX_ROTATION = 15;
-    public static float MIN_SIZE = 4.0f;
-    public static float MAX_SIZE = 6.0f;
+    public static int MIN_SIZE = 15;
+    public static int MAX_SIZE = 1;
 
     public GameObject[] planetPrefab;
 
@@ -27,15 +27,23 @@ public class Star : PlanetaryBody {
 
     public bool debug = false;
 
-    private float _pingPongOffset;
+    private System.Random localRNG;
 
     void Start()
     {
-        _pingPongOffset = Random.Range(0f,1f);
+        localRNG = new System.Random((int)myNumber);
+
         _layeredSprite = GetComponent<LayeredSprite>();
+
         Generate();
         SetChildren();
-        _offset = new Vector2(1/Procedural.GetNumber(myNumber),1/Procedural.GetNumber(myNumber));
+
+        float offset_x = localRNG.Next(5) / 10f;
+        float offset_y = localRNG.Next(5) / 10f;
+
+
+        _offset = new Vector2(offset_x, offset_y);
+        
         transform.position += (Vector3) _offset;
     }
 
@@ -54,8 +62,8 @@ public class Star : PlanetaryBody {
     // Procedurally generate the star
     private void Generate()
     {
-        Size = 0.5f;
-        _layeredSprite.Randomize(myNumber);
+        Size = localRNG.Next(65, 100) / 100f;
+        _layeredSprite.RandomizeSectorStar(localRNG);
     }
 
     // TO-DO

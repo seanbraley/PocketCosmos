@@ -131,7 +131,7 @@ public static class Procedural
             float num2 = num / Mathf.PI;
             float num3 = num2 - Mathf.RoundToInt(num2);
             //Debug.Log(num3);
-            return (Mathf.Abs(num3) > 0.47f);
+            return (Mathf.Abs(num3) > 0.46f);
         }
         return false;
 
