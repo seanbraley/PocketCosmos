@@ -407,6 +407,8 @@ MonoBehaviour:
   homePlanet: {fileID: 0}
   moons: []
   planetNum: 0
+  CollectSpacebuxxxxxxx_Prefab: {fileID: 124846, guid: 0d41a7ed3fb6e094b89116a9606b4787,
+    type: 2}
 --- !u!120 &12099250
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -778,6 +780,10 @@ Prefab:
       propertyPath: m_Parameters.m_StartColor.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: CollectSpacebuxxxxxxx_Prefab
+      value: 
+      objectReference: {fileID: 124846, guid: 0d41a7ed3fb6e094b89116a9606b4787, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 179486}

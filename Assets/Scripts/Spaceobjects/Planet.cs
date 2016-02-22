@@ -42,6 +42,27 @@ public class Planet : PlanetaryBody {
 
     private double rotationDistance;
 
+    public GameObject CollectSpacebuxxxxxxx_Prefab;
+    private GameObject _currentWaypoint;
+    public GameObject CurrentWaypoint {
+    	get {
+    		return _currentWaypoint;
+    	}
+    	set {
+    		Destroy(_currentWaypoint);
+    		if (value == null) {
+    			_currentWaypoint = null;
+    		}
+    		else
+    		{
+    			_currentWaypoint = Instantiate(value,transform.position + Vector3.back*3,Quaternion.identity) as GameObject;
+    			Vector3 SBsize = new Vector3(transform.localScale.x,transform.localScale.x,transform.localScale.x);
+    			_currentWaypoint.transform.localScale = SBsize;
+    			_currentWaypoint.transform.parent = this.transform;
+    		}
+    	}
+    }
+
 	/*~*~*~*~*~*~*~*~*~*~*~* Initialization *~*~*~*~*~*~*~*~*~*~*~*/
 	/* All code under this subheading will be called once, at the
 	 * beginning of the game session.
@@ -109,6 +130,15 @@ public class Planet : PlanetaryBody {
             BuildMoons(numMoons);
         }
         */
+    }
+
+    public void SetWaypoint(string wpName) {
+    	if (wpName == "spacebux") {
+    		CurrentWaypoint = CollectSpacebuxxxxxxx_Prefab;
+    	}
+    	if (wpName == null) {
+    		CurrentWaypoint = null;
+    	}
     }
 
     /* void Initialize ():
@@ -273,6 +303,9 @@ public class Planet : PlanetaryBody {
 	void Update ()
     {
 	    transform.RotateAround (parentBody.transform.position, Vector3.forward, orbitSpeed * Time.deltaTime);
+	    if (CurrentWaypoint != null) {
+	    	CurrentWaypoint.transform.rotation = Quaternion.identity;
+	    }
     }
 
 	/* void HandleMovement ()

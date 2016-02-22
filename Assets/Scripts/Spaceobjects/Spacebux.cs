@@ -27,6 +27,7 @@ public class Spacebux : Resource {
         {
             _progress = 0f;
             _ready = true;
+            GetComponent<Planet>().SetWaypoint("spacebux");
         }
     }
 
@@ -41,6 +42,7 @@ public class Spacebux : Resource {
         if (_ready) {
             capacity += _amountIncrease;
             _ready = false;
+            GetComponent<Planet>().SetWaypoint(null);
         }
         else {
             Debug.Log("Can't gather spacebux from " + _planet.name + " yet!");
