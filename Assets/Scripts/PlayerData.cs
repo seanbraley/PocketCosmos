@@ -125,7 +125,7 @@ public class DiscoveredStar {
 
     public DiscoveredStar(GameObject g) {
         starObj = g;
-        starObj.GetComponent<Star>().discovered = true;
+        starObj.GetComponent<Star>().Discovered = true;
         // TO DO get time from server
         discoveryTime = System.DateTime.Now;
     }

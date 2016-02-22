@@ -118,12 +118,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5da302100a9eedd4eac5877607d6cdfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentBody: {fileID: 0}
   myNumber: 0
   planetPrefab:
   - {fileID: 179486, guid: 63f61d91097fa4946964ea17c10fada4, type: 2}
   - {fileID: 192934, guid: 47aa7d7df64224147b11110563f8c72f, type: 2}
   - {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
   debug: 0
+  HomeStarIcon_Prefab: {fileID: 161466, guid: 66ad3767f7cac43439b2673eb54fe73d, type: 2}
+  UndiscoveredStarIcon_Prefab: {fileID: 159226, guid: f3b3415675a787841be79ce743887b44,
+    type: 2}
 --- !u!114 &11497792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1765,7 +1769,15 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: HomeStarIcon_Prefab
+      value: 
+      objectReference: {fileID: 161466, guid: 66ad3767f7cac43439b2673eb54fe73d, type: 2}
+    - target: {fileID: 0}
+      propertyPath: UndiscoveredStarIcon_Prefab
+      value: 
+      objectReference: {fileID: 159226, guid: f3b3415675a787841be79ce743887b44, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 104812}
