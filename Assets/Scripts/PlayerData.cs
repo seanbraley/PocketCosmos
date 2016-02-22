@@ -133,13 +133,26 @@ public class DiscoveredStar {
 
 [Serializable]
 public class OwnedPlanet {
-    
-    public DateTime discoveryTime;
-    public GameObject planetObj;
 
-    public OwnedPlanet(GameObject p) {
-        planetObj = p;
+    public DateTime discoveryTime;
+    public DateTime lastCollectedTime;
+    public uint starID;                         // which star it orbits
+    public int planetID;
+
+    public OwnedPlanet(GameObject p)
+    {
+        // p.GetComponent<Planet>().Discovered = true;  // TODO - implement this
         // TO DO get time from server
+        starID = p.GetComponent<Planet>().orbitParent.GetComponent<Star>().myNumber;
+        planetID = p.GetComponent<Planet>().planetNum;
         discoveryTime = System.DateTime.Now;
+        lastCollectedTime = new DateTime();
+
+    }
+
+    public DateTime LastCollectedTime
+    {
+        get { return lastCollectedTime; }
+        set { lastCollectedTime = value; }
     }
 }
