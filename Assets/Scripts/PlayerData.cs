@@ -117,15 +117,13 @@ public class PlayerInfo {
 
 [Serializable]
 public class DiscoveredStar {
-
-    [NonSerialized]
+    
     public DateTime discoveryTime;
-    [NonSerialized]
-    public GameObject starObj;
+    public uint starID;
 
     public DiscoveredStar(GameObject g) {
-        starObj = g;
-        starObj.GetComponent<Star>().Discovered = true;
+        g.GetComponent<Star>().Discovered = true;
+        starID = g.GetComponent<Star>().myNumber;
         // TO DO get time from server
         discoveryTime = System.DateTime.Now;
     }
@@ -135,10 +133,8 @@ public class DiscoveredStar {
 
 [Serializable]
 public class OwnedPlanet {
-
-    [NonSerialized]
+    
     public DateTime discoveryTime;
-    [NonSerialized]
     public GameObject planetObj;
 
     public OwnedPlanet(GameObject p) {

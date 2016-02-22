@@ -86,7 +86,7 @@ public class Star : PlanetaryBody {
 
         // Update from the game data - check if user has discovered this star or not
         foreach (DiscoveredStar s in PlayerData.playdata.discoveredStarSystems) {
-            if (s.starObj.gameObject == this.gameObject) {
+            if (s.starID == this.myNumber) {
                 Discovered = true;
             }
         }
