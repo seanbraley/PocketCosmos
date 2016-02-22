@@ -6,8 +6,9 @@ public class DebugShipLaunch : MonoBehaviour {
 	public GameObject Ship_Prefab;
 
 	private IEnumerator _currentCoroutine;
+    private object yield;
 
-	public void BeginLaunchSetup() {
+    public void BeginLaunchSetup() {
 		if (_currentCoroutine != null) {
 			CancelLaunch();
 		}
@@ -22,7 +23,7 @@ public class DebugShipLaunch : MonoBehaviour {
 	IEnumerator LaunchSetupCoroutine() {
 		GameObject origin = Player.plyr.selected;
 		if (origin == null) {
-			return false;
+            yield return false;
 			Debug.Log("CANT SEND SHIP FROM NOWHERE");
 		}
 
