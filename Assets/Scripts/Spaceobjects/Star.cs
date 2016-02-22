@@ -74,7 +74,6 @@ public class Star : PlanetaryBody {
         base.Start();
 
         Generate();
-        SetChildren();
 
         float offset_x = localRNG.Next(5) / 10f;
         float offset_y = localRNG.Next(5) / 10f;
@@ -114,7 +113,7 @@ public class Star : PlanetaryBody {
     private void Generate()
     {
         Size = localRNG.Next(65, 100) / 100f;
-        _layeredSprite.RandomizeSectorStar(localRNG);
+        //_layeredSprite.RandomizeSectorStar(localRNG);
     }
 
     // TO-DO

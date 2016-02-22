@@ -31,14 +31,13 @@ namespace Completed
         public Vector2 virtualPosition;
         public Vector2 lastKnownPosition;     // so players can return to last position when re-entering sector view
 
-        private int movementCounterX = 0;
-        private int movementCounterY = 0;
-
         private System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
 
         public GameObject[] starPrefabs;
 
         static List<GameObject[]> starsList;
+
+        static List<List<GameObject>> allStars;
 
         // Awake is always called before any Start functions
         // Only called once.
@@ -59,7 +58,7 @@ namespace Completed
             //Sets this to not be destroyed when reloading scene
             DontDestroyOnLoad(gameObject);
 
-            virtualPosition = instance.virtualPosition;
+            //virtualPosition = instance.virtualPosition;
 
             //Call the InitGame function to initialize the starting level 
             InitGame();
@@ -141,21 +140,30 @@ namespace Completed
             // rows iterate -40 --> 40 (inner)
             // columns iterate 40 --> -40
             // Hold y constant while iterating through x's
-            starsList = new List<GameObject[]>();
-            for (int y = 40; y >= -40; y--) // Y value
+            allStars = new List<List<GameObject>>();
+            for (int y = (int)virtualPosition.y + 40; y >= (int)virtualPosition.y - 40; y--) // Y value (virtual)
             {
-                GameObject[] tmp = new GameObject[81];
-                for (int x = -40; x <= 40; x++) // X value
+                List<GameObject> rowList = new List<GameObject>();
+                for (int x = (int)virtualPosition.x - 40; x <= (int)virtualPosition.x + 40; x++) // X value (virtual)
                 {
-                    if (Procedural.StarExists((int)virtualPosition.x + x, (int)virtualPosition.y + y))
+                    if (Procedural.StarExists(x, y))
                     {
-                        tmp[x + 40] = (GameObject)Instantiate(starPrefabs[0], new Vector2(x, y), Quaternion.identity);
-                        tmp[x + 40].GetComponent<Star>().SetNumber((int)virtualPosition.x + x, (int)virtualPosition.y + y);
+                        rowList.Add(CreateStarAt(new Vector2(x, y)));
+
+                        //tmp[x + 40] = CreateStarAt(new Vector2((int)virtualPosition.x + x, (int)virtualPosition.y + y));
+                        //tmp[x + 40].GetComponent<Star>().SetNumber((int)virtualPosition.x + x, (int)virtualPosition.y + y);
                         //Debug.Log(string.Format("Star Created at: <{0}, {1}>", x, y));
                     }
                 }
-                starsList.Add(tmp);
+                allStars.Add(rowList);
             }
+        }
+
+        public GameObject CreateStarAt(Vector2 virtualPosition)
+        {
+            GameObject star = (GameObject)Instantiate(starPrefabs[0], virtualPosition - this.virtualPosition, Quaternion.identity);
+            star.GetComponent<Star>().SetNumber((int)virtualPosition.x, (int)virtualPosition.y);
+            return star;
         }
 
         /// <summary>
@@ -163,25 +171,33 @@ namespace Completed
         /// </summary>
         /// <param name="y">y value to generate array of stars for</param>
         /// <returns></returns>
-        GameObject[] GetRowOfStars(int y, int virtualPos)
+        List<GameObject> GetRowOfStars(int virtualY)
         {
-            GameObject[] newStars = new GameObject[81];
-            for (int i = -40; i <= 40; i++)
-                if (Procedural.StarExists(i, virtualPos))
-                    newStars[i + 40] = (GameObject)Instantiate(starPrefabs[0], new Vector2(i, y), Quaternion.identity);
-
+            List<GameObject> newStars = new List<GameObject>();
+            for (int x = (int)virtualPosition.x - 40; x <= (int)virtualPosition.x + 40; x++)
+                if (Procedural.StarExists(x,  virtualY))
+                {
+                    newStars.Add(CreateStarAt(new Vector2(x, virtualY)));
+                }
             return newStars;
         }
 
 
-        GameObject[] GetColumnOfStars(int x, int virtualPos)
+        GameObject[] GetColumnOfStars(int virtualX)
         {
             GameObject[] newStars = new GameObject[81];
             int helper = 0;
-            for (int i = 40; i >= -40; i--) // iterate from up/down positive y to negative y
+            for (int y = (int)virtualPosition.y + 40; y >= (int)virtualPosition.y - 40; y--) // iterate from up/down positive y to negative y
             {
-                if (Procedural.StarExists(i, virtualPos))
-                    newStars[helper] = (GameObject)Instantiate(starPrefabs[0], new Vector2(x, i), Quaternion.identity);
+                if (Procedural.StarExists(virtualX, y))
+                {
+                    Debug.Log("Star exists at: " + virtualX);
+                    newStars[helper] = CreateStarAt(new Vector2(virtualX, y));
+                }
+                else
+                {
+                    newStars[helper] = null;
+                }
                 helper++;
             }
             return newStars;
@@ -193,11 +209,23 @@ namespace Completed
         /// <param name="direction">movement vector</param>
         void ShiftAllStars(Vector2 direction)
         {
-            foreach (GameObject[] row in starsList)
+            foreach (List<GameObject> row in allStars)
+            {
+                List<GameObject> garbage = new List<GameObject>();
                 foreach (GameObject s in row)
-                    if (s != null)
+                {
+                    if (s.transform.position.x < -41 || s.transform.position.x > 41 || s.transform.position.y < -41 || s.transform.position.y > 41)
+                        garbage.Add(s);
+                    else
                         s.transform.position += (Vector3)direction;
-        }
+                }
+                foreach (GameObject s in garbage)
+                {
+                    Destroy(s.gameObject);
+                    row.Remove(s);
+                }
+            }
+        }   
 
         /// <summary>
         /// Generate new row on top and cleanup last row (do first)
@@ -208,15 +236,22 @@ namespace Completed
         /// </summary>
         void ShiftUp()
         {
-            virtualPosition.y++;  // y = 1
+            ShiftAllStars(Vector2.down);              // shift all
+            //virtualPosition.y++;  // y = 1
             instance.virtualPosition.y++;  // y = 1
-            GameObject[] newStars = GetRowOfStars(40, (int)virtualPosition.y + 40); // 41 (is this getting way ahead of the other?)
+
+            List<GameObject> newStars = GetRowOfStars((int)virtualPosition.y + 40);
+            allStars.Add(newStars);
+
+
+            /*
+            GameObject[] newStars = GetRowOfStars((int)virtualPosition.y, 40);
             foreach (GameObject s in starsList[starsList.Count - 1])  // Last row
                 if (s != null)
                     Destroy(s);
             starsList.RemoveAt(starsList.Count - 1);  // remove last row entirely
             starsList.Insert(0, newStars);            // insert new row on top
-            ShiftAllStars(Vector2.down);              // shift all
+            */
         }
 
         /// <summary>
@@ -224,22 +259,45 @@ namespace Completed
         /// </summary>
         void ShiftDown()
         {
-            virtualPosition.y--;  // y = -1
+            ShiftAllStars(Vector2.up);
+            //virtualPosition.y--;  // y = -1
             instance.virtualPosition.y--;  // y = -1
-            GameObject[] newStars = GetRowOfStars(-40, (int)virtualPosition.y - 40); // -41
+
+            List<GameObject> newStars = GetRowOfStars((int)virtualPosition.y - 40);
+            allStars.Insert(0, newStars);
+            /*
+            GameObject[] newStars = GetRowOfStars((int)virtualPosition.y, -40);
             foreach (GameObject s in starsList[0])  // first row
                 if (s != null)
                     Destroy(s);
             starsList.RemoveAt(0);
             starsList.Add(newStars);
-            ShiftAllStars(Vector2.up);
+            */
         }
 
 
         void ShiftRight()
         {
-            virtualPosition.x++;
+            ShiftAllStars(Vector2.left);
+            //virtualPosition.x++;
             instance.virtualPosition.x++;
+            GameObject[] newStars = GetColumnOfStars((int)virtualPosition.x + 40);
+
+
+            // Adds new stars to end
+            int helper = 0;
+            foreach (List<GameObject> row in allStars)
+            {
+                if (newStars[helper] != null)
+                    row.Add(newStars[helper]);
+                helper++;
+            }
+
+            // Removes old stars from beginning
+
+                
+            
+            /*
             GameObject[] newStars = GetColumnOfStars(40, (int)virtualPosition.x + 40);
             int helper = 0;
             foreach (GameObject[] starRow in starsList)
@@ -249,15 +307,30 @@ namespace Completed
                 GameObject[] newArr = new GameObject[starRow.Length];
                 System.Array.Copy(starRow, 1, newArr, 0, starRow.Length - 1);
                 newArr[starRow.Length - 1] = newStars[helper];
-                starsList[helper++] = newArr;
+                starsList[helper++] = newArr;   
             }
-            ShiftAllStars(Vector2.left);
+            */
         }
 
         void ShiftLeft()
         {
-            virtualPosition.x--;
+            ShiftAllStars(Vector2.right);
+            //virtualPosition.x--;
             instance.virtualPosition.x--;
+
+            GameObject[] newStars = GetColumnOfStars((int)virtualPosition.x - 40);
+
+
+            // Adds new stars to end
+            int helper = 0;
+            foreach (List<GameObject> row in allStars)
+            {
+                if (newStars[helper] != null)
+                    row.Insert(0, newStars[helper]);
+                helper++;
+            }
+
+            /*
             GameObject[] newStars = GetColumnOfStars(-40, (int)virtualPosition.x - 40);
             int helper = 0;
             foreach (GameObject[] starRow in starsList)
@@ -269,7 +342,7 @@ namespace Completed
                 newArr[0] = newStars[helper];
                 starsList[helper++] = newArr;
             }
-            ShiftAllStars(Vector2.right);
+            */
         }
 
 
