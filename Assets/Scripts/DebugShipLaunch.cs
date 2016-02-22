@@ -28,8 +28,14 @@ public class DebugShipLaunch : MonoBehaviour {
             Debug.Log("CANT SEND SHIP FROM HERE");
             yield break;
 		}
+        if (PlayerData.playdata.spacebux < 5)
+        {
+            _currentCoroutine = null;
+            Debug.Log("NOT ENOUGH SPACEBUX TO LAUNCH SHIP.");
+            yield break;
+        }
 
-		/*
+        /*
 		Debug.Log("Select an origin!");
 		while(origin == null) {
 			if (Player.plyr.selected != null) {
@@ -39,7 +45,7 @@ public class DebugShipLaunch : MonoBehaviour {
 		}
 		*/
 
-		GameObject destination = null;
+        GameObject destination = null;
 		Player.plyr.selected = null;
 		Debug.Log("Select a destination!");
 		while(destination == null) {
@@ -54,7 +60,8 @@ public class DebugShipLaunch : MonoBehaviour {
 
 	public void LaunchShip(GameObject origin, GameObject destination) {
 		Debug.Log("Launching Ship!");
-		GameObject ship = Instantiate(Ship_Prefab,Vector3.zero,Quaternion.identity) as GameObject;
+        PlayerData.playdata.spacebux -= 5;
+        GameObject ship = Instantiate(Ship_Prefab,Vector3.zero,Quaternion.identity) as GameObject;
 		ship.GetComponent<Ship>().origin = origin;
 		ship.GetComponent<Ship>().destination = destination;
 	}

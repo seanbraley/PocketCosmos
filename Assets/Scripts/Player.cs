@@ -109,18 +109,27 @@ public class Player : MonoBehaviour {
                     mouseTimer = 0;
                     mouseClicks = 0;
                     /*Here you can add your double click event*/
+                    if (selected != null)
                     if (selected != null && SceneManager.GetActiveScene().buildIndex == GameManager.instance.SectorLevel)
-                    {
-                        GameManager.instance.ToSystemView();
-                        // Save last known position (position is correct here)
-                        //GameManager.instance.lastKnownPosition = GameManager.instance.virtualPosition;
-                        // Loads selected star's system
-                        //SceneManager.LoadScene(GameManager.instance.SystemLevel);
-                    }
+                    {                            
+                            if (selected.GetComponent<Star>().Discovered)
+                            {
+                                // Testing
+                                GameManager.instance.ToSystemView();
+                            }
+                            else {
+                                Debug.Log("You haven't discovered that star system yet!");
+                            }
+
+                            // Save last known position (position is correct here)
+                            //GameManager.instance.lastKnownPosition = GameManager.instance.virtualPosition;
+                            // Loads selected star's system
+                            //SceneManager.LoadScene(GameManager.instance.SystemLevel);
+                        }
                     if (selected != null && SceneManager.GetActiveScene().buildIndex == GameManager.instance.SystemLevel)
                     {
-                        // Testing
                         ClickSystemObject();
+                        
                     }
                 }
                 else {

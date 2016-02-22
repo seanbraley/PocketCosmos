@@ -12,7 +12,6 @@ public class Star : PlanetaryBody {
             return _discovered;
         }
         set {
-            Debug.Log("HELLO");
             if (value) {
                 CurrentWaypoint = HomeStarIcon_Prefab;
             }
