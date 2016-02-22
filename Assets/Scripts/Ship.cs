@@ -8,7 +8,7 @@ public class Ship : MonoBehaviour {
 	private Vector3 endPos;
 	public GameObject destination;
 	private float travelTime;
-	public float timeToDestination;
+	private float timeToDestination;
 	private float speed;
 
 	public Material render;
@@ -39,8 +39,11 @@ public class Ship : MonoBehaviour {
 		float angle = Mathf.Atan2(lookPos.y, lookPos.x) * Mathf.Rad2Deg;
 		transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
+        timeToDestination = Vector3.Distance(destination.transform.position, origin.transform.position) / 2f;
+
 		speed = Vector3.Distance (origin.transform.position, destination.transform.position) / timeToDestination;
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

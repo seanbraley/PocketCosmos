@@ -29,15 +29,14 @@ namespace Completed
         public int SystemLevel = 3;
 
         public Vector2 virtualPosition;
-        public Vector2 lastKnownPosition;     // so players can return to last position when re-entering sector view
+        public static Vector2 lastKnownPosition;     // so players can return to last position when re-entering sector view
 
         private System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
 
         public GameObject[] starPrefabs;
 
-        static List<GameObject[]> starsList;
-
         static List<GameObject> allStars;
+        
 
         // Awake is always called before any Start functions
         // Only called once.
@@ -58,10 +57,13 @@ namespace Completed
             //Sets this to not be destroyed when reloading scene
             DontDestroyOnLoad(gameObject);
 
+            instance.virtualPosition = lastKnownPosition;
+            virtualPosition = instance.virtualPosition;
             //virtualPosition = instance.virtualPosition;
 
             //Call the InitGame function to initialize the starting level 
-            InitGame();
+            if (SceneManager.GetActiveScene().buildIndex == SectorLevel)
+                InitGame();
 
             // First-time player initialization - Get first star, add to discovered star list
             if (PlayerData.playdata.initialPlay)
@@ -375,15 +377,15 @@ namespace Completed
         }
 
 
-        void ToSystemView() {
+        public void ToSystemView() {
             // Go back to system view
-            instance.lastKnownPosition = instance.virtualPosition;
+            lastKnownPosition = instance.virtualPosition;
             SceneManager.LoadScene(SystemLevel);
         }
 
-        void ToSectorView() {
+        public void ToSectorView() {
             // Go back to sector view
-            instance.virtualPosition = instance.lastKnownPosition;
+            instance.virtualPosition = lastKnownPosition;
             SceneManager.LoadScene(SectorLevel);
         }
 
