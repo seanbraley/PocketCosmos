@@ -21,10 +21,11 @@ public class DebugShipLaunch : MonoBehaviour {
 	}
 
 	IEnumerator LaunchSetupCoroutine() {
-		yield return null;
+		//yield return null;
 		GameObject origin = Player.plyr.selected;
 		if (origin == null) {
-            return false;
+            _currentCoroutine = null;
+            yield break;
 			Debug.Log("CANT SEND SHIP FROM NOWHERE");
 		}
 
