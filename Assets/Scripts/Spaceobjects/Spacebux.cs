@@ -11,7 +11,7 @@ public class Spacebux : Resource {
     // Use this for initialization
     protected override void Start()
     {
-        _amountIncrease = 1f;
+        _amountIncrease = 1;
         _progress = 0f;
         _ready = false;
         _planet = this.gameObject.GetComponent<Planet>();
@@ -41,6 +41,7 @@ public class Spacebux : Resource {
     {
         if (_ready) {
             capacity += _amountIncrease;
+            PlayerData.playdata.Spacebux+= _amountIncrease;
             _ready = false;
             GetComponent<Planet>().SetWaypoint(null);
         }

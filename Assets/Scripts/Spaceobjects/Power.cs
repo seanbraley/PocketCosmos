@@ -6,7 +6,7 @@ public class Power : Resource {
     // Use this for initialization
     protected override void Start () {
         capacity = 2f;
-        _amountIncrease = 0f;
+        _amountIncrease = 0;
         _planet = this.gameObject.GetComponent<Planet>();
         _resourceType = Utility.ResourceType.Power;
     }
