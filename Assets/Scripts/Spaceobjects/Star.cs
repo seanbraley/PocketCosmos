@@ -72,7 +72,6 @@ public class Star : PlanetaryBody {
 
         base.Start();
 
-        Generate();
 
         float offset_x = localRNG.Next(5) / 10f;
         float offset_y = localRNG.Next(5) / 10f;
@@ -91,6 +90,9 @@ public class Star : PlanetaryBody {
         if (!Discovered) {
             CurrentWaypoint = UndiscoveredStarIcon_Prefab;
         }
+
+        Generate();
+
     }
 
     public void SetNumber(int x, int y)
@@ -112,6 +114,16 @@ public class Star : PlanetaryBody {
     private void Generate()
     {
         Size = localRNG.Next(65, 100) / 100f;
+        if (!Discovered)
+            _layeredSprite.SetColors(
+                new Color(221 / 255f, 160 / 255f, 221 / 255f),  // Plum
+                new Color(138 / 255f, 43 / 255f, 226 / 255f)    // Blue Violet
+            );
+        else
+            _layeredSprite.SetColors(
+                new Color(124 / 255f, 252 / 255f, 0 / 255f),    // Lawn Green
+                new Color(34 / 255f, 139 / 255f, 34 / 255f)     // Forest Green
+            );
         //_layeredSprite.RandomizeSectorStar(localRNG);
     }
 
