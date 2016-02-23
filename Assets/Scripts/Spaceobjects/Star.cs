@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;  // scene management at run-time.
 using System.Collections;
 
 public class Star : PlanetaryBody {
@@ -46,7 +47,7 @@ public class Star : PlanetaryBody {
 
     private GameObject[] _planets;  // orbiting children
 
-    private Vector2 _offset;
+    private Vector2 _offset = Vector2.zero;
 
     public bool debug = false;
 
@@ -80,12 +81,10 @@ public class Star : PlanetaryBody {
 
         base.Start();
 
-
-        float offset_x = localRNG.Next(5) / 10f;
-        float offset_y = localRNG.Next(5) / 10f;
-
-
-        _offset = new Vector2(offset_x, offset_y);
+        if (SceneManager.GetActiveScene().buildIndex == 2)  // Sector level
+        {
+            _offset = new Vector2(localRNG.Next(5) / 10f, localRNG.Next(5) / 10f);
+        }
         
         transform.position += (Vector3) _offset;
 
