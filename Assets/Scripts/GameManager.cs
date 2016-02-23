@@ -139,7 +139,7 @@ namespace Completed
         //Initializes the game level.
         void InitGame()
         {
-            Debug.Log(string.Format("Starting sector view at coordinates: <{0},{1}>", virtualPosition.x, virtualPosition.y));
+            Debug.Log(string.Format("Starting sector view at coordinates: <{0},{1}>", instance.virtualPosition.x, instance.virtualPosition.y));
             // rows iterate -40 --> 40 (inner)
             // columns iterate 40 --> -40
             // Hold y constant while iterating through x's
@@ -162,8 +162,8 @@ namespace Completed
 
         public GameObject CreateStarAt(Vector2 virtualPosition)
         {
-            GameObject star = (GameObject)Instantiate(starPrefabs[0], virtualPosition - this.virtualPosition, Quaternion.identity);
-            star.GetComponent<Star>().SetNumber((int)virtualPosition.x, (int)virtualPosition.y);
+            GameObject star = (GameObject)Instantiate(starPrefabs[0], virtualPosition - instance.virtualPosition, Quaternion.identity);
+            star.GetComponent<Star>().SetNumber((int)instance.virtualPosition.x, (int)instance.virtualPosition.y);
             return star;
         }
 
@@ -175,7 +175,7 @@ namespace Completed
         List<GameObject> GetRowOfStars(int virtualY)
         {
             List<GameObject> newStars = new List<GameObject>();
-            for (int x = (int)virtualPosition.x - 40; x <= (int)virtualPosition.x + 40; x++)
+            for (int x = (int)instance.virtualPosition.x - 40; x <= (int)instance.virtualPosition.x + 40; x++)
                 if (Procedural.StarExists(x,  virtualY))
                 {
                     newStars.Add(CreateStarAt(new Vector2(x, virtualY)));
@@ -187,7 +187,7 @@ namespace Completed
         List<GameObject> GetColumnOfStars(int virtualX)
         {
             List<GameObject> newStars = new List<GameObject>();
-            for (int y = (int)virtualPosition.y + 40; y >= (int)virtualPosition.y - 40; y--) // iterate from up/down positive y to negative y
+            for (int y = (int)instance.virtualPosition.y + 40; y >= (int)instance.virtualPosition.y - 40; y--) // iterate from up/down positive y to negative y
             {
                 if (Procedural.StarExists(virtualX, y))
                 {
@@ -231,7 +231,7 @@ namespace Completed
             //virtualPosition.y++;  // y = 1
             instance.virtualPosition.y++;  // y = 1
 
-            List<GameObject> newStars = GetRowOfStars((int)virtualPosition.y + 40);
+            List<GameObject> newStars = GetRowOfStars((int)instance.virtualPosition.y + 40);
             foreach (GameObject s in newStars)
                 allStars.Add(s);
 
@@ -254,7 +254,7 @@ namespace Completed
             //virtualPosition.y--;  // y = -1
             instance.virtualPosition.y--;  // y = -1
 
-            List<GameObject> newStars = GetRowOfStars((int)virtualPosition.y - 40);
+            List<GameObject> newStars = GetRowOfStars((int)instance.virtualPosition.y - 40);
             foreach (GameObject s in newStars)
                 allStars.Add(s);
 
@@ -274,7 +274,7 @@ namespace Completed
             ShiftAllStars(Vector2.left);
             //virtualPosition.x++;
             instance.virtualPosition.x++;
-            List<GameObject> newStars = GetColumnOfStars((int)virtualPosition.x + 40);
+            List<GameObject> newStars = GetColumnOfStars((int)instance.virtualPosition.x + 40);
 
             foreach (GameObject s in newStars)
                 allStars.Add(s);
@@ -304,7 +304,7 @@ namespace Completed
             //virtualPosition.x--;
             instance.virtualPosition.x--;
 
-            List<GameObject> newStars = GetColumnOfStars((int)virtualPosition.x - 40);
+            List<GameObject> newStars = GetColumnOfStars((int)instance.virtualPosition.x - 40);
 
             foreach (GameObject s in newStars)
                 allStars.Add(s);
