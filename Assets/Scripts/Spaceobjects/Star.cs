@@ -21,6 +21,10 @@ public class Star : PlanetaryBody {
             }
             else {
                 //CurrentWaypoint = UndiscoveredStarIcon_Prefab;
+                _layeredSprite.SetColors(
+                new Color(221 / 255f, 160 / 255f, 221 / 255f),  // Plum
+                new Color(138 / 255f, 43 / 255f, 226 / 255f)    // Blue Violet
+            );
             }
             _discovered = value;
         }
