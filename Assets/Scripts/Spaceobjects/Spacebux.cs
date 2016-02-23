@@ -22,6 +22,14 @@ public class Spacebux : Resource {
     // Update is called once per frame
     protected override void Update()
     {
+
+        if (_planet.transform.position.y > 0 && (int)_planet.transform.position.x == 0)
+        {
+            _progress = 0f;
+            _ready = true;
+            GetComponent<Planet>().SetWaypoint("spacebux");
+        }
+        /*
         _progress += UpdateResourceProgress();
         if (_progress >= 100)
         {
@@ -29,6 +37,7 @@ public class Spacebux : Resource {
             _ready = true;
             GetComponent<Planet>().SetWaypoint("spacebux");
         }
+        */
     }
 
     protected override float UpdateResourceProgress()
