@@ -255,15 +255,7 @@ public class Player : MonoBehaviour {
                             // Save last known position
                             //GameManager.instance.lastKnownPosition = GameManager.instance.virtualPosition;
                             // Loads selected star's system
-                            if (selected.GetComponent<Star>().Discovered)
-                            {
-                                // Testing
-                                SceneManager.LoadScene(GameManager.instance.SystemLevel);
-                            }
-                            else {
-                                Debug.Log("You haven't discovered that star system yet!");
-                            }
-                            
+                            SceneManager.LoadScene(GameManager.instance.SystemLevel);
                         }
                         if (SceneManager.GetActiveScene().buildIndex == GameManager.instance.SystemLevel)
                         {
