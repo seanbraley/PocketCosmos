@@ -144,9 +144,9 @@ namespace Completed
             // columns iterate 40 --> -40
             // Hold y constant while iterating through x's
             allStars = new List<GameObject>();
-            for (int y = (int)virtualPosition.y + 40; y >= (int)virtualPosition.y - 40; y--) // Y value (virtual)
+            for (int y = (int)instance.virtualPosition.y + 40; y >= (int)instance.virtualPosition.y - 40; y--) // Y value (virtual)
             {
-                for (int x = (int)virtualPosition.x - 40; x <= (int)virtualPosition.x + 40; x++) // X value (virtual)
+                for (int x = (int)instance.virtualPosition.x - 40; x <= (int)instance.virtualPosition.x + 40; x++) // X value (virtual)
                 {
                     if (Procedural.StarExists(x, y))
                     {
@@ -163,7 +163,7 @@ namespace Completed
         public GameObject CreateStarAt(Vector2 virtualPosition)
         {
             GameObject star = (GameObject)Instantiate(starPrefabs[0], virtualPosition - instance.virtualPosition, Quaternion.identity);
-            star.GetComponent<Star>().SetNumber((int)instance.virtualPosition.x, (int)instance.virtualPosition.y);
+            star.GetComponent<Star>().SetNumber((int)virtualPosition.x, (int)virtualPosition.y);
             return star;
         }
 
