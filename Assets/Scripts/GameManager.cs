@@ -66,7 +66,7 @@ namespace Completed
                 InitGame();
 
             // First-time player initialization - Get first star, add to discovered star list
-            if (PlayerData.playdata.initialPlay && SceneManager.GetActiveScene().buildIndex == SectorLevel)
+            if (PlayerData.playdata.discoveredStarSystems.Count == 0 && SceneManager.GetActiveScene().buildIndex == SectorLevel)
             {
                 // First star system
                 GameObject firstStar = Player.plyr.FindGameObjectAtPosition(Vector3.zero);
