@@ -302,7 +302,7 @@ public class Planet : PlanetaryBody {
 	
 	void Update ()
     {
-	    transform.RotateAround (parentBody.transform.position, Vector3.forward, orbitSpeed * Time.deltaTime);
+	    transform.RotateAround (parentBody.transform.position, Vector3.forward, -orbitSpeed * Time.deltaTime);
 	    if (CurrentWaypoint != null) {
 	    	CurrentWaypoint.transform.rotation = Quaternion.identity;
 	    }

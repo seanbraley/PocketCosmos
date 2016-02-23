@@ -91,35 +91,19 @@ namespace Completed
             {
                 if (Input.GetKey(KeyCode.W) || SwipeManager.swipeDirection == Swipe.Up)
                 {
-                    watch.Reset();
-                    watch.Start();
                     ShiftUp();
-                    watch.Stop();
-                    Debug.Log(string.Format("Shift Up took: {0}ms", watch.ElapsedMilliseconds));
                 }
                 else if (Input.GetKey(KeyCode.S) || SwipeManager.swipeDirection == Swipe.Down)
                 {
-                    watch.Reset();
-                    watch.Start();
                     ShiftDown();
-                    watch.Stop();
-                    Debug.Log(string.Format("Shift Down took: {0}ms", watch.ElapsedMilliseconds));
                 }
                 else if (Input.GetKey(KeyCode.A) || SwipeManager.swipeDirection == Swipe.Left)
                 {
-                    watch.Reset();
-                    watch.Start();
                     ShiftLeft();
-                    watch.Stop();
-                    Debug.Log(string.Format("Shift Left took: {0}ms", watch.ElapsedMilliseconds));
                 }
                 else if (Input.GetKey(KeyCode.D) || SwipeManager.swipeDirection == Swipe.Right)
                 {
-                    watch.Reset();
-                    watch.Start();
                     ShiftRight();
-                    watch.Stop();
-                    Debug.Log(string.Format("Shift Right took: {0}ms", watch.ElapsedMilliseconds));
                 }
             }
             //CLICK HANDLER
