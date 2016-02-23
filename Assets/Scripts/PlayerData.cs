@@ -108,8 +108,24 @@ public class PlayerData : MonoBehaviour {
 public class PlayerInfo {
 
     public uint spacebux;
-    [NonSerialized]
-    public Vector2 lastPosition;
+    private int _positionX;
+    private int _positionY;
+
+    //[NonSerialized]
+    public Vector2 lastPosition
+    {
+        get
+        {
+            return new Vector2(_positionX, _positionY);
+        }
+        set
+        {
+            _positionX = (int)value.x;
+            _positionY = (int)value.y;
+        }
+    }
+
+
     public List<OwnedPlanet> ownedPlanets;
     public List<DiscoveredStar> discoveredStarSystems;
     

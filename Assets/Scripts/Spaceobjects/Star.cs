@@ -13,10 +13,14 @@ public class Star : PlanetaryBody {
         }
         set {
             if (value) {
-                CurrentWaypoint = HomeStarIcon_Prefab;
+                _layeredSprite.SetColors(
+                    new Color(0 / 255f, 255 / 255f, 0 / 255f),      // Lime Green
+                    new Color(0 / 255f, 128 / 255f, 0 / 255f)       // Green
+                );
+                //CurrentWaypoint = HomeStarIcon_Prefab;
             }
             else {
-                CurrentWaypoint = UndiscoveredStarIcon_Prefab;
+                //CurrentWaypoint = UndiscoveredStarIcon_Prefab;
             }
             _discovered = value;
         }
@@ -58,10 +62,10 @@ public class Star : PlanetaryBody {
             }
             else
             {
-                //_currentWaypoint = Instantiate(value,transform.position + Vector3.back*3,Quaternion.identity) as GameObject;
-                //Vector3 SBsize = new Vector3(transform.localScale.x*3,transform.localScale.x*3,transform.localScale.x*3);
-                //_currentWaypoint.transform.localScale = SBsize;
-                //_currentWaypoint.transform.parent = this.transform;
+                _currentWaypoint = Instantiate(value,transform.position + Vector3.back*3,Quaternion.identity) as GameObject;
+                Vector3 SBsize = new Vector3(transform.localScale.x*3,transform.localScale.x*3,transform.localScale.x*3);
+                _currentWaypoint.transform.localScale = SBsize;
+                _currentWaypoint.transform.parent = this.transform;
             }
         }
     }
@@ -107,7 +111,7 @@ public class Star : PlanetaryBody {
         transform.Rotate(0,0,Random.Range(10,50)*Time.deltaTime);
         //Size = Mathf.PingPong(Time.time + _pingPongOffset,0.5f);
         if (CurrentWaypoint != null) {
-            //CurrentWaypoint.transform.rotation = Quaternion.identity;
+            CurrentWaypoint.transform.rotation = Quaternion.identity;
         }
     }    
 
