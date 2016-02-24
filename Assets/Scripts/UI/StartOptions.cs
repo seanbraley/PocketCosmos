@@ -10,7 +10,7 @@ public class StartOptions : View
 {
 
     bool okToProceed = false;
-    public Text mesageBox;                                              // Set in inspector - message to user text display
+    public Text messageBox;                                              // Set in inspector - message to user text display
     public InputField userfield;                                        // Set in inspector - username field
     public InputField passfield;                                        // Set in inspector - password field
     public string ServerAddress;                                        //The address of the photon server 
@@ -39,7 +39,7 @@ public class StartOptions : View
     private PlayMusic playMusic;                                        //Reference to PlayMusic script
     private float fastFadeIn = .01f;                                    //Very short fade time (10 milliseconds) to start playing music immediately without a click/glitch
     private ShowPanels showPanels;                                      //Reference to ShowPanels script on UI GameObject, to show and hide panels
-
+    private bool showLoginText = false;
 
     void Awake()
     {
@@ -50,6 +50,7 @@ public class StartOptions : View
         playMusic = GetComponent<PlayMusic>();
 
         //Set the server Address
+        //messageBox = GetComponent<Text>();
     }
 
     public override IViewController Controller
@@ -68,6 +69,7 @@ public class StartOptions : View
         PhotonEngine.UseExistingOrCreateNewPhotonEngine(ServerAddress, ApplicationName);
         //Use the login controller to handle message passing to the server
         Controller = new LoginController(this);
+
         Debug.Log(PhotonEngine.Instance.Controller);
     }
 
@@ -114,6 +116,8 @@ public class StartOptions : View
     {
         //We got a successfull login response from the server
         Debug.Log("Logging in...");
+        messageBox.color = Color.green;
+        messageBox.text = "Login Successful";
 
         // Update player data
         PlayerData.playdata.Load(); // TO DO: Pull from server
@@ -128,6 +132,22 @@ public class StartOptions : View
     {
         //We failed to login
         Debug.Log(string.Format("Login failed. Got return code {0}", returnCode));
+
+        messageBox.color = Color.red;
+        messageBox.text = "Login Failure";
+        switch (returnCode)
+        {
+            case 1:
+                messageBox.text += "\nName in use";
+                break;
+            case 2:
+                messageBox.text += "\nIncorrect User/Pass";
+                break;
+            case 3:
+                messageBox.text += "\nUser already logged in";
+                break;
+        }
+
     }
 
 

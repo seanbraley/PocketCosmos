@@ -101,7 +101,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &277868622
 RectTransform:
   m_ObjectHideFlags: 0
@@ -151,9 +151,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Please check username
-
-    and / or passsword.'
+  m_Text: 
 --- !u!222 &277868624
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1542,6 +1540,10 @@ Prefab:
       propertyPath: ApplicationName
       value: ProxyServer
       objectReference: {fileID: 0}
+    - target: {fileID: 11488040, guid: b9109372e1822cd4d97b74b0a9d618cc, type: 2}
+      propertyPath: messageBox
+      value: 
+      objectReference: {fileID: 277868623}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b9109372e1822cd4d97b74b0a9d618cc, type: 2}
   m_IsPrefabParent: 0
