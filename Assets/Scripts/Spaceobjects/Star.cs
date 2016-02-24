@@ -14,18 +14,20 @@ public class Star : PlanetaryBody {
         }
         set {
             if (value) {
-                _layeredSprite.SetColors(
-                    new Color(0 / 255f, 255 / 255f, 0 / 255f),      // Lime Green
-                    new Color(0 / 255f, 128 / 255f, 0 / 255f)       // Green
-                );
+                if (_layeredSprite != null)
+                    _layeredSprite.SetColors(
+                        new Color(0 / 255f, 255 / 255f, 0 / 255f),      // Lime Green
+                        new Color(0 / 255f, 128 / 255f, 0 / 255f)       // Green
+                    );
                 //CurrentWaypoint = HomeStarIcon_Prefab;
             }
             else {
                 //CurrentWaypoint = UndiscoveredStarIcon_Prefab;
-                _layeredSprite.SetColors(
-                new Color(221 / 255f, 160 / 255f, 221 / 255f),  // Plum
-                new Color(138 / 255f, 43 / 255f, 226 / 255f)    // Blue Violet
-            );
+                if (_layeredSprite != null)
+                    _layeredSprite.SetColors(
+                        new Color(221 / 255f, 160 / 255f, 221 / 255f),  // Plum
+                        new Color(138 / 255f, 43 / 255f, 226 / 255f)    // Blue Violet
+                    );
             }
             _discovered = value;
         }

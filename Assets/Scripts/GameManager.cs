@@ -57,7 +57,11 @@ namespace Completed
             //Sets this to not be destroyed when reloading scene
             DontDestroyOnLoad(gameObject);
 
-            instance.virtualPosition = lastKnownPosition;
+            if (lastKnownPosition == Vector2.zero)  // no last known position
+                instance.virtualPosition = PlayerData.playdata.lastPosition;
+            else
+                instance.virtualPosition = lastKnownPosition;
+
             virtualPosition = instance.virtualPosition;
             //virtualPosition = instance.virtualPosition;
 
@@ -188,6 +192,7 @@ namespace Completed
         void ShiftAllStars(Vector2 direction)
         {
             List<GameObject> garbage = new List<GameObject>();
+            PlayerData.playdata.lastPosition = instance.virtualPosition;
             foreach (GameObject s in allStars)
             {
                 if (s.transform.position.x < -41 || s.transform.position.x > 41 || s.transform.position.y < -41 || s.transform.position.y > 41)

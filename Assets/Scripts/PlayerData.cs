@@ -58,7 +58,7 @@ public class PlayerData : MonoBehaviour {
 
         // Instantiate new instance of data container
         PlayerInfo data = new PlayerInfo();
-        
+
         // Put data into the container
         data.spacebux = spacebux;
         data.lastPosition = lastPosition;
