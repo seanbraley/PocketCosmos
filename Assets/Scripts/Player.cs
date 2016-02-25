@@ -258,6 +258,7 @@ public class Player : MonoBehaviour {
                             // Loads selected star's system                            
                             if (selected.GetComponent<Star>().Discovered)
                             {
+                                GameManager.instance.SetDiscovery(selected.GetComponent<Star>().GetDiscoveryTime());
                                 SceneManager.LoadScene(GameManager.instance.SystemLevel);
                             }
                             else {
