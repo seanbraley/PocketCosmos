@@ -41,6 +41,7 @@ public class Planet : PlanetaryBody {
 	private Renderer renderer;
 
     private double rotationDistance;
+    private int initialRotationOffset;
 
     public GameObject CollectSpacebuxxxxxxx_Prefab;
     private GameObject _currentWaypoint;
@@ -96,10 +97,17 @@ public class Planet : PlanetaryBody {
         // Orbit Speed is a function of distance from orbit parent (whether it be a planet or star)
         orbitSpeed = localRNG.Next(MIN_ORBIT_SPEED, MAX_ORBIT_SPEED);
 
+        // Rotational offset
+        initialRotationOffset = localRNG.Next(0, 360);
+
         // Randomize Location around orbit parent (for illusion of time passing)
         // Consider actually counting the amount of time the user has been away.
         transform.position = (transform.position - parentBody.transform.position).normalized * ORBIT_CONSTANT * planetNum + parentBody.transform.position;
-        transform.RotateAround(parentBody.transform.position, Vector3.forward, localRNG.Next(0, 360));
+        transform.RotateAround(parentBody.transform.position, Vector3.forward, initialRotationOffset);
+
+        System.TimeSpan dt = System.DateTime.Now - homeStar.discoveryTime;
+
+        transform.RotateAround(parentBody.transform.position, Vector3.forward, -orbitSpeed * (float)dt.TotalSeconds);
 
         // Set Color
         if (planetNum <= 2)

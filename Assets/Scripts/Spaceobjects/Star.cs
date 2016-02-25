@@ -53,6 +53,8 @@ public class Star : PlanetaryBody {
 
     public bool debug = false;
 
+    private System.DateTime discoveryTime;
+
     private System.Random localRNG;
 
     public GameObject HomeStarIcon_Prefab;
@@ -70,7 +72,7 @@ public class Star : PlanetaryBody {
             else
             {
                 _currentWaypoint = Instantiate(value,transform.position + Vector3.back*3,Quaternion.identity) as GameObject;
-                Vector3 SBsize = new Vector3(transform.localScale.x*3,transform.localScale.x*3,transform.localScale.x*3);
+                Vector3 SBsize = new Vector3(transform.localScale.x * 3, transform.localScale.x * 3, transform.localScale.x * 3);
                 _currentWaypoint.transform.localScale = SBsize;
                 _currentWaypoint.transform.parent = this.transform;
             }
@@ -79,31 +81,44 @@ public class Star : PlanetaryBody {
 
     void Start()
     {
+        // Create local RNG from star seed
         localRNG = new System.Random((int)myNumber);
 
+        // Initialize sprites etc
         base.Start();
 
+        // If we are in the sector scene calculate offset
         if (SceneManager.GetActiveScene().buildIndex == 2)  // Sector level
         {
             _offset = new Vector2(localRNG.Next(5) / 10f, localRNG.Next(5) / 10f);
         }
         
+        // Apply offset
         transform.position += (Vector3) _offset;
 
         // Update from the game data - check if user has discovered this star or not
-        foreach (DiscoveredStar s in PlayerData.playdata.discoveredStarSystems) {
-            if (s.starID == this.myNumber) {
+        foreach (DiscoveredStar s in PlayerData.playdata.discoveredStarSystems)
+        {
+            if (s.starID == myNumber)
+            {
                 Discovered = true;
-            }
-        }
-        if (!Discovered) {
-            //CurrentWaypoint = UndiscoveredStarIcon_Prefab;
+                discoveryTime = s.discoveryTime;
+            }            
         }
 
         Generate();
-        //_currentWaypoint = null;
-
     }
+
+    public System.DateTime GetDiscoveryTime()
+    {
+        return discoveryTime;
+    }
+
+    public void SetDiscoveryTime(System.DateTime time)
+    {
+        discoveryTime = time;
+    }
+
 
     public void SetNumber(int x, int y)
     {

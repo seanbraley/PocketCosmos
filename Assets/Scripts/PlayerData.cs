@@ -132,18 +132,18 @@ public class PlayerInfo {
 }
 
 [Serializable]
-public class DiscoveredStar {
-    
+public class DiscoveredStar
+{
     public DateTime discoveryTime;
     public uint starID;
 
-    public DiscoveredStar(GameObject g) {
+    public DiscoveredStar(GameObject g, DateTime discoveryTime)
+    {
         g.GetComponent<Star>().Discovered = true;
         starID = g.GetComponent<Star>().myNumber;
         // TO DO get time from server
-        discoveryTime = System.DateTime.Now;
+        this.discoveryTime = discoveryTime;
     }
-
 }
 
 

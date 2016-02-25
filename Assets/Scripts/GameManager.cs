@@ -31,6 +31,8 @@ namespace Completed
         public Vector2 virtualPosition;
         public static Vector2 lastKnownPosition;     // so players can return to last position when re-entering sector view
 
+        public static System.DateTime destinationStarDiscoveryTime;
+
         private System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
 
         public GameObject[] starPrefabs;
@@ -77,7 +79,8 @@ namespace Completed
                 
                 // Discover the star
                 firstStar.GetComponent<Star>().Discovered = true;
-                PlayerData.playdata.discoveredStarSystems.Add(new DiscoveredStar(firstStar));
+                firstStar.GetComponent<Star>().SetDiscoveryTime(System.DateTime.Now);
+                PlayerData.playdata.discoveredStarSystems.Add(new DiscoveredStar(firstStar, System.DateTime.Now));
             }
         }
 
@@ -123,6 +126,10 @@ namespace Completed
             
         } // end Update()
 
+        public void SetDiscovery(System.DateTime time)
+        {
+            destinationStarDiscoveryTime = time;
+        }
 
         //Initializes the game level.
         void InitGame()

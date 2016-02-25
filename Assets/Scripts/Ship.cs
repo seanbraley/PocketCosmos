@@ -66,9 +66,10 @@ public class Ship : MonoBehaviour {
 		if (transform.position == endPos) {
             // Discover the gameobject this planet was sent to
             destination.GetComponent<Star>().Discovered = true;
-            PlayerData.playdata.discoveredStarSystems.Add(new DiscoveredStar(destination));
+            PlayerData.playdata.discoveredStarSystems.Add(new DiscoveredStar(destination, System.DateTime.Now));
+            destination.GetComponent<Star>().SetDiscoveryTime(System.DateTime.Now);
             Destroy(this.gameObject);
-            
+          
 		}
 
 		DrawLines ();

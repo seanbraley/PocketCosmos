@@ -15,6 +15,7 @@ public class SystemStar : PlanetaryBody {
 	public static int MAX_SIZE = 50;
 
 	private bool discovered;
+    public System.DateTime discoveryTime;
 	public float rotationSpeed;
 	private float minDist = 5000;
 	private float maxDist = 10000;
@@ -30,6 +31,7 @@ public class SystemStar : PlanetaryBody {
 	private Player player;
 
     private Renderer renderer;
+   
 
 
 	/*~*~*~*~*~*~*~*~*~*~*~* Initialization *~*~*~*~*~*~*~*~*~*~*~*/
@@ -48,7 +50,6 @@ public class SystemStar : PlanetaryBody {
             testSeed = (int)go.GetComponent<GameManager>().selectedID;
             Initialize(testSeed);
         }
-        
     }
 
     void Initialize(int value)
@@ -64,6 +65,8 @@ public class SystemStar : PlanetaryBody {
 
         // Modify the sprite
         _layeredSprite.Randomize((uint)localRNG.Next());
+
+        discoveryTime = GameManager.destinationStarDiscoveryTime;
 
         // Set up the solar system
         BuildSolarSystem(localRNG.Next(MIN_PLANETS, MAX_PLANETS));

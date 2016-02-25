@@ -115,6 +115,7 @@ public class Player : MonoBehaviour {
                             if (selected.GetComponent<Star>().Discovered)
                             {
                                 // Testing
+                                GameManager.instance.SetDiscovery(selected.GetComponent<Star>().GetDiscoveryTime());
                                 GameManager.instance.ToSystemView();
                             }
                             else {
