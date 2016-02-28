@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;  // scene management at run-time.
 using System.Collections;
+using Completed;
 
 public class Star : PlanetaryBody {
 
@@ -125,6 +126,7 @@ public class Star : PlanetaryBody {
         lock(myLock)
         {
             keepLoaded++;
+            GameManager.keepLoadedStars.Add(gameObject);
         }
     }
 
@@ -133,6 +135,7 @@ public class Star : PlanetaryBody {
         lock(myLock)
         {
             keepLoaded--;
+            GameManager.keepLoadedStars.Remove(gameObject);
         }
     }
 
@@ -146,6 +149,11 @@ public class Star : PlanetaryBody {
         discoveryTime = time;
     }
 
+
+    public uint GetNumber()
+    {
+        return myNumber;
+    }
 
     public void SetNumber(int x, int y)
     {

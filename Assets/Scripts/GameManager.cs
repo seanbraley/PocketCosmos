@@ -38,6 +38,7 @@ namespace Completed
         public GameObject[] starPrefabs;
 
         static List<GameObject> allStars;
+        public static List<GameObject> keepLoadedStars = new List<GameObject>();
         
 
         // Awake is always called before any Start functions
@@ -147,7 +148,9 @@ namespace Completed
                 {
                     if (Procedural.StarExists(x, y))
                     {
-                        allStars.Add(CreateStarAt(new Vector2(x, y)));
+                        GameObject star = CreateStarAt(new Vector2(x, y));
+                        if (star != null)
+                            allStars.Add(star);
 
                         //tmp[x + 40] = CreateStarAt(new Vector2((int)virtualPosition.x + x, (int)virtualPosition.y + y));
                         //tmp[x + 40].GetComponent<Star>().SetNumber((int)virtualPosition.x + x, (int)virtualPosition.y + y);
@@ -159,9 +162,28 @@ namespace Completed
 
         public GameObject CreateStarAt(Vector2 virtualPosition)
         {
+
             GameObject star = (GameObject)Instantiate(starPrefabs[0], virtualPosition - instance.virtualPosition, Quaternion.identity);
             star.GetComponent<Star>().SetNumber((int)virtualPosition.x, (int)virtualPosition.y);
-            return star;
+            // Check if star already loaded
+            if (keepLoadedStars.Count > 0)  // No kept stars means dont check
+            {
+                bool loaded = false;
+                foreach (GameObject s in keepLoadedStars)
+                    if (star.GetComponent<Star>().GetNumber() == s.GetComponent<Star>().GetNumber())
+                        loaded = true;
+                if (loaded)
+                {
+                    Destroy(star);
+                    return null;
+                }
+                else
+                    return star;
+            }
+            else
+            {
+                return star;
+            }
         }
 
         /// <summary>
@@ -175,7 +197,9 @@ namespace Completed
             for (int x = (int)instance.virtualPosition.x - 40; x <= (int)instance.virtualPosition.x + 40; x++)
                 if (Procedural.StarExists(x,  virtualY))
                 {
-                    newStars.Add(CreateStarAt(new Vector2(x, virtualY)));
+                    GameObject star = CreateStarAt(new Vector2(x, virtualY));
+                    if (star != null)
+                        newStars.Add(star);
                 }
             return newStars;
         }
@@ -188,7 +212,9 @@ namespace Completed
             {
                 if (Procedural.StarExists(virtualX, y))
                 {
-                    newStars.Add(CreateStarAt(new Vector2(virtualX, y)));
+                    GameObject star = CreateStarAt(new Vector2(virtualX, y));
+                    if (star != null)
+                        newStars.Add(star);
                 }
             }
             return newStars;
