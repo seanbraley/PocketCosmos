@@ -126,13 +126,19 @@ public static class Procedural
     {
         if (x % 3 == 0 && y % 3 == 0)
         {
-            uint num = PointToNumber(x, y);
+            ulong num = PointToNumber(x, y);
 
-            float num2 = num / Mathf.PI;
-            float num3 = num2 - Mathf.RoundToInt(num2);
+            double num2 = num / Mathf.PI;
+            double num3 = num2 - (ulong)num2;
             //Debug.Log(num3);
             //Debug.Log(string.Format("Number: {0} generated for point <{1}, {2}> created?: {3}", Mathf.Abs(num3), x, y, Mathf.Abs(num3) > 0.46f));
-            return (Mathf.Abs(num3) > 0.46f);
+            //Debug.Log(string.Format("<{0},{1} results in: num {2}; num2 {3}; num3 {4}", x, y, num, num2, num3));
+            double checkVal = 0.95;
+            if (num3 > checkVal || -num3 > checkVal)
+                return true;
+            else
+                return false;
+            //return (Mathf.Abs(num3) > 0.46f);
         }
         return false;
 
