@@ -38,7 +38,7 @@ namespace Completed
         public GameObject[] starPrefabs;
 
         static List<GameObject> allStars;
-        public static List<GameObject> keepLoadedStars = new List<GameObject>();
+        public static List<GameObject> keepLoadedStars;
 
         BigInteger virtualX = new BigInteger();
         BigInteger virtualY = new BigInteger();
@@ -62,6 +62,8 @@ namespace Completed
 
             //Sets this to not be destroyed when reloading scene
             DontDestroyOnLoad(gameObject);
+
+            keepLoadedStars = new List<GameObject>();
 
             if (lastKnownPosition == Vector2.zero)  // no last known position
                 instance.virtualPosition = PlayerData.playdata.lastPosition;
