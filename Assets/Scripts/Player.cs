@@ -181,11 +181,13 @@ public class Player : MonoBehaviour {
                 GameObject prevSelect = selected;
                 if (prevSelect != null)
                 {
+                    prevSelect.GetComponent<Star>().Unload();
                     Component hlo = prevSelect.GetComponent("Halo");
                     hlo.GetType().GetProperty("enabled").SetValue(hlo, false, null);
                 }
                 // Set selected object
                 selected = FindGameObjectAtPosition(clickPos);
+                selected.GetComponent<Star>().KeepLoaded();
                 GameManager.instance.selectedID = selected.GetComponent<Star>().myNumber;
                 // Highlight selection by turning on the halo
                 Component halo = selected.GetComponent("Halo");
@@ -193,8 +195,10 @@ public class Player : MonoBehaviour {
             }
             else {
                 // Turn off the halo
+                if (selected != null)
+                    selected.GetComponent<Star>().Unload();
                 selected = null;
-                GameManager.instance.selectedID = 0;
+                    GameManager.instance.selectedID = 0;
             }
         }
 
