@@ -7,6 +7,9 @@ public class Star : PlanetaryBody {
     // Add specific star properties
     public uint myNumber;
 
+    private Object myLock = new Object();
+    private int keepLoaded = 0;
+
     private bool _discovered;
     public bool Discovered {
         get {
@@ -107,6 +110,30 @@ public class Star : PlanetaryBody {
         }
 
         Generate();
+    }
+
+    public bool CheckUnload()
+    {
+        lock(myLock)
+        {
+            return keepLoaded == 0;
+        }
+    }
+
+    public void KeepLoaded()
+    {
+        lock(myLock)
+        {
+            keepLoaded++;
+        }
+    }
+
+    public void Unload()
+    {
+        lock(myLock)
+        {
+            keepLoaded--;
+        }
     }
 
     public System.DateTime GetDiscoveryTime()

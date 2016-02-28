@@ -36,7 +36,7 @@ public class Player : MonoBehaviour {
 
     private int mouseClicks = 0;
     private float mouseTimer = 0f;
-    private float mouseTimerLimit = .25f;
+    private float mouseTimerLimit = .50f;
 
 
     // Awake is always called before any Start functions

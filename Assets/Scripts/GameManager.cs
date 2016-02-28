@@ -76,7 +76,9 @@ namespace Completed
             {
                 // First star system
                 GameObject firstStar = Player.plyr.FindGameObjectAtPosition(Vector3.zero);
-                
+
+                PlayerData.playdata.Spacebux += 100;
+
                 // Discover the star
                 firstStar.GetComponent<Star>().Discovered = true;
                 firstStar.GetComponent<Star>().SetDiscoveryTime(System.DateTime.Now);
@@ -202,7 +204,7 @@ namespace Completed
             PlayerData.playdata.lastPosition = instance.virtualPosition;
             foreach (GameObject s in allStars)
             {
-                if (s.transform.position.x < -41 || s.transform.position.x > 41 || s.transform.position.y < -41 || s.transform.position.y > 41)
+                if ((s.transform.position.x < -41 || s.transform.position.x > 41 || s.transform.position.y < -41 || s.transform.position.y > 41) && s.GetComponent<Star>().CheckUnload())
                     garbage.Add(s);
                 else
                     s.transform.position += (Vector3)direction;

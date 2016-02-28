@@ -64,5 +64,7 @@ public class DebugShipLaunch : MonoBehaviour {
         GameObject ship = Instantiate(Ship_Prefab,Vector3.zero,Quaternion.identity) as GameObject;
 		ship.GetComponent<Ship>().origin = origin;
 		ship.GetComponent<Ship>().destination = destination;
-	}
+        origin.GetComponent<Star>().KeepLoaded();
+        destination.GetComponent<Star>().KeepLoaded();
+    }
 }

@@ -68,6 +68,8 @@ public class Ship : MonoBehaviour {
             destination.GetComponent<Star>().Discovered = true;
             PlayerData.playdata.discoveredStarSystems.Add(new DiscoveredStar(destination, System.DateTime.Now));
             destination.GetComponent<Star>().SetDiscoveryTime(System.DateTime.Now);
+            origin.GetComponent<Star>().Unload();
+            destination.GetComponent<Star>().Unload();
             Destroy(this.gameObject);
           
 		}
