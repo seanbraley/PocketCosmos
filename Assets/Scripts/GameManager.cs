@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;       //Allows us to use Lists. 
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;  // scene management at run-time.
@@ -9,7 +9,7 @@ namespace Completed
     /// <summary>
     /// Galaxy generation and movement
     /// </summary>
-    public class GameManager : MonoBehaviour
+    public class GameManager : View
     {
 
         /*  Logical star map..
@@ -42,12 +42,14 @@ namespace Completed
 
         BigInteger virtualX = new BigInteger();
         BigInteger virtualY = new BigInteger();
+        private PlayerProfileController _controller;
         
 
         // Awake is always called before any Start functions
         // Only called once.
         void Awake()
         {
+
             //Check if instance already exists
             if (instance == null)
 
@@ -62,6 +64,11 @@ namespace Completed
 
             //Sets this to not be destroyed when reloading scene
             DontDestroyOnLoad(gameObject);
+
+            //Use the login controller to handle message passing to the server
+            Controller = new PlayerProfileController(this);
+            Debug.Log(PhotonEngine.Instance.Controller);
+            _controller.RetrieveProfile();
 
             keepLoadedStars = new List<GameObject>();
 
@@ -96,10 +103,20 @@ namespace Completed
             }
         }
 
+        public override IViewController Controller
+        {
+            get
+            {
+                return (IViewController)_controller;
+            }
+
+            protected set { _controller = value as PlayerProfileController; }
+        }
+
         // Start is called once every scene start
         void Start()
         {
-
+        
         }
 
 
