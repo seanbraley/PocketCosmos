@@ -292,6 +292,7 @@ public class Player : MonoBehaviour {
                 GameObject prevSelect = selected;
                 if (prevSelect != null)
                 {
+                    prevSelect.GetComponent<Star>().Unload();
                     Component hlo = prevSelect.GetComponent("Halo");
                     hlo.GetType().GetProperty("enabled").SetValue(hlo, false, null);
                 }
@@ -299,11 +300,14 @@ public class Player : MonoBehaviour {
                 selected = FindGameObjectAtPosition(touchPos);
                 GameManager.instance.selectedID = selected.GetComponent<Star>().myNumber;
                 // Highlight selection by turning on the halo
+                selected.GetComponent<Star>().KeepLoaded();
                 Component halo = selected.GetComponent("Halo");
                 halo.GetType().GetProperty("enabled").SetValue(halo, true, null);
             }
             else {
                 // Turn off the halo
+                if (selected != null)
+                    selected.GetComponent<Star>().Unload();
                 selected = null;
                 GameManager.instance.selectedID = 0;
             }

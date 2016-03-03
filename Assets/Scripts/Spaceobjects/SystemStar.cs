@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Completed;        // include this namespace in order to access game manager 
+using Superbest_random; // Included for gaussian
 
 public class SystemStar : PlanetaryBody {
 
 	public static string TAG = "Star";
 	public static float STELLAR_DISTANCE_CONSTANT = 1.35f;
 	public static float PLANET_DISTANCE_CONSTANT = 1.75f;
-	public static int MIN_PLANETS = 3;
-	public static int MAX_PLANETS = 6;
+    public static int MEAN_PLANET = 5;
+    public static double RANGE_PLANET = 1.45;
+	public static int MIN_PLANETS = 2;
+	public static int MAX_PLANETS = 7;
     public static int MIN_ROTATION = 5;
 	public static int MAX_ROTATION = 15;
 	public static int MIN_SIZE = 40;
@@ -69,7 +72,7 @@ public class SystemStar : PlanetaryBody {
         discoveryTime = GameManager.destinationStarDiscoveryTime;
 
         // Set up the solar system
-        BuildSolarSystem(localRNG.Next(MIN_PLANETS, MAX_PLANETS));
+        BuildSolarSystem();
     }
 
     void Initialize(uint value)
@@ -94,11 +97,14 @@ public class SystemStar : PlanetaryBody {
         float size = 20f;
         transform.localScale = new Vector3(size, size, size);
 
-		BuildSolarSystem(localRNG.Next(MIN_PLANETS, MAX_PLANETS+1));
+		BuildSolarSystem();
     }
 
-    void BuildSolarSystem(int numPlanets)
+    void BuildSolarSystem()
     {
+        //localRNG.Next(MIN_PLANETS, MAX_PLANETS+1)
+        double val = (RANGE_PLANET * localRNG.NextGaussian());
+        int numPlanets = (int)(MEAN_PLANET + val);
         planets = new GameObject[numPlanets];
         Vector3 planetOrbitPos = transform.position;
 
@@ -119,57 +125,6 @@ public class SystemStar : PlanetaryBody {
         }
     }
 
-
-    /* void BuildSolarSystem (int numPlanets)
-	 * 		Builds a solar system with a set number of planets.
-	 * 		The planets will be generated randomly.
-	 */
-    public void BuildSolarSystem(int numPlanets, bool discovered)
-    {
-		if (discovered)  // Only call this once?
-			return;
-		discovered = true;
-		planets = new GameObject[numPlanets];
-		Vector3 planetPos = transform.position;
-		for (int i = 0; i < numPlanets; i++)
-        {
-            planetPos += new Vector3(transform.localScale.x * 0.8f * PLANET_DISTANCE_CONSTANT, 0, 0);
-            int planetType = localRNG.Next(2);
-            if (planetType == 1)
-                planets[i] = Instantiate(planetPrefabWindy, planetPos, Quaternion.identity) as GameObject;
-            else if (planetType == 2)
-                planets[i] = Instantiate(planetPrefabJagged, planetPos, Quaternion.identity) as GameObject;
-            else
-                planets[i] = Instantiate(planetPrefabSmooth, planetPos, Quaternion.identity) as GameObject;
-            planets[i].GetComponent<Planet>().SetOrbitParent(this.gameObject);
-            planets[i].name = name + System.Convert.ToChar(65 + i);  // Ehhh Bee Seee Dee EEEE efff geee...
-            planets[i].GetComponent<Planet>().Randomize(localRNG.Next());
-            planets[i].GetComponent<Planet>().Initialize(this, i);
-
-
-            //planets[i]
-        }
-	}
-
-	/* void SpawnNeighbors()
-	 * 		Creates the neighboring stars of a star.
-	 * 		To be called when the star is discovered.
-	 */
-	public void SpawnNeighbors() {
-		Vector3[] points = GeneratePoints(minDist,maxDist);
-		int randIndex = Random.Range(0,points.Length);
-		for (int i = randIndex; i < randIndex + points.Length; i++) {
-			float dist = Random.Range(minDist,maxDist);
-			if (CheckLegality(points[i % points.Length],dist)) {
-				GameObject neighbor = Instantiate (this.gameObject,
-				                                   points[i % points.Length],
-				                                   Quaternion.identity) as GameObject;
-				neighbor.GetComponent<SystemStar>().SetMinDist (minDist * STELLAR_DISTANCE_CONSTANT);
-				neighbor.GetComponent<SystemStar>().SetMaxDist (maxDist * STELLAR_DISTANCE_CONSTANT);
-			}
-			
-		}
-	}
 
 	/* void SetMinDist(float dist)
 	 * 		Sets the minimum legal distance for spawning neighbor stars.
