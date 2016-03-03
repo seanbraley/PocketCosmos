@@ -6,12 +6,14 @@ using System.Text;
 
 public enum MessageSubCode
 {
-
     //Login Server Code
     Register,
-    Login
+    Proxy,
+    LoginServer,
+    Login,
+    RegionServer,
     //Chat Server Code
-
     //Region Server Code
-
+    Profile,
+    KnownStars
 }
