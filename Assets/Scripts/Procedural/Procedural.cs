@@ -128,7 +128,8 @@ public static class Procedural
         {
             ulong num = PointToNumber(x, y);
 
-            double num2 = num / Mathf.PI;
+            //double num2 = num / Mathf.PI;
+            double num2 = num / System.Math.PI;
             double num3 = num2 - (ulong)num2;
             //Debug.Log(num3);
             //Debug.Log(string.Format("Number: {0} generated for point <{1}, {2}> created?: {3}", Mathf.Abs(num3), x, y, Mathf.Abs(num3) > 0.46f));
