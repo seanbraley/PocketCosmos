@@ -12,6 +12,10 @@ public enum MessageSubCode
     LoginServer,
     Login,
     RegionServer,
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/RegionServerAddition
     //Chat Server Code
     //Region Server Code
     Profile,
