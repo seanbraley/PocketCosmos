@@ -12,8 +12,10 @@ public enum ClientParameterCode : byte
     Password,
     UserName,
     UserId,
-    Spacebucks,
+    Spacebux,
     Homestar,
     LastLocX,
-    LastLocY
+    LastLocY,
+    StarId,
+    KnownStars
 }

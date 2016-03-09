@@ -7,19 +7,20 @@ using System.IO;
 
 public class PlayerData : MonoBehaviour {
 
-    public static PlayerData playdata;
+    public static PlayerData instance;
 
     public Boolean initialPlay;      // false if they've played already
 
     // Player variables that will be saving
-    public uint spacebux;
+    public int spacebux;
+    public long homestarID;
     public Vector2 lastPosition;
     public List<OwnedPlanet> ownedPlanets;
     public List<DiscoveredStar> discoveredStarSystems;
 
 
     // ----- Accessors -----
-    public uint Spacebux
+    public int Spacebux
     {
         get { return spacebux; }
         set { spacebux = value; }
@@ -31,24 +32,21 @@ public class PlayerData : MonoBehaviour {
     void Awake()
     {
         //Check if instance already exists
-        if (playdata == null)
+        if (instance == null)
 
             //if not, set instance to this
-            playdata = this;
+            instance = this;
 
         //If instance already exists and it's not this:
-        else if (playdata != this)
+        else if (instance != this)
 
             //Then destroy this. This enforces our singleton pattern
             Destroy(gameObject);
 
         //Sets this to not be destroyed when reloading scene
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);        
 
-        // Initialize
-        ownedPlanets = new List<OwnedPlanet> ();
-        discoveredStarSystems = new List<DiscoveredStar>();
-}
+    }
 
     // Save game data - works on all platforms except Web
     public void Save() {
@@ -70,6 +68,19 @@ public class PlayerData : MonoBehaviour {
         file.Close();
     }
 
+    // Save game data - works on all platforms except Web
+    public void UpdateLocalData(int s, long id, int x, int y)
+    {
+        spacebux = s;
+        homestarID = id;
+        lastPosition = new Vector2(x, y);
+    }
+
+    public void UpdateSpacebux(int value) {
+        spacebux = value;
+    }
+
+
     // Load game data - works on all platforms except Web
     public void Load() {
         // Accessing load data
@@ -89,6 +100,7 @@ public class PlayerData : MonoBehaviour {
 
             // Update game data
             spacebux = data.spacebux;
+            homestarID = data.homestarID;
             lastPosition = data.lastPosition;
             ownedPlanets = data.ownedPlanets;
             discoveredStarSystems = data.discoveredStarSystems;
@@ -107,7 +119,12 @@ public class PlayerData : MonoBehaviour {
 [Serializable]
 public class PlayerInfo {
 
-    public uint spacebux;
+    public Boolean initialPlay;      // false if they've played already
+
+    // Player variables that will be saving
+    public int spacebux;
+    public long homestarID;
+
     private int _positionX;
     private int _positionY;
 

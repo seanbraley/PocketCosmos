@@ -66,7 +66,7 @@ public class Ship : MonoBehaviour {
 		if (transform.position == endPos) {
             // Discover the gameobject this planet was sent to
             destination.GetComponent<Star>().Discovered = true;
-            PlayerData.playdata.discoveredStarSystems.Add(new DiscoveredStar(destination, System.DateTime.Now));
+            PlayerData.instance.discoveredStarSystems.Add(new DiscoveredStar(destination, System.DateTime.Now));
             destination.GetComponent<Star>().SetDiscoveryTime(System.DateTime.Now);
             origin.GetComponent<Star>().Unload();
             destination.GetComponent<Star>().Unload();
