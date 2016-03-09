@@ -6,17 +6,11 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;  // scene management at run-time.
 using UnityEngine.EventSystems;     // handles input, raycasting, and sending events.
 
-public class StartOptions : View
+public class StartOptions : MonoBehaviour
 {
 
-    bool okToProceed = false;
-    public Text messageBox;                                              // Set in inspector - message to user text display
     public InputField userfield;                                        // Set in inspector - username field
     public InputField passfield;                                        // Set in inspector - password field
-    public string ServerAddress;                                        //The address of the photon server 
-    public string ApplicationName;                                      //The photon application you are connecting to
-    public bool loggingIn = false;                                      //bool to indicate successful login
-    private LoginController _controller;                                //This class will handle the login with the server
 
     public int sceneToStart = 1;                                        //Index number in build settings of scene to load if changeScenes is true
     public bool changeScenes;                                           //If true, load a new scene when Start is pressed, if false, fade out UI and continue in single scene
@@ -53,24 +47,20 @@ public class StartOptions : View
         //messageBox = GetComponent<Text>();
     }
 
-    public override IViewController Controller
-    {
-        get
-        {
-            return (IViewController)_controller;
-        }
-
-        protected set { _controller = value as LoginController; }
-    }
-
+   
     void Start()
     {
-        //Grab the Photon Egnine and have it connect to the server
-        PhotonEngine.UseExistingOrCreateNewPhotonEngine(ServerAddress, ApplicationName);
-        //Use the login controller to handle message passing to the server
-        Controller = new LoginController(this);
+        
+  
+    }
 
-        Debug.Log(PhotonEngine.Instance.Controller);
+    void Update() {
+
+        if (NetworkManager.instance.LoginSuccess)
+        {
+            LoginSuccessfull();
+            NetworkManager.instance.LoginSuccess = false;
+        }
     }
 
     public void StartButtonClicked()
@@ -108,46 +98,17 @@ public class StartOptions : View
         //if the fields are not empty send the username and password to the login controller
         if (userfield.text != "" && passfield.text != "")
         {
-            _controller.SendLogin(userfield.text, passfield.text);
+            NetworkManager.instance._controller.SendLogin(userfield.text, passfield.text);
         }
     }
 
     public void LoginSuccessfull()
     {
-        //We got a successfull login response from the server
-        Debug.Log("Logging in...");
-        messageBox.color = Color.green;
-        messageBox.text = "Login Successful";
-
-        // Update player data
-        PlayerData.playdata.Load(); // TO DO: Pull from server
-
-        //Use invoke to delay calling of LoadDelayed by half the length of fadeColorAnimationClip
+        
         Invoke("LoadDelayed", fadeColorAnimationClip.length * .5f);
 
         //Set the trigger of Animator animColorFade to start transition to the FadeToOpaque state.
         animColorFade.SetTrigger("fade");
-    }
-    public void LoginFailure(short returnCode)
-    {
-        //We failed to login
-        Debug.Log(string.Format("Login failed. Got return code {0}", returnCode));
-
-        messageBox.color = Color.red;
-        messageBox.text = "Login Failure";
-        switch (returnCode)
-        {
-            case 1:
-                messageBox.text += "\nName in use";
-                break;
-            case 2:
-                messageBox.text += "\nIncorrect User/Pass";
-                break;
-            case 3:
-                messageBox.text += "\nUser already logged in";
-                break;
-        }
-
     }
 
 
@@ -161,6 +122,8 @@ public class StartOptions : View
         
         //Load the selected scene, by scene index number in build settings
         Application.LoadLevel(sceneToStart);
+
+        NetworkManager.instance._controller.RetrieveProfile();  //testing
     }
 
 

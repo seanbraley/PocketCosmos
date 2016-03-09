@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;       //Allows us to use Lists. 
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;  // scene management at run-time.
@@ -48,6 +48,7 @@ namespace Completed
         // Only called once.
         void Awake()
         {
+            
             //Check if instance already exists
             if (instance == null)
 
@@ -62,11 +63,13 @@ namespace Completed
 
             //Sets this to not be destroyed when reloading scene
             DontDestroyOnLoad(gameObject);
-
+            
             keepLoadedStars = new List<GameObject>();
 
+            //_controller.CollectSpacebux();
+
             if (lastKnownPosition == Vector2.zero)  // no last known position
-                instance.virtualPosition = PlayerData.playdata.lastPosition;
+                instance.virtualPosition = PlayerData.instance.lastPosition;    // TODO: update to respond to server call
             else
                 instance.virtualPosition = lastKnownPosition;
 
@@ -81,25 +84,27 @@ namespace Completed
             if (SceneManager.GetActiveScene().buildIndex == SectorLevel)
                 InitGame();
 
+            // TODO: update to respond to server call
             // First-time player initialization - Get first star, add to discovered star list
-            if (PlayerData.playdata.discoveredStarSystems.Count == 0 && SceneManager.GetActiveScene().buildIndex == SectorLevel)
+            if (PlayerData.instance.discoveredStarSystems.Count == 0 && SceneManager.GetActiveScene().buildIndex == SectorLevel)
             {
                 // First star system
-                GameObject firstStar = Player.plyr.FindGameObjectAtPosition(Vector3.zero);
+                GameObject firstStar = Player.instance.FindGameObjectAtPosition(Vector3.zero);  // TODO: update to respond to server call??
 
-                PlayerData.playdata.Spacebux += 100;
+                //PlayerData.instance.Spacebux += 100;  // TODO: update to respond to server call
 
                 // Discover the star
                 firstStar.GetComponent<Star>().Discovered = true;
                 firstStar.GetComponent<Star>().SetDiscoveryTime(System.DateTime.Now);
-                PlayerData.playdata.discoveredStarSystems.Add(new DiscoveredStar(firstStar, System.DateTime.Now));
+                PlayerData.instance.discoveredStarSystems.Add(new DiscoveredStar(firstStar, System.DateTime.Now));
             }
         }
+        
 
         // Start is called once every scene start
         void Start()
         {
-
+        
         }
 
 
@@ -126,13 +131,13 @@ namespace Completed
                 }
             }
             //CLICK HANDLER
-            Player.plyr.checkMouseDoubleClick();
+            Player.instance.checkMouseDoubleClick();
 
             // Mobile platform touch input handler
 #if UNITY_ANDROID || UNITY_IOS
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
-                Player.plyr.checkTouchDoubleClick();
+                Player.instance.checkTouchDoubleClick();
             }
 #endif
             
@@ -236,7 +241,7 @@ namespace Completed
         void ShiftAllStars(Vector2 direction)
         {
             List<GameObject> garbage = new List<GameObject>();
-            PlayerData.playdata.lastPosition = instance.virtualPosition;
+            PlayerData.instance.lastPosition = instance.virtualPosition;
             foreach (GameObject s in allStars)
             {
                 if ((s.transform.position.x < -41 || s.transform.position.x > 41 || s.transform.position.y < -41 || s.transform.position.y > 41) && s.GetComponent<Star>().CheckUnload())
