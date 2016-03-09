@@ -10,22 +10,31 @@ public class PlayerProfileResponseHandler : PhotonOperationHandler
         get { return (byte)MessageSubCode.Profile ; }
     }
 
-    public PlayerProfileResponseHandler(PlayerProfileController controller) : base(controller)
+    public PlayerProfileResponseHandler(NetworkController controller) : base(controller)
     {
     }
 
     public override void OnHandleResponse(OperationResponse response)
     {
-        
-        GameManager view = _controller.ControlledView as GameManager;
+
+        //NetworkManager view = _controller.ControlledView as NetworkManager;
+        NetworkManager view = _controller.ControlledView as NetworkManager;
         view.LogDebug("GOT A RESPONSE for PROFILE");
         if (response.ReturnCode == 0)
         {
-            view.LogDebug(response.Parameters[(byte)ClientParameterCode.Spacebucks].ToString());
+            view.LogDebug(response.Parameters[(byte)ClientParameterCode.Spacebux].ToString());
             view.LogDebug(response.Parameters[(byte)ClientParameterCode.Homestar].ToString());
             view.LogDebug(response.Parameters[(byte)ClientParameterCode.LastLocX].ToString());
             view.LogDebug(response.Parameters[(byte)ClientParameterCode.LastLocY].ToString());
-              
+
+            // Update local player data according to server
+            PlayerData.instance.UpdateLocalData(
+                (int)response.Parameters[(byte)ClientParameterCode.Spacebux], 
+                (long)response.Parameters[(byte)ClientParameterCode.Homestar],
+                (int)response.Parameters[(byte)ClientParameterCode.LastLocX],
+                (int)response.Parameters[(byte)ClientParameterCode.LastLocY]
+                );
+           
         }
         else
         {

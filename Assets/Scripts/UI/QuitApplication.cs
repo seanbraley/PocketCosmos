@@ -6,7 +6,7 @@ public class QuitApplication : MonoBehaviour {
 	public void Quit()
 	{
         // Save player data
-        PlayerData.playdata.Save(); // TO DO: Push changes to server
+        PlayerData.instance.Save(); // TO DO: Push changes to server
 
 		//Quit the application
 		Application.Quit();
@@ -14,7 +14,7 @@ public class QuitApplication : MonoBehaviour {
         //If we are running in the editor
 #if UNITY_EDITOR
         // Save player data
-        PlayerData.playdata.Save(); // TO DO: Push changes to server
+        PlayerData.instance.Save(); // TO DO: Push changes to server
 
         //Stop playing the scene
         UnityEditor.EditorApplication.isPlaying = false;

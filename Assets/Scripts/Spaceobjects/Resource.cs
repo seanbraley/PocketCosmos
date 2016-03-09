@@ -5,19 +5,18 @@ using System;
 public class Resource : MonoBehaviour {
 
     //Public variables
-    public float capacity;
 
     //Variables accessible by subclass
+    protected uint _capacity;
     protected uint _amountIncrease;
     protected Utility.ResourceType _resourceType;
     protected Planet _planet;
-
     /*** Game Engine methods, all can be overridden by subclass ***/
 
     // Use this for initialization
     //These methods are virtual and thus can be overriden in child classes
     protected virtual void Start() {
-        capacity = 0f;
+        _capacity = 0;
         _amountIncrease = 0;
         _resourceType = Utility.ResourceType.Unknown;
     }
@@ -34,11 +33,6 @@ public class Resource : MonoBehaviour {
     public virtual Utility.ResourceType GetResourceType() {
         return _resourceType;
     }
-
-    // TODO implement
-    protected virtual float UpdateResourceProgress()
-    {
-        return 0f;
-    }
+    
 
 }
