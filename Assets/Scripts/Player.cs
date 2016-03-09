@@ -30,6 +30,14 @@ public class Player : MonoBehaviour {
             if (selected != null) {
                 halo = selected.GetComponent("Halo");
                 halo.GetType().GetProperty("enabled").SetValue(halo, true, null);
+                Star selectedStar = selected.GetComponent<Star>();
+                if (selectedStar) {
+                    ContextMenuManager.Instance.ShowStarMenu(true);
+                    ContextMenuManager.Instance.SetStarMenuInfo(selectedStar);
+                }
+            }
+            else {
+                ContextMenuManager.Instance.ShowStarMenu(false);
             }
         }
     }
