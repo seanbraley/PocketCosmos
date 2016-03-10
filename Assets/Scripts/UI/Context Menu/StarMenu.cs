@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Superbest_random; // Included for gaussian
 using System.Collections;
 
 public class StarMenu : ContextMenu {
@@ -29,7 +30,18 @@ public class StarMenu : ContextMenu {
 		{
 			SetTitle("Star #" + star.myNumber.ToString());
 			SetDescription("Big Giant Hot Thing (TO-DO)");
-			SetTotalPlanetsText("TO-DO");
+            // Terrible things
+            System.Random tmpRNG = new System.Random((int)star.myNumber);
+            tmpRNG.Next(); // pbody
+            tmpRNG.NextDouble();  // pbody
+            tmpRNG.Next(); // star
+            tmpRNG.Next(); // star
+
+            double val = (SystemStar.RANGE_PLANET * tmpRNG.NextGaussian());
+            int numPlanets = (int)(SystemStar.MEAN_PLANET + val);
+            // End terrible things
+
+            SetTotalPlanetsText(numPlanets.ToString());
 			SetDiscoveredPlanetsText("TO-DO");
 			SetOwnedPlanetsText("TO-DO");
 			SetEnergyBarText("TO-DO");
