@@ -32,7 +32,6 @@ GameObject:
   - 114: {fileID: 11400276}
   - 114: {fileID: 11461554}
   - 114: {fileID: 11474342}
-  - 122: {fileID: 12243782}
   m_Layer: 0
   m_Name: SmoothPlanet 1
   m_TagString: Planet
@@ -376,6 +375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentBody: {fileID: 0}
+  Halo_Prefab: {fileID: 179368, guid: 230ed6a6ebfc9b84fb6f1e3bcac1b9ff, type: 2}
   orbitSpeed: 0
   orbitPath: {fileID: 0}
   orbitParent: {fileID: 0}
@@ -448,17 +448,6 @@ LineRenderer:
       serializedVersion: 2
       rgba: 4294967295
   m_UseWorldSpace: 1
---- !u!122 &12243782
-Halo:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 129640}
-  m_Enabled: 0
-  m_Color:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_Size: 5
 --- !u!135 &13571396
 SphereCollider:
   m_ObjectHideFlags: 1
