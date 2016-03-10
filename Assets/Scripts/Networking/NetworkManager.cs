@@ -56,7 +56,7 @@ public class NetworkManager : View {
         PhotonEngine.Instance.Controller = Controller as ViewController;
         Debug.Log(PhotonEngine.Instance.Controller);
 
-
+        
     }
 	
 	// Update is called once per frame

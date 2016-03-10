@@ -16,7 +16,7 @@ public class PlayerData : MonoBehaviour {
     public long homestarID;
     public Vector2 lastPosition;
     public List<OwnedPlanet> ownedPlanets;
-    public List<DiscoveredStar> discoveredStarSystems;
+    public List<long> discoveredStarSystems;
 
 
     // ----- Accessors -----
@@ -68,18 +68,22 @@ public class PlayerData : MonoBehaviour {
         file.Close();
     }
 
-    // Save game data - works on all platforms except Web
+    // Update local data from server data
     public void UpdateLocalData(int s, long id, int x, int y)
     {
         spacebux = s;
         homestarID = id;
         lastPosition = new Vector2(x, y);
+        // TODO should we update the known stars and planets too?
     }
 
     public void UpdateSpacebux(int value) {
         spacebux = value;
     }
 
+    public void UpdateKnownStars(long[] value) {
+        discoveredStarSystems = new List<long>(value); ;
+    }
 
     // Load game data - works on all platforms except Web
     public void Load() {
@@ -144,23 +148,8 @@ public class PlayerInfo {
 
 
     public List<OwnedPlanet> ownedPlanets;
-    public List<DiscoveredStar> discoveredStarSystems;
+    public List<long> discoveredStarSystems;
     
-}
-
-[Serializable]
-public class DiscoveredStar
-{
-    public DateTime discoveryTime;
-    public uint starID;
-
-    public DiscoveredStar(GameObject g, DateTime discoveryTime)
-    {
-        g.GetComponent<Star>().Discovered = true;
-        starID = g.GetComponent<Star>().myNumber;
-        // TO DO get time from server
-        this.discoveryTime = discoveryTime;
-    }
 }
 
 
@@ -169,7 +158,7 @@ public class OwnedPlanet {
 
     public DateTime discoveryTime;
     public DateTime lastCollectedTime;
-    public uint starID;                         // which star it orbits
+    public long starID;                         // which star it orbits
     public int planetID;
 
     public OwnedPlanet(GameObject p)

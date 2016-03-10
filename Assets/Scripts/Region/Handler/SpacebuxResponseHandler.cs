@@ -1,7 +1,7 @@
 using Completed;
 using ExitGames.Client.Photon;
 
-//A PlayerProfileResponseHandler to deal with login responses from the server
+//A PlayerProfileResponseHandler to deal with spacebux responses from the server
 
 public class SpacebuxResponseHandler : PhotonOperationHandler
 {
