@@ -17,5 +17,6 @@ public enum ClientParameterCode : byte
     LastLocX,
     LastLocY,
     StarId,
-    KnownStars
+    KnownStars,
+    DiscoverStar
 }

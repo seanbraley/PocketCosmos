@@ -1,7 +1,7 @@
 using Completed;
 using ExitGames.Client.Photon;
 
-//A PlayerProfileResponseHandler to deal with login responses from the server
+//A PlayerProfileResponseHandler to deal with spacebux responses from the server
 
 public class SpacebuxResponseHandler : PhotonOperationHandler
 {
@@ -25,6 +25,10 @@ public class SpacebuxResponseHandler : PhotonOperationHandler
 
             // Update local data
             PlayerData.instance.UpdateSpacebux((int)response.Parameters[(byte)ClientParameterCode.Spacebux]);
+        }
+        if (response.ReturnCode == 5)
+        {
+            view.LogDebug("Not enough spacebux to spend!");
         }
         else
         {

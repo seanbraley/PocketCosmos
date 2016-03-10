@@ -62,12 +62,10 @@ namespace Completed
                 Destroy(gameObject);
 
             //Sets this to not be destroyed when reloading scene
-            DontDestroyOnLoad(gameObject);
-            
+            DontDestroyOnLoad(gameObject);            
+
             keepLoadedStars = new List<GameObject>();
-
-            //_controller.CollectSpacebux();
-
+            
             if (lastKnownPosition == Vector2.zero)  // no last known position
                 instance.virtualPosition = PlayerData.instance.lastPosition;    // TODO: update to respond to server call
             else
@@ -95,16 +93,24 @@ namespace Completed
 
                 // Discover the star
                 firstStar.GetComponent<Star>().Discovered = true;
-                firstStar.GetComponent<Star>().SetDiscoveryTime(System.DateTime.Now);
-                PlayerData.instance.discoveredStarSystems.Add(new DiscoveredStar(firstStar, System.DateTime.Now));
+                //firstStar.GetComponent<Star>().SetDiscoveryTime(System.DateTime.Now);
+                PlayerData.instance.discoveredStarSystems.Add(firstStar.GetComponent<Star>().myNumber);
             }
+            
         }
         
 
         // Start is called once every scene start
         void Start()
         {
-        
+
+            foreach (GameObject star in keepLoadedStars)
+            {
+                if (PlayerData.instance.discoveredStarSystems.Contains(star.GetComponent<Star>().myNumber))
+                {
+                    star.GetComponent<Star>().Discovered = true;
+                }
+            }
         }
 
 
