@@ -44,6 +44,15 @@ public class StarMenu : ContextMenu {
 		}
 	}
 
+	public void SetInfo(SystemStar star) {
+		SetTitle("Star #" + star.myNumber.ToString());
+		SetDescription("Big Giant Hot Thing (TO-DO)");
+		SetTotalPlanetsText("TO-DO");
+		SetDiscoveredPlanetsText("TO-DO");
+		SetOwnedPlanetsText("TO-DO");
+		SetEnergyBarText("TO-DO");
+	}
+
 	public void SetTotalPlanetsText(string numPlanets) {
 		totalPlanetsText.text = "Total Planets: " + numPlanets;
 	}

@@ -21,23 +21,32 @@ public class Player : MonoBehaviour {
         set {
             Component halo;
             if (selected != null) {
-                halo = selected.GetComponent("Halo");
-                halo.GetType().GetProperty("enabled").SetValue(halo, false, null);
+                selected.GetComponent<PlanetaryBody>().ShowHalo(false);
             }
 
             _selected = value;
 
             if (selected != null) {
-                halo = selected.GetComponent("Halo");
-                halo.GetType().GetProperty("enabled").SetValue(halo, true, null);
+                selected.GetComponent<PlanetaryBody>().ShowHalo(true);
                 Star selectedStar = selected.GetComponent<Star>();
+                SystemStar selectedSystemStar = selected.GetComponent<SystemStar>();                
+                Planet selectedPlanet = selected.GetComponent<Planet>();
                 if (selectedStar) {
                     ContextMenuManager.Instance.ShowStarMenu(true);
                     ContextMenuManager.Instance.SetStarMenuInfo(selectedStar);
                 }
+                else if (selectedSystemStar) {
+                    ContextMenuManager.Instance.ShowStarMenu(true);
+                    ContextMenuManager.Instance.SetStarMenuInfo(selectedSystemStar);
+                }
+                else if (selectedPlanet) {
+                    ContextMenuManager.Instance.ShowPlanetMenu(true);
+                    ContextMenuManager.Instance.SetPlanetMenuInfo(selectedPlanet);
+                }
             }
             else {
                 ContextMenuManager.Instance.ShowStarMenu(false);
+                ContextMenuManager.Instance.ShowPlanetMenu(false);
             }
         }
     }
@@ -190,16 +199,15 @@ public class Player : MonoBehaviour {
                 if (prevSelect != null)
                 {
                     prevSelect.GetComponent<Star>().Unload();
-                    Component hlo = prevSelect.GetComponent("Halo");
-                    hlo.GetType().GetProperty("enabled").SetValue(hlo, false, null);
+                    selected.GetComponent<PlanetaryBody>().ShowHalo(false);
                 }
                 // Set selected object
                 selected = FindGameObjectAtPosition(clickPos);
                 selected.GetComponent<Star>().KeepLoaded();
                 GameManager.instance.selectedID = selected.GetComponent<Star>().myNumber;
                 // Highlight selection by turning on the halo
-                Component halo = selected.GetComponent("Halo");
-                halo.GetType().GetProperty("enabled").SetValue(halo, true, null);
+                selected.GetComponent<PlanetaryBody>().ShowHalo(true);
+
             }
             else {
                 // Turn off the halo
@@ -301,16 +309,14 @@ public class Player : MonoBehaviour {
                 if (prevSelect != null)
                 {
                     prevSelect.GetComponent<Star>().Unload();
-                    Component hlo = prevSelect.GetComponent("Halo");
-                    hlo.GetType().GetProperty("enabled").SetValue(hlo, false, null);
+                    selected.GetComponent<PlanetaryBody>().ShowHalo(false);
                 }
                 // Set selected object
                 selected = FindGameObjectAtPosition(touchPos);
                 GameManager.instance.selectedID = selected.GetComponent<Star>().myNumber;
                 // Highlight selection by turning on the halo
                 selected.GetComponent<Star>().KeepLoaded();
-                Component halo = selected.GetComponent("Halo");
-                halo.GetType().GetProperty("enabled").SetValue(halo, true, null);
+                selected.GetComponent<PlanetaryBody>().ShowHalo(true);
             }
             else {
                 // Turn off the halo

@@ -618,7 +618,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &105547208
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1890,7 +1890,7 @@ GameObject:
   - 222: {fileID: 668844195}
   - 114: {fileID: 668844194}
   m_Layer: 5
-  m_Name: Population_Bar
+  m_Name: PopulationBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2821,7 +2821,7 @@ GameObject:
   - 222: {fileID: 833897325}
   - 114: {fileID: 833897324}
   m_Layer: 5
-  m_Name: Energy_Bar
+  m_Name: EnergyBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3084,8 +3084,9 @@ GameObject:
   - 223: {fileID: 914214830}
   - 114: {fileID: 914214829}
   - 114: {fileID: 914214828}
+  - 114: {fileID: 914214832}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UserInterface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3136,7 +3137,7 @@ Canvas:
   m_GameObject: {fileID: 914214827}
   m_Enabled: 1
   serializedVersion: 2
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 1862349480}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -3171,6 +3172,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &914214832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 914214827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a16ce07724fd643c582fc68f916bd210, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &943796189
 GameObject:
   m_ObjectHideFlags: 0
@@ -3985,7 +3997,7 @@ GameObject:
   - 222: {fileID: 1306499502}
   - 114: {fileID: 1306499501}
   m_Layer: 5
-  m_Name: Spacebucks_Bar
+  m_Name: SpacebucksBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

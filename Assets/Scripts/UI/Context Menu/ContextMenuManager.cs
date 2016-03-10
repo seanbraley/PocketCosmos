@@ -46,6 +46,10 @@ public class ContextMenuManager : MonoBehaviour {
 		_starMenu.SetInfo(star);
 	}
 
+	public void SetStarMenuInfo(SystemStar star) {
+		_starMenu.SetInfo(star);
+	}
+
 	public void ShowPlanetMenu(bool show) {
 		_planetMenu.gameObject.SetActive(show);
 		if (show) {
@@ -55,7 +59,7 @@ public class ContextMenuManager : MonoBehaviour {
 	}
 
 	public void SetPlanetMenuInfo(Planet planet) {
-		
+		_planetMenu.SetInfo(planet);
 	}
 
 	public void ShowShipMenu(bool show) {
