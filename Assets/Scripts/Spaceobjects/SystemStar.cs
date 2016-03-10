@@ -19,7 +19,6 @@ public class SystemStar : PlanetaryBody {
 
 	private bool discovered;
     public System.DateTime discoveryTime;
-    public int numPlanets;
 	public float rotationSpeed;
 	private float minDist = 5000;
 	private float maxDist = 10000;
@@ -29,7 +28,6 @@ public class SystemStar : PlanetaryBody {
 	public GameObject planetPrefabWindy;
 
     private static int testSeed = 42;
-    public int myNumber;
 
     public System.Random myRNG;
 
@@ -52,8 +50,7 @@ public class SystemStar : PlanetaryBody {
         //Initialize(testSeed);
         GameObject go = GameObject.Find("GameManager");
         if (go != null) {
-        	myNumber = (int)go.GetComponent<GameManager>().selectedID;
-            testSeed = myNumber;
+            testSeed = (int)go.GetComponent<GameManager>().selectedID;
             Initialize(testSeed);
         }
     }
@@ -99,6 +96,7 @@ public class SystemStar : PlanetaryBody {
 
         float size = 20f;
         transform.localScale = new Vector3(size, size, size);
+
 		BuildSolarSystem();
     }
 
@@ -106,7 +104,7 @@ public class SystemStar : PlanetaryBody {
     {
         //localRNG.Next(MIN_PLANETS, MAX_PLANETS+1)
         double val = (RANGE_PLANET * localRNG.NextGaussian());
-        numPlanets = (int)(MEAN_PLANET + val);
+        int numPlanets = (int)(MEAN_PLANET + val);
         planets = new GameObject[numPlanets];
         Vector3 planetOrbitPos = transform.position;
 
@@ -122,7 +120,6 @@ public class SystemStar : PlanetaryBody {
                 planets[i] = Instantiate(planetPrefabSmooth, planetOrbitPos, Quaternion.identity) as GameObject;
 
             planets[i].GetComponent<Planet>().name = name + System.Convert.ToChar(65 + i);
-            planets[i].GetComponent<Planet>().PlanetType = planetType;
             planets[i].GetComponent<Planet>().Randomize(localRNG.Next());
             planets[i].GetComponent<Planet>().Initialize(this, i + 1);
         }

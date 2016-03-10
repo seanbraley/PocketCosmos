@@ -117,10 +117,6 @@ namespace Completed
         //Update is called every frame.
         void Update()
         {
-            if (Input.GetKeyDown("space")) {
-                ReturnButton();
-            }
-
             if (SceneManager.GetActiveScene().buildIndex == SectorLevel)
             {
                 if (Input.GetKey(KeyCode.W) || SwipeManager.swipeDirection == Swipe.Up)

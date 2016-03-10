@@ -77,6 +77,7 @@ GameObject:
   - 114: {fileID: 11486036}
   - 135: {fileID: 13527844}
   - 54: {fileID: 5417356}
+  - 122: {fileID: 12215600}
   m_Layer: 0
   m_Name: SystemStar
   m_TagString: Star
@@ -187,12 +188,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentBody: {fileID: 0}
-  Halo_Prefab: {fileID: 179368, guid: 230ed6a6ebfc9b84fb6f1e3bcac1b9ff, type: 2}
   rotationSpeed: 0
   planets: []
-  planetPrefabSmooth: {fileID: 0}
-  planetPrefabJagged: {fileID: 0}
-  planetPrefabWindy: {fileID: 0}
+  planetPrefab: {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
+--- !u!122 &12215600
+Halo:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167330}
+  m_Enabled: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_Size: 5
 --- !u!135 &13527844
 SphereCollider:
   m_ObjectHideFlags: 1

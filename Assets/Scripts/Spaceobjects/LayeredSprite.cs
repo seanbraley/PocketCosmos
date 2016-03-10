@@ -281,17 +281,4 @@ public class LayeredSprite : MonoBehaviour {
 			ShowLayer(j, b[j]);
 		}
 	}
-
-    public int NumLayersShowing {
-        get {
-            int count = 0;
-            for (int j = 0; j < _spriteLayers.Length; j++)
-            {
-                if (_spriteLayers[j].gameObject.activeSelf) {
-                    count++;
-                }
-            }
-            return count;
-        }
-    }
 }

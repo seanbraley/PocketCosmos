@@ -1,0 +1,52 @@
+﻿Revert "Merge remote-tracking branch 'refs/remotes/origin/attempt3contextmenu' into attempt3resource"
+
+This reverts commit 1d5daf70e83377bf039fda7dbf82986ce21b870f, reversing
+changes made to 647bd2b5b4e1404ef9a2800e8d36cdd9f298d997.
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch attempt3resource
+# Your branch is up-to-date with 'origin/attempt3resource'.
+#
+# Changes to be committed:
+#	deleted:    Assets/Prefabs/Halo.prefab
+#	deleted:    Assets/Prefabs/Halo.prefab.meta
+#	modified:   Assets/Prefabs/Planets/Jagged/JaggedPlanet.prefab
+#	modified:   Assets/Prefabs/Planets/Smooth/SmoothPlanet 1.prefab
+#	modified:   Assets/Prefabs/Planets/Windy/WindyPlanet.prefab
+#	modified:   Assets/Prefabs/Stars/StarSpeck.prefab
+#	modified:   Assets/Prefabs/Stars/SystemStar.prefab
+#	modified:   Assets/Scenes/login.unity
+#	modified:   Assets/Scenes/system.unity
+#	modified:   Assets/Scripts/GameManager.cs
+#	modified:   Assets/Scripts/Player.cs
+#	deleted:    Assets/Scripts/Procedural/RandomExtensions.cs.meta~refs_remotes_origin_attempt3contextmenu
+#	modified:   Assets/Scripts/Spaceobjects/LayeredSprite.cs
+#	modified:   Assets/Scripts/Spaceobjects/Planet.cs
+#	modified:   Assets/Scripts/Spaceobjects/PlanetaryBody.cs
+#	modified:   Assets/Scripts/Spaceobjects/SystemStar.cs
+#	deleted:    Assets/Scripts/UI/Context Menu.meta
+#	deleted:    Assets/Scripts/UI/Context Menu/ContextMenu.cs
+#	deleted:    Assets/Scripts/UI/Context Menu/ContextMenu.cs.meta
+#	deleted:    Assets/Scripts/UI/Context Menu/ContextMenuManager.cs
+#	deleted:    Assets/Scripts/UI/Context Menu/ContextMenuManager.cs.meta
+#	deleted:    Assets/Scripts/UI/Context Menu/PlanetMenu.cs
+#	deleted:    Assets/Scripts/UI/Context Menu/PlanetMenu.cs.meta
+#	deleted:    Assets/Scripts/UI/Context Menu/ShipMenu.cs
+#	deleted:    Assets/Scripts/UI/Context Menu/ShipMenu.cs.meta
+#	deleted:    Assets/Scripts/UI/Context Menu/StarMenu.cs
+#	deleted:    Assets/Scripts/UI/Context Menu/StarMenu.cs.meta
+#	deleted:    Assets/Sprites/close_button.png
+#	deleted:    Assets/Sprites/close_button.png.meta
+#	deleted:    Assets/Sprites/context_menu_bg.png
+#	deleted:    Assets/Sprites/context_menu_bg.png.meta
+#	deleted:    Assets/Sprites/halo.png
+#	deleted:    Assets/Sprites/halo.png.meta
+#	deleted:    Assets/Sprites/research_icon.png
+#	deleted:    Assets/Sprites/research_icon.png.meta
+#	deleted:    Assets/Sprites/skull_icon.png
+#	deleted:    Assets/Sprites/skull_icon.png.meta
+#	deleted:    Assets/Sprites/travel_icon.png
+#	deleted:    Assets/Sprites/travel_icon.png.meta
+#
+

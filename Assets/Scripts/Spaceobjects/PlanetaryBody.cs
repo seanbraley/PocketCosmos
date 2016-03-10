@@ -50,29 +50,6 @@ public class PlanetaryBody : MonoBehaviour {
 		}
 	}
 
-    public GameObject Halo_Prefab;
-    protected GameObject _halo;
-
-
-    public void ShowHalo(bool show) {
-        if (show) {
-            DestroyHalo();
-            _halo = Instantiate(Halo_Prefab,transform.position+(Vector3.forward * 5),Quaternion.identity) as GameObject;
-            _halo.transform.localScale = transform.localScale * 1.25f;
-            _halo.GetComponent<SpriteRenderer>().sortingOrder = -5;
-            _halo.transform.parent = this.transform;
-        }
-        else {
-            DestroyHalo();
-        }
-    }
-    public void DestroyHalo() {
-        if (_halo) {        
-            Destroy(_halo.gameObject);
-            _halo = null;
-        }
-    }
-
 
     /// <summary>
     /// Start method will get the layer sprite
