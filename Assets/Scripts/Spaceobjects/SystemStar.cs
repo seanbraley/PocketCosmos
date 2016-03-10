@@ -78,7 +78,6 @@ public class SystemStar : PlanetaryBody {
         BuildSolarSystem();
     }
 
-<<<<<<< HEAD
     void Initialize(uint value)
     {
         myRNG = new System.Random((int)value);
@@ -103,8 +102,6 @@ public class SystemStar : PlanetaryBody {
 		BuildSolarSystem();
     }
 
-=======
->>>>>>> a076348cb4479ac0f0c81e98430d732c907687ba
     void BuildSolarSystem()
     {
         //localRNG.Next(MIN_PLANETS, MAX_PLANETS+1)
