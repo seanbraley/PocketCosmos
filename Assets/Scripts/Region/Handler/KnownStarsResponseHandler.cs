@@ -24,7 +24,7 @@ public class KnownStarsResponseHandler : PhotonOperationHandler
             view.LogDebug(response.Parameters[(byte)ClientParameterCode.KnownStars].ToString());
 
             // Update local data
-            PlayerData.instance.UpdateKnownStars((long[])response.Parameters[(byte)ClientParameterCode.DiscoverStar]);
+            PlayerData.instance.UpdateKnownStars((long[])response.Parameters[(byte)ClientParameterCode.KnownStars]);
         }
         else
         {

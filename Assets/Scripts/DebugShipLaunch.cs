@@ -55,9 +55,10 @@ public class DebugShipLaunch : MonoBehaviour {
 			yield return null;
 		}
 		LaunchShip(origin,destination);
-        NetworkManager.instance._controller.SendDiscoveredStar(destination.gameObject.GetComponent<Star>().myNumber); // TESTING
 		yield return true;
-	}
+        NetworkManager.instance._controller.SendDiscoveredStar(destination.gameObject.GetComponent<Star>().myNumber); // TESTING
+        NetworkManager.instance._controller.RetrieveKnownStars(); // TESTING
+    }
 
 	public void LaunchShip(GameObject origin, GameObject destination) {
 		Debug.Log("Launching Ship!");

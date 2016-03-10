@@ -21,14 +21,14 @@ public class DiscoveredStarsResponseHandler : PhotonOperationHandler
         view.LogDebug("GOT A RESPONSE for DISCOVERED STAR");
         if (response.ReturnCode == 0)
         {
-            view.LogDebug(response.Parameters[(byte)ClientParameterCode.DiscoverStar].ToString());
-
+            view.LogDebug("Star successfully discovered.");
             // Update local data
             //PlayerData.instance.UpdateSpacebux((int)response.Parameters[(byte)ClientParameterCode.DiscoverStar]);
+            PlayerData.instance.UpdateKnownStars((long[])response.Parameters[(byte)ClientParameterCode.KnownStars]);
         }
         else
         {
-            view.LogDebug("WHY ARE WE HERE");
+            view.LogDebug("An error has occured.");
         }
     }
 }
