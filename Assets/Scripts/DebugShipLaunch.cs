@@ -63,6 +63,7 @@ public class DebugShipLaunch : MonoBehaviour {
 	public void LaunchShip(GameObject origin, GameObject destination) {
 		Debug.Log("Launching Ship!");
         PlayerData.instance.spacebux -= 5;
+        NetworkManager.instance._controller.SpendSpacebux(5); // TESTING
         GameObject ship = Instantiate(Ship_Prefab,Vector3.zero,Quaternion.identity) as GameObject;
 		ship.GetComponent<Ship>().origin = origin;
 		ship.GetComponent<Ship>().destination = destination;

@@ -68,6 +68,13 @@ namespace Completed
 
             keepLoadedStars = new List<GameObject>();
 
+            foreach (GameObject star in keepLoadedStars) {
+                if (PlayerData.instance.discoveredStarSystems.Contains(star.GetComponent<Star>().myNumber))
+                {
+                    star.GetComponent<Star>().Discovered = true;
+                }
+            }
+
             if (lastKnownPosition == Vector2.zero)  // no last known position
                 instance.virtualPosition = PlayerData.instance.lastPosition;    // TODO: update to respond to server call
             else

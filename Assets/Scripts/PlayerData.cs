@@ -77,12 +77,20 @@ public class PlayerData : MonoBehaviour {
         // TODO should we update the known stars and planets too?
     }
 
+    // update the amount of spacebux held
     public void UpdateSpacebux(int value) {
         spacebux = value;
     }
 
+    // update list of all known stars for a player
     public void UpdateKnownStars(long[] value) {
         discoveredStarSystems = new List<long>(value); ;
+    }
+
+    // add a newly discovered star
+    public void AddDiscoveredStar(long value)
+    {
+        discoveredStarSystems.Add(value); ;
     }
 
     // Load game data - works on all platforms except Web

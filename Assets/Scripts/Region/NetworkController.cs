@@ -18,7 +18,7 @@ public class NetworkController : ViewController
         OperationHandlers.Add((byte)profileHandler.Code, profileHandler);
 
         SpacebuxResponseHandler spacebuxHandler = new SpacebuxResponseHandler(this);
-        OperationHandlers.Add((byte)spacebuxHandler.Code, spacebuxHandler);
+        OperationHandlers.Add((byte)spacebuxHandler.Code, spacebuxHandler);   
 
         KnownStarsResponseHandler knownstarsHandler = new KnownStarsResponseHandler(this);
         OperationHandlers.Add((byte)knownstarsHandler.Code, knownstarsHandler);
@@ -83,7 +83,20 @@ public class NetworkController : ViewController
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
-    
+
+    public void SpendSpacebux(int value)
+    {
+        //encrtypt this later
+        var param = new Dictionary<byte, object>()
+        {
+            {(byte) ClientParameterCode.Spacebux, value},
+            {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.SpendSpacebux}
+        };
+        ControlledView.LogDebug("SENDING SPACEBUX SPEND REQUEST");
+        //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
+        SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
+    }
+
     public void RetrieveKnownStars()
     {
         //encrtypt this later
