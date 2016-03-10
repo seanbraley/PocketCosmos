@@ -19,6 +19,7 @@ public class SystemStar : PlanetaryBody {
 
 	private bool discovered;
     public System.DateTime discoveryTime;
+    public int numPlanets;
 	public float rotationSpeed;
 	private float minDist = 5000;
 	private float maxDist = 10000;
@@ -75,36 +76,11 @@ public class SystemStar : PlanetaryBody {
         BuildSolarSystem();
     }
 
-    void Initialize(uint value)
-    {
-        myRNG = new System.Random((int)value);
-        Initialize();
-    }
-
-    /* void Initialize ():
-	 * 		For initial creation of stars in a new game.
-	 * 		Randomizes:
-	 * 			Name
-	 * 			Rotation
-	 * 			Size
-	 */
-
-    void Initialize () {
-		renderer = GetComponent<Renderer>();
-        player = Camera.main.GetComponent<Player>();
-        rotationSpeed = myRNG.Next(MIN_ROTATION, MAX_ROTATION);
-
-        float size = 20f;
-        transform.localScale = new Vector3(size, size, size);
-
-		BuildSolarSystem();
-    }
-
     void BuildSolarSystem()
     {
         //localRNG.Next(MIN_PLANETS, MAX_PLANETS+1)
         double val = (RANGE_PLANET * localRNG.NextGaussian());
-        int numPlanets = (int)(MEAN_PLANET + val);
+        numPlanets = (int)(MEAN_PLANET + val);
         planets = new GameObject[numPlanets];
         Vector3 planetOrbitPos = transform.position;
 
