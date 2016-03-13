@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;       //Allows us to use Lists. 
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -138,7 +138,7 @@ namespace Completed
                                               Input.GetTouch(i).position);
                                     lastTouchPos = Input.GetTouch(i).position;
 
-                                    Player.plyr.checkMouseDoubleClick();
+                                    Player.instance.checkMouseDoubleClick();
 
                                     break;
                                 case TouchPhase.Moved:
@@ -171,7 +171,7 @@ namespace Completed
                 {
                         prevMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
-                    Player.plyr.checkMouseDoubleClick();
+                    Player.instance.checkMouseDoubleClick();
                 }
             }
             
