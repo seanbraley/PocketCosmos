@@ -32,19 +32,27 @@ public class Player : MonoBehaviour {
                 SystemStar selectedSystemStar = selected.GetComponent<SystemStar>();                
                 Planet selectedPlanet = selected.GetComponent<Planet>();
                 if (selectedStar) {
+                    DisplayManager.Instance.ShowPopulationBar(false);
+                    DisplayManager.Instance.ShowEnergyBar(true);
                     ContextMenuManager.Instance.ShowStarMenu(true);
                     ContextMenuManager.Instance.SetStarMenuInfo(selectedStar);
                 }
                 else if (selectedSystemStar) {
+                    DisplayManager.Instance.ShowPopulationBar(false);
+                    DisplayManager.Instance.ShowEnergyBar(true);
                     ContextMenuManager.Instance.ShowStarMenu(true);
                     ContextMenuManager.Instance.SetStarMenuInfo(selectedSystemStar);
                 }
                 else if (selectedPlanet) {
+                    DisplayManager.Instance.ShowPopulationBar(true);
+                    DisplayManager.Instance.ShowEnergyBar(true);
                     ContextMenuManager.Instance.ShowPlanetMenu(true);
                     ContextMenuManager.Instance.SetPlanetMenuInfo(selectedPlanet);
                 }
             }
             else {
+                DisplayManager.Instance.ShowPopulationBar(false);
+                DisplayManager.Instance.ShowEnergyBar(false);
                 ContextMenuManager.Instance.ShowStarMenu(false);
                 ContextMenuManager.Instance.ShowPlanetMenu(false);
             }
