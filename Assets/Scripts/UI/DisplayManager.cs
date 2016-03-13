@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Completed;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;  // scene management at run-time.
 using System.Collections;
 
 public class DisplayManager : MonoBehaviour {
@@ -15,20 +16,27 @@ public class DisplayManager : MonoBehaviour {
     private ResourceBar spacebuxBar;
 
     public void Awake() {
+        if (Instance != null && Instance != this) {
+            Destroy(Instance.gameObject);
+        }
         Instance = this; //shitty singleton, but anything more ruins everything for whatever reason.
                          // I'm not even mad rn.
     }
 
 	// Use this for initialization
 	void Start () {
-        Debug.Log("HELLOMOTO");
         populationBar = transform.Find("PopulationBar").GetComponent<ResourceBar>();
         populationBar.Initialize();
         populationBar.Hide(0);
 
         energyBar = transform.Find("EnergyBar").GetComponent<ResourceBar>();
         energyBar.Initialize();
-        energyBar.Hide(0);
+        if (SceneManager.GetActiveScene().buildIndex != GameManager.instance.SystemLevel) {
+            energyBar.Hide(0);
+        }
+        else {
+            energyBar.Show(0);
+        }
 
         spacebuxBar = transform.Find("SpacebuxBar").GetComponent<ResourceBar>();
         spacebuxBar.Initialize();
