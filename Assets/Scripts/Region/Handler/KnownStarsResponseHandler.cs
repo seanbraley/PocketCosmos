@@ -22,13 +22,13 @@ public class KnownStarsResponseHandler : PhotonOperationHandler
         if (response.ReturnCode == 0)
         {
             view.LogDebug(response.Parameters[(byte)ClientParameterCode.KnownStars].ToString());
-
+            view.LogDebug("Updating known stars.");
             // Update local data
             PlayerData.instance.UpdateKnownStars((long[])response.Parameters[(byte)ClientParameterCode.KnownStars]);
         }
         else
         {
-            view.LogDebug("WHY ARE WE HERE");
+            view.LogDebug("Error: unable to handle KNWON STARS response.");
         }
     }
 }

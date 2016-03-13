@@ -26,13 +26,13 @@ public class SpacebuxResponseHandler : PhotonOperationHandler
             // Update local data
             PlayerData.instance.UpdateSpacebux((int)response.Parameters[(byte)ClientParameterCode.Spacebux]);
         }
-        if (response.ReturnCode == 5)
+        else if (response.ReturnCode == 5)
         {
             view.LogDebug("Not enough spacebux to spend!");
         }
         else
         {
-            view.LogDebug("WHY ARE WE HERE");
+            view.LogDebug("Error: unable to handle SPACEBUX response.");
         }
     }
 }

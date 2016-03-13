@@ -28,7 +28,7 @@ public class DiscoveredStarsResponseHandler : PhotonOperationHandler
         }
         else
         {
-            view.LogDebug("An error has occured.");
+            view.LogDebug("Error: unable to handle DISCOVERED STARS response.");
         }
     }
 }

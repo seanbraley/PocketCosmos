@@ -52,7 +52,6 @@ public class NetworkController : ViewController
             {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.Register}
         };
         ControlledView.LogDebug("SENDING PROFILE REGISTRATION REQUEST");
-        //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, false);
     }
 
@@ -65,22 +64,21 @@ public class NetworkController : ViewController
             {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.Profile}
         };
 
-        ControlledView.LogDebug("SENDING PROFILE REQUEST");
-        //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
+        ControlledView.LogDebug("SENDING PROFILE RETREIVE REQUEST");
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
 
     }
 
-    public void CollectSpacebux()
+    public void CollectSpacebux(int value)
     {
         //encrtypt this later
         var param = new Dictionary<byte, object>()
         {
+            {(byte) ClientParameterCode.Spacebux, value},
             {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.Spacebux}
         };
 
-        ControlledView.LogDebug("SENDING SPACEBUX REQUEST");
-        //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
+        ControlledView.LogDebug("SENDING SPACEBUX COLLECT REQUEST");
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
 
@@ -93,7 +91,6 @@ public class NetworkController : ViewController
             {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.SpendSpacebux}
         };
         ControlledView.LogDebug("SENDING SPACEBUX SPEND REQUEST");
-        //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
 
@@ -106,7 +103,6 @@ public class NetworkController : ViewController
         };
 
         ControlledView.LogDebug("SENDING KNOWN STARS REQUEST");
-        //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
 
@@ -118,11 +114,10 @@ public class NetworkController : ViewController
             {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.DiscoverStar}
         };
         ControlledView.LogDebug("SENDING DISCOVERED STAR REQUEST");
-        //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
 
-    public void SendDiscoveredPlanet(long starID, int planetID)
+    public void ColonizePlanet(long starID, int planetID)
     {
     }
 

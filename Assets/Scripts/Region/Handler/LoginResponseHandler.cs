@@ -23,6 +23,7 @@ public class LoginResponseHandler : PhotonOperationHandler
         else
         {
             view.LoginFailure(response.ReturnCode);
+            view.LogDebug("Error: unable to handle LOGIN response.");
         }
     }
 }

@@ -27,6 +27,7 @@ public class PlayerProfileResponseHandler : PhotonOperationHandler
             view.LogDebug(response.Parameters[(byte)ClientParameterCode.LastLocX].ToString());
             view.LogDebug(response.Parameters[(byte)ClientParameterCode.LastLocY].ToString());
 
+            view.LogDebug("Updating local profile.");
             // Update local player data according to server
             PlayerData.instance.UpdateLocalData(
                 (int)response.Parameters[(byte)ClientParameterCode.Spacebux], 
@@ -38,7 +39,7 @@ public class PlayerProfileResponseHandler : PhotonOperationHandler
         }
         else
         {
-            view.LogDebug("WHY ARE WE HERE");
+            view.LogDebug("Error: unable to handle PLAYER PROFILE response.");
         }
     }
 }
