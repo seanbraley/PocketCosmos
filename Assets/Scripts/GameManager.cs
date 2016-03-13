@@ -507,12 +507,16 @@ namespace Completed
             // Go back to system view
             lastKnownPosition = instance.virtualPosition;
             SceneManager.LoadScene(SystemLevel);
+            DisplayManager.Instance.ShowPopulationBar(false);
+            DisplayManager.Instance.ShowEnergyBar(true);
         }
 
         public void ToSectorView() {
             // Go back to sector view
             instance.virtualPosition = lastKnownPosition;
             SceneManager.LoadScene(SectorLevel);
+            DisplayManager.Instance.ShowPopulationBar(false);
+            DisplayManager.Instance.ShowEnergyBar(false);
         }
 
     }
