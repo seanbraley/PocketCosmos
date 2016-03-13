@@ -15,5 +15,10 @@ public enum MessageSubCode
     //Chat Server Code
     //Region Server Code
     Profile,
-    KnownStars
+    KnownStars,
+    Spacebux,
+    DiscoverStar,
+    DiscoverPlanet,
+    KnownPlanet,
+    SpendSpacebux
 }

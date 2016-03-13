@@ -41,8 +41,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03181f72971144d4ba0aeafd0fb84125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialPlay: 0
   spacebux: 0
+  homestarID: 0
   lastPosition: {x: 0, y: 0}
+  ownedPlanets: []
+  discoveredStarSystems: []
 --- !u!114 &11466186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -65,6 +69,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c0ad32bf91eba9458fdc52a46e38ec8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  messageBox: {fileID: 0}
+  ServerAddress: home.sbraley.ca:5055
+  ApplicationName: ProxyServer
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

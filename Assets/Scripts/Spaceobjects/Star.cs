@@ -101,12 +101,12 @@ public class Star : PlanetaryBody {
         transform.position += (Vector3) _offset;
 
         // Update from the game data - check if user has discovered this star or not
-        foreach (DiscoveredStar s in PlayerData.playdata.discoveredStarSystems)
+        foreach (long starID in PlayerData.instance.discoveredStarSystems)
         {
-            if (s.starID == myNumber)
+            if (starID == myNumber)
             {
                 Discovered = true;
-                discoveryTime = s.discoveryTime;
+                //discoveryTime = s.discoveryTime;
             }            
         }
 

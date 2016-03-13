@@ -14,16 +14,16 @@ public class DisplayManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         // TO DO literally just copy and paste this for population and power
-        spacebuxNumber.text = PlayerData.playdata.Spacebux.ToString();
+        spacebuxNumber.text = PlayerData.instance.Spacebux.ToString();
         if (virtualPosition != null)
-            virtualPosition.text = "Position: <" + GameManager.instance.virtualPosition.x + " , " + GameManager.instance.virtualPosition.y + ">";
+            virtualPosition.text = "Position: <" + Mathf.FloorToInt(GameManager.instance.virtualPosition.x) + " , " + Mathf.FloorToInt(GameManager.instance.virtualPosition.y) + ">";
     }
 	
 	// Update is called once per frame
 	void Update () {
         // TO DO make this less spammy maybe idgaf
-        spacebuxNumber.text = PlayerData.playdata.Spacebux.ToString();
+        spacebuxNumber.text = PlayerData.instance.Spacebux.ToString();
         if (virtualPosition != null)
-            virtualPosition.text = "Position: <" + GameManager.instance.virtualPosition.x + " , " + GameManager.instance.virtualPosition.y + ">";
+            virtualPosition.text = "Position: <" + Mathf.FloorToInt(GameManager.instance.virtualPosition.x) + " , " + Mathf.FloorToInt(GameManager.instance.virtualPosition.y) + ">";
     }
 }

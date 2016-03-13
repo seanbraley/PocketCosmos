@@ -10,7 +10,7 @@ using Completed;
 /// </summary>
 public class Player : MonoBehaviour {
 
-    public static Player plyr = null;      //Static instance of GameManager which allows it to be accessed by any other script.    
+    public static Player instance = null;      //Static instance of GameManager which allows it to be accessed by any other script.    
 
     // for clicking on an object
     private GameObject _selected;
@@ -61,13 +61,13 @@ public class Player : MonoBehaviour {
     void Awake()
     {
         //Check if instance already exists
-        if (plyr == null)
+        if (instance == null)
 
             //if not, set instance to this
-            plyr = this;
+            instance = this;
 
         //If instance already exists and it's not this:
-        else if (plyr != this)
+        else if (instance != this)
 
             //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
             Destroy(gameObject);
