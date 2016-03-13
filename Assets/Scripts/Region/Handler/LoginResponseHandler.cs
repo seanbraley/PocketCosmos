@@ -9,13 +9,13 @@ public class LoginResponseHandler : PhotonOperationHandler
         get { return (byte)MessageSubCode.Login ; }
     }
 
-    public LoginResponseHandler(LoginController controller) : base(controller)
+    public LoginResponseHandler(NetworkController controller) : base(controller)
     {
     }
 
     public override void OnHandleResponse(OperationResponse response)
     {
-        StartOptions view = _controller.ControlledView as StartOptions;
+        NetworkManager view = _controller.ControlledView as NetworkManager;
         if (response.ReturnCode == 0)
         {
             view.LoginSuccessfull();   

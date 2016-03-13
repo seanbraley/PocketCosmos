@@ -7,19 +7,20 @@ using System.IO;
 
 public class PlayerData : MonoBehaviour {
 
-    public static PlayerData playdata;
+    public static PlayerData instance;
 
     public Boolean initialPlay;      // false if they've played already
 
     // Player variables that will be saving
-    public uint spacebux;
+    public int spacebux;
+    public long homestarID;
     public Vector2 lastPosition;
     public List<OwnedPlanet> ownedPlanets;
-    public List<DiscoveredStar> discoveredStarSystems;
+    public List<long> discoveredStarSystems;
 
 
     // ----- Accessors -----
-    public uint Spacebux
+    public int Spacebux
     {
         get { return spacebux; }
         set { spacebux = value; }
@@ -31,24 +32,21 @@ public class PlayerData : MonoBehaviour {
     void Awake()
     {
         //Check if instance already exists
-        if (playdata == null)
+        if (instance == null)
 
             //if not, set instance to this
-            playdata = this;
+            instance = this;
 
         //If instance already exists and it's not this:
-        else if (playdata != this)
+        else if (instance != this)
 
             //Then destroy this. This enforces our singleton pattern
             Destroy(gameObject);
 
         //Sets this to not be destroyed when reloading scene
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);        
 
-        // Initialize
-        ownedPlanets = new List<OwnedPlanet> ();
-        discoveredStarSystems = new List<DiscoveredStar>();
-}
+    }
 
     // Save game data - works on all platforms except Web
     public void Save() {
@@ -70,6 +68,31 @@ public class PlayerData : MonoBehaviour {
         file.Close();
     }
 
+    // Update local data from server data
+    public void UpdateLocalData(int s, long id, int x, int y)
+    {
+        spacebux = s;
+        homestarID = id;
+        lastPosition = new Vector2(x, y);
+        // TODO should we update the known stars and planets too?
+    }
+
+    // update the amount of spacebux held
+    public void UpdateSpacebux(int value) {
+        spacebux = value;
+    }
+
+    // update list of all known stars for a player
+    public void UpdateKnownStars(long[] value) {
+        discoveredStarSystems = new List<long>(value); ;
+    }
+
+    // add a newly discovered star
+    public void AddDiscoveredStar(long value)
+    {
+        discoveredStarSystems.Add(value); ;
+    }
+
     // Load game data - works on all platforms except Web
     public void Load() {
         // Accessing load data
@@ -89,6 +112,7 @@ public class PlayerData : MonoBehaviour {
 
             // Update game data
             spacebux = data.spacebux;
+            homestarID = data.homestarID;
             lastPosition = data.lastPosition;
             ownedPlanets = data.ownedPlanets;
             discoveredStarSystems = data.discoveredStarSystems;
@@ -107,7 +131,12 @@ public class PlayerData : MonoBehaviour {
 [Serializable]
 public class PlayerInfo {
 
-    public uint spacebux;
+    public Boolean initialPlay;      // false if they've played already
+
+    // Player variables that will be saving
+    public int spacebux;
+    public long homestarID;
+
     private int _positionX;
     private int _positionY;
 
@@ -127,23 +156,8 @@ public class PlayerInfo {
 
 
     public List<OwnedPlanet> ownedPlanets;
-    public List<DiscoveredStar> discoveredStarSystems;
+    public List<long> discoveredStarSystems;
     
-}
-
-[Serializable]
-public class DiscoveredStar
-{
-    public DateTime discoveryTime;
-    public uint starID;
-
-    public DiscoveredStar(GameObject g, DateTime discoveryTime)
-    {
-        g.GetComponent<Star>().Discovered = true;
-        starID = g.GetComponent<Star>().myNumber;
-        // TO DO get time from server
-        this.discoveryTime = discoveryTime;
-    }
 }
 
 
@@ -152,7 +166,7 @@ public class OwnedPlanet {
 
     public DateTime discoveryTime;
     public DateTime lastCollectedTime;
-    public uint starID;                         // which star it orbits
+    public long starID;                         // which star it orbits
     public int planetID;
 
     public OwnedPlanet(GameObject p)

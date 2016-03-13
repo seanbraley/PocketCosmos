@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;       //Allows us to use Lists. 
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -53,6 +53,7 @@ namespace Completed
         // Only called once.
         void Awake()
         {
+            
             //Check if instance already exists
             if (instance == null)
 
@@ -71,7 +72,7 @@ namespace Completed
             keepLoadedStars = new List<GameObject>();
 
             if (lastKnownPosition == Vector2.zero)  // no last known position
-                instance.virtualPosition = PlayerData.playdata.lastPosition;
+                instance.virtualPosition = PlayerData.instance.lastPosition;    // TODO: update to respond to server call
             else
                 instance.virtualPosition = lastKnownPosition;
 
@@ -86,25 +87,35 @@ namespace Completed
             if (SceneManager.GetActiveScene().buildIndex == SectorLevel)
                 InitGame();
 
+            // TODO: update to respond to server call
             // First-time player initialization - Get first star, add to discovered star list
-            if (PlayerData.playdata.discoveredStarSystems.Count == 0 && SceneManager.GetActiveScene().buildIndex == SectorLevel)
+            if (PlayerData.instance.discoveredStarSystems.Count == 0 && SceneManager.GetActiveScene().buildIndex == SectorLevel)
             {
                 // First star system
-                GameObject firstStar = Player.plyr.FindGameObjectAtPosition(Vector3.zero);
+                GameObject firstStar = Player.instance.FindGameObjectAtPosition(Vector3.zero);  // TODO: update to respond to server call??
 
-                PlayerData.playdata.Spacebux += 100;
+                //PlayerData.instance.Spacebux += 100;  // TODO: update to respond to server call
 
                 // Discover the star
                 firstStar.GetComponent<Star>().Discovered = true;
-                firstStar.GetComponent<Star>().SetDiscoveryTime(System.DateTime.Now);
-                PlayerData.playdata.discoveredStarSystems.Add(new DiscoveredStar(firstStar, System.DateTime.Now));
+                //firstStar.GetComponent<Star>().SetDiscoveryTime(System.DateTime.Now);
+                PlayerData.instance.discoveredStarSystems.Add(firstStar.GetComponent<Star>().myNumber);
             }
+            
         }
+
 
         // Start is called once every scene start
         void Start()
         {
 
+            foreach (GameObject star in keepLoadedStars)
+            {
+                if (PlayerData.instance.discoveredStarSystems.Contains(star.GetComponent<Star>().myNumber))
+                {
+                    star.GetComponent<Star>().Discovered = true;
+                }
+            }
         }
 
         private Vector2 prevMousePos = Vector2.zero;
@@ -117,7 +128,7 @@ namespace Completed
                 if (SystemInfo.deviceType == DeviceType.Handheld)
                 {
                     if (Input.touchCount > 0) // One finger touch is navigation
-                    {
+                {
                         for (int i = 0; i < Input.touchCount; i++)
                         {
                             switch (Input.GetTouch(i).phase)
@@ -140,7 +151,7 @@ namespace Completed
                                         Vector2 deltaVpos = new Vector2(-touchDeltaPosition.x*speed,
                                             -touchDeltaPosition.y*speed);
                                         ShiftAllStars(deltaVpos);
-                                    }
+                }
                                     lastTouchPos = Input.GetTouch(i).position;
                                     break;
                             }
@@ -155,11 +166,11 @@ namespace Completed
                         ShiftAllStars(mouseDeltaPosition);
                         //instance.virtualPosition += mouseDeltaPosition;
                         prevMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    }
+                }
                     else
-                    {
+                {
                         prevMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    }
+            }
                     Player.plyr.checkMouseDoubleClick();
                 }
             }
@@ -221,8 +232,8 @@ namespace Completed
                     return null;
                 }
             }
-            return star;
-        }
+                return star;
+            }
 
         /// <summary>
         /// Gets row of stars at value y
@@ -287,7 +298,7 @@ namespace Completed
                 }
             }
             allStars.AddRange(newStars);
-        }
+            }
 
         private void CleanUpStars()
         {
@@ -302,7 +313,7 @@ namespace Completed
             {
                 Destroy(s.gameObject);
                 allStars.Remove(s);
-            }
+        }
         }
 
         /// <summary>
@@ -311,7 +322,7 @@ namespace Completed
         /// <param name="direction">movement vector</param>
         void ShiftAllStars(Vector2 direction)
         {
-            PlayerData.playdata.lastPosition = instance.virtualPosition;
+            PlayerData.instance.lastPosition = instance.virtualPosition;
             instance.virtualPosition -= direction;
             foreach (GameObject s in allStars)
                 s.transform.position += (Vector3)direction;
@@ -337,7 +348,7 @@ namespace Completed
             {
                 GetColumnRightOfStars(Mathf.FloorToInt(totalMovement.x));
                 totalMovement.x += 1;
-            }
+        }   
             CleanUpStars();
         }
 
@@ -356,7 +367,7 @@ namespace Completed
             //virtualPosition.y++;  // y = 1
             //instance.virtualPosition.y++;  // y = 1
 
-            
+
 
             /*s = GetRowOfStars((int)virtualPosition.y, 40);
             foreach (GameObject s in starsList[starsList.Count - 1])  // Last row
