@@ -1089,7 +1089,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22412784, guid: b9109372e1822cd4d97b74b0a9d618cc, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -115.303635
+      value: -115.11673
       objectReference: {fileID: 0}
     - target: {fileID: 11467570, guid: b9109372e1822cd4d97b74b0a9d618cc, type: 2}
       propertyPath: m_Text
@@ -1169,19 +1169,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22496010, guid: b9109372e1822cd4d97b74b0a9d618cc, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 57.301804
+      value: 57.301796
       objectReference: {fileID: 0}
     - target: {fileID: 22496010, guid: b9109372e1822cd4d97b74b0a9d618cc, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -39.10121
+      value: -39.03891
       objectReference: {fileID: 0}
     - target: {fileID: 22496010, guid: b9109372e1822cd4d97b74b0a9d618cc, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 114.60361
+      value: 114.60359
       objectReference: {fileID: 0}
     - target: {fileID: 22496010, guid: b9109372e1822cd4d97b74b0a9d618cc, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 68.20242
+      value: 68.07782
       objectReference: {fileID: 0}
     - target: {fileID: 22491550, guid: b9109372e1822cd4d97b74b0a9d618cc, type: 2}
       propertyPath: m_AnchoredPosition.x
@@ -1197,15 +1197,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22412784, guid: b9109372e1822cd4d97b74b0a9d618cc, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 57.301804
+      value: 57.301796
       objectReference: {fileID: 0}
     - target: {fileID: 22412784, guid: b9109372e1822cd4d97b74b0a9d618cc, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 114.60361
+      value: 114.60359
       objectReference: {fileID: 0}
     - target: {fileID: 22412784, guid: b9109372e1822cd4d97b74b0a9d618cc, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 68.20242
+      value: 68.07782
       objectReference: {fileID: 0}
     - target: {fileID: 11455572, guid: b9109372e1822cd4d97b74b0a9d618cc, type: 2}
       propertyPath: m_UiScaleMode
