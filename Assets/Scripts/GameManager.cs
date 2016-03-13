@@ -155,7 +155,7 @@ namespace Completed
                                         Vector2 deltaVpos = new Vector2(-touchDeltaPosition.x*speed,
                                             -touchDeltaPosition.y*speed);
                                         ShiftAllStars(deltaVpos);
-                }
+                                    }
                                     lastTouchPos = Input.GetTouch(i).position;
                                     break;
                             }
@@ -170,15 +170,14 @@ namespace Completed
                         ShiftAllStars(mouseDeltaPosition);
                         //instance.virtualPosition += mouseDeltaPosition;
                         prevMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                }
+                    }
                     else
-                {
+                    {
                         prevMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            }
-                    Player.instance.checkMouseDoubleClick();
+                    }
                 }
             }
-            
+            Player.instance.checkMouseDoubleClick();
         } // end Update()
 
         public void SetDiscovery(System.DateTime time)

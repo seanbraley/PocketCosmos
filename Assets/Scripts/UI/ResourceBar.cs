@@ -108,7 +108,7 @@ public class ResourceBar : MonoBehaviour {
 
 		//Tidy up
 		_currentCoroutine = null;
-		return true;
+		yield return true;
 	}
 
 	public void Hide(float time) {
