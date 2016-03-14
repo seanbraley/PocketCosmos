@@ -71,11 +71,12 @@ public class NetworkController : ViewController
 
     }
 
-    public void CollectSpacebux()
+    public void CollectSpacebux(int value)
     {
         //encrtypt this later
         var param = new Dictionary<byte, object>()
         {
+            {(byte) ClientParameterCode.Spacebux, value},
             {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.Spacebux}
         };
 
