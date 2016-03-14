@@ -42,7 +42,7 @@ namespace Completed
 
         public GameObject[] starPrefabs;
 
-        static List<GameObject> allStars;
+        public static List<GameObject> allStars;
         public static List<GameObject> keepLoadedStars;
 
         BigInteger virtualX = new BigInteger();

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;  // scene management at run-time.
 using System.Collections;
+using System.Linq;
+using System.Collections.Generic;
 using Completed;
 
 public class Star : PlanetaryBody {
@@ -24,6 +26,7 @@ public class Star : PlanetaryBody {
                         new Color(0 / 255f, 128 / 255f, 0 / 255f)       // Green
                     );
                 //CurrentWaypoint = HomeStarIcon_Prefab;
+                ConnectToNearbyStars();
             }
             else {
                 //CurrentWaypoint = UndiscoveredStarIcon_Prefab;
@@ -32,6 +35,7 @@ public class Star : PlanetaryBody {
                         new Color(221 / 255f, 160 / 255f, 221 / 255f),  // Plum
                         new Color(138 / 255f, 43 / 255f, 226 / 255f)    // Blue Violet
                     );
+                DisconnectFromNearbyStars();
             }
             _discovered = value;
         }
@@ -49,7 +53,10 @@ public class Star : PlanetaryBody {
     public static int MIN_SIZE = 15;
     public static int MAX_SIZE = 1;
 
+    public static float NEARBY_STAR_DISTANCE = 15;
+
     public GameObject[] planetPrefab;
+    public Material lineRendererMaterial;
 
     private GameObject[] _planets;  // orbiting children
 
@@ -111,6 +118,66 @@ public class Star : PlanetaryBody {
         }
 
         Generate();
+
+        if (Discovered) {
+            ConnectToNearbyStars();
+        }
+    }
+
+    Dictionary<Star,LineRenderer> neighborConnections;
+
+    void ConnectToNearbyStars() {
+        DisconnectFromNearbyStars();
+        neighborConnections = new Dictionary<Star,LineRenderer>();
+        Debug.Log(GameManager.allStars.Count);
+        List<Star> nearbyHomeStars = new List<Star>();
+        List<Star> nearbyDiscoveredStars = new List<Star>();
+        foreach (GameObject star_obj in GameManager.allStars){
+            Star star = star_obj.GetComponent<Star>();
+            if (star.Discovered && Vector3.Distance(transform.position,star.transform.position) <= NEARBY_STAR_DISTANCE) { // TODO: currently functioning as HOMESTARS (Change this)
+                GameObject lr_obj = new GameObject();
+                lr_obj.transform.position = this.transform.position;
+                lr_obj.gameObject.name = "NeighborConnection";
+                lr_obj.transform.parent = this.transform;
+                lr_obj.AddComponent<LineRenderer>();
+
+                LineRenderer lr = lr_obj.GetComponent<LineRenderer>();
+                lr.receiveShadows = false;
+                lr.castShadows = false;
+                lr.material = lineRendererMaterial;
+                lr.material.SetColor ("_TintColor", new Color(0,1f,0,(100f/255f)*0.8f));
+                lr.SetWidth(0.3f,0.3f);
+                lr.SetPositions(new Vector3[] {transform.position,star.transform.position});
+                neighborConnections.Add(star,lr);
+            }
+        }
+    }
+
+    void DisconnectFromNearbyStars() {
+        if (neighborConnections != null) {
+            foreach (KeyValuePair<Star,LineRenderer> kvp in neighborConnections) {
+                LineRenderer lr = kvp.Value;
+                Destroy(lr.gameObject);
+            }
+            neighborConnections = new Dictionary<Star,LineRenderer>();
+        }
+    }
+
+    void UpdateNeighborConnections() {
+        if (neighborConnections != null) {
+            foreach (KeyValuePair<Star,LineRenderer> kvp in neighborConnections) {
+                LineRenderer lr = kvp.Value;
+                Star star = kvp.Key;
+                if (star == null) {
+                    Destroy(lr.gameObject);
+                }
+                else {
+                    lr.SetPositions(new Vector3[] {transform.position,star.transform.position});
+                }
+            }
+            neighborConnections = (from kv in neighborConnections
+                where kv.Key != null select kv).ToDictionary(kv => kv.Key, kv => kv.Value);
+        }
     }
 
     public bool CheckUnload()
@@ -168,6 +235,8 @@ public class Star : PlanetaryBody {
         if (CurrentWaypoint != null) {
             CurrentWaypoint.transform.rotation = Quaternion.identity;
         }
+
+        UpdateNeighborConnections();
     }    
 
     // Procedurally generate the star
