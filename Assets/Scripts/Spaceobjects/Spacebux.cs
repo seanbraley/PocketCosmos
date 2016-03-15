@@ -30,7 +30,7 @@ public class Spacebux : Resource {
         if (_ready) {
             //capacity += _amountIncrease;
             //PlayerData.instance.Spacebux+= _amountIncrease;
-            NetworkManager.instance._controller.CollectSpacebux();
+            NetworkManager.instance._controller.CollectSpacebux(1); // TESTING - collect variable amounts of spacebux later
             _ready = false;
             GetComponent<Planet>().SetWaypoint(null);
         }

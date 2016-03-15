@@ -14,7 +14,6 @@ GameObject:
   - 114: {fileID: 11448020}
   - 54: {fileID: 5408566}
   - 135: {fileID: 13572756}
-  - 122: {fileID: 12208406}
   m_Layer: 0
   m_Name: StarSpeck
   m_TagString: Star
@@ -85,7 +84,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 104812}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5.520608, y: 0.27783605, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 444478}
@@ -119,6 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentBody: {fileID: 0}
+  Halo_Prefab: {fileID: 179368, guid: 230ed6a6ebfc9b84fb6f1e3bcac1b9ff, type: 2}
   myNumber: 0
   planetPrefab:
   - {fileID: 179486, guid: 63f61d91097fa4946964ea17c10fada4, type: 2}
@@ -140,17 +140,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStar: 1
---- !u!122 &12208406
-Halo:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 104812}
-  m_Enabled: 0
-  m_Color:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_Size: 1
 --- !u!135 &13572756
 SphereCollider:
   m_ObjectHideFlags: 1

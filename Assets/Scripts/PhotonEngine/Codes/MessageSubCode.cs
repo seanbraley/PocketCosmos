@@ -17,5 +17,9 @@ public enum MessageSubCode
     Profile,
     KnownStars,
     Spacebux,
-    DiscoverStar
+    DiscoverStar,
+    ColonizePlanet,
+    KnownPlanet,
+    SpendSpacebux,
+    CreateShip
 }

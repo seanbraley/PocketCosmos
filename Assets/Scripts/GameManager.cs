@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;       //Allows us to use Lists. 
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine.SceneManagement;  // scene management at run-time.
 using UnityEngine.EventSystems;     // handles input, raycasting, and sending events.
 
@@ -28,7 +29,11 @@ namespace Completed
         public int SectorLevel = 2;         // These should match scene and sector level numbers in build                    
         public int SystemLevel = 3;
 
+        public float speed = 0.025f;
+        public float touchThreshold = 5.0f;
+
         public Vector2 virtualPosition;
+        private Vector2 totalMovement = Vector2.zero;
         public static Vector2 lastKnownPosition;     // so players can return to last position when re-entering sector view
 
         public static System.DateTime destinationStarDiscoveryTime;
@@ -60,10 +65,8 @@ namespace Completed
 
             //Sets this to not be destroyed when reloading scene
             DontDestroyOnLoad(gameObject);
-            
-            keepLoadedStars = new List<GameObject>();
 
-            //_controller.CollectSpacebux();
+            keepLoadedStars = new List<GameObject>();
 
             if (lastKnownPosition == Vector2.zero)  // no last known position
                 instance.virtualPosition = PlayerData.instance.lastPosition;    // TODO: update to respond to server call
@@ -89,52 +92,86 @@ namespace Completed
 
                 // Discover the star
                 firstStar.GetComponent<Star>().Discovered = true;
-                firstStar.GetComponent<Star>().SetDiscoveryTime(System.DateTime.Now);
-                PlayerData.instance.discoveredStarSystems.Add(new DiscoveredStar(firstStar, System.DateTime.Now));
+                //firstStar.GetComponent<Star>().SetDiscoveryTime(System.DateTime.Now);
+                PlayerData.instance.discoveredStarSystems.Add(firstStar.GetComponent<Star>().myNumber);
             }
+            
         }
-        
+
 
         // Start is called once every scene start
         void Start()
         {
-        
+
+            foreach (GameObject star in keepLoadedStars)
+            {
+                if (PlayerData.instance.discoveredStarSystems.Contains(star.GetComponent<Star>().myNumber))
+                {
+                    star.GetComponent<Star>().Discovered = true;
+                }
+            }
         }
 
-
+        private Vector2 prevMousePos = Vector2.zero;
+        private Vector2 lastTouchPos = Vector2.zero;
         //Update is called every frame.
         void Update()
         {
+            if (Input.GetKeyDown("space")) {
+                ReturnButton();
+            }
+
             if (SceneManager.GetActiveScene().buildIndex == SectorLevel)
             {
-                if (Input.GetKey(KeyCode.W) || SwipeManager.swipeDirection == Swipe.Up)
+                if (SystemInfo.deviceType == DeviceType.Handheld)
                 {
-                    ShiftUp();
-                }
-                else if (Input.GetKey(KeyCode.S) || SwipeManager.swipeDirection == Swipe.Down)
+                    if (Input.touchCount > 0) // One finger touch is navigation
                 {
-                    ShiftDown();
-                }
-                else if (Input.GetKey(KeyCode.A) || SwipeManager.swipeDirection == Swipe.Left)
-                {
-                    ShiftLeft();
-                }
-                else if (Input.GetKey(KeyCode.D) || SwipeManager.swipeDirection == Swipe.Right)
-                {
-                    ShiftRight();
-                }
-            }
-            //CLICK HANDLER
-            Player.instance.checkMouseDoubleClick();
+                        for (int i = 0; i < Input.touchCount; i++)
+                        {
+                            switch (Input.GetTouch(i).phase)
+                            {
+                                case TouchPhase.Began:
+                                    Debug.Log("Entering touch phase began, setting touch pos: " +
+                                              Input.GetTouch(i).position);
+                                    lastTouchPos = Input.GetTouch(i).position;
 
-            // Mobile platform touch input handler
-#if UNITY_ANDROID || UNITY_IOS
-            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-            {
-                Player.instance.checkTouchDoubleClick();
+                                    Player.instance.checkMouseDoubleClick();
+
+                                    break;
+                                case TouchPhase.Moved:
+                                    Vector2 touchDeltaPosition = lastTouchPos - Input.GetTouch(i).position;
+                                    Debug.Log("Entering touch phase moved, new touch is: " + Input.GetTouch(i).position);
+                                    Debug.Log("Moved, delta was: " + touchDeltaPosition);
+                                    //transform.Translate(-touchDeltaPosition.x * speed, -touchDeltaPosition.y * speed, 0);
+                                    if (touchDeltaPosition.magnitude >= touchThreshold)
+                                    {
+                                        Vector2 deltaVpos = new Vector2(-touchDeltaPosition.x*speed,
+                                            -touchDeltaPosition.y*speed);
+                                        ShiftAllStars(deltaVpos);
+                                    }
+                                    lastTouchPos = Input.GetTouch(i).position;
+                                    break;
+                            }
+                        }
+                    }
+                }
+                else if (SystemInfo.deviceType == DeviceType.Desktop)
+                {
+                    if (Input.GetMouseButton(0))
+                    {
+                        Vector2 mouseDeltaPosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - prevMousePos;
+                        ShiftAllStars(mouseDeltaPosition);
+                        //instance.virtualPosition += mouseDeltaPosition;
+                        prevMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    }
+                    else
+                    {
+                        prevMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    }
+                }
             }
-#endif
-            
+            Player.instance.checkMouseDoubleClick();
         } // end Update()
 
         public void SetDiscovery(System.DateTime time)
@@ -150,15 +187,17 @@ namespace Completed
             // columns iterate 40 --> -40
             // Hold y constant while iterating through x's
             allStars = new List<GameObject>();
-            for (int y = (int)instance.virtualPosition.y + 40; y >= (int)instance.virtualPosition.y - 40; y--) // Y value (virtual)
+            for (int y = Mathf.FloorToInt(instance.virtualPosition.y) + 40; y >= Mathf.FloorToInt(instance.virtualPosition.y) - 40; y--) // Y value (virtual)
             {
-                for (int x = (int)instance.virtualPosition.x - 40; x <= (int)instance.virtualPosition.x + 40; x++) // X value (virtual)
+                for (int x = Mathf.FloorToInt(instance.virtualPosition.x) - 40; x <= Mathf.FloorToInt(instance.virtualPosition.x) + 40; x++) // X value (virtual)
                 {
                     if (Procedural.StarExists(x, y))
                     {
                         GameObject star = CreateStarAt(new Vector2(x, y));
                         if (star != null)
+                        {
                             allStars.Add(star);
+                        }
 
                         //tmp[x + 40] = CreateStarAt(new Vector2((int)virtualPosition.x + x, (int)virtualPosition.y + y));
                         //tmp[x + 40].GetComponent<Star>().SetNumber((int)virtualPosition.x + x, (int)virtualPosition.y + y);
@@ -180,43 +219,57 @@ namespace Completed
                 foreach (GameObject s in keepLoadedStars)
                     if (star.GetComponent<Star>().GetNumber() == s.GetComponent<Star>().GetNumber())
                         loaded = true;
+                foreach (GameObject s in allStars)
+                    if (star.GetComponent<Star>().GetNumber() == s.GetComponent<Star>().GetNumber())
+                        loaded = true;
                 if (loaded)
                 {
-                    Destroy(star);
+                    Debug.Log("Removing duplicate for: " + star.GetComponent<Star>().myNumber);
+                    Destroy(star.gameObject);
                     return null;
                 }
-                else
-                    return star;
             }
-            else
-            {
                 return star;
             }
-        }
 
         /// <summary>
         /// Gets row of stars at value y
         /// </summary>
         /// <param name="y">y value to generate array of stars for</param>
         /// <returns></returns>
-        List<GameObject> GetRowOfStars(int virtualY)
+        void GetRowTopOfStars(int topOffset)
         {
+            int virtualY = Mathf.FloorToInt(instance.virtualPosition.y) + 41 + topOffset;  // Movement is negative
             List<GameObject> newStars = new List<GameObject>();
-            for (int x = (int)instance.virtualPosition.x - 40; x <= (int)instance.virtualPosition.x + 40; x++)
+            for (int x = Mathf.FloorToInt(instance.virtualPosition.x) - 40; x <= Mathf.FloorToInt(instance.virtualPosition.x) + 39; x++)
                 if (Procedural.StarExists(x,  virtualY))
                 {
                     GameObject star = CreateStarAt(new Vector2(x, virtualY));
                     if (star != null)
                         newStars.Add(star);
                 }
-            return newStars;
+            allStars.AddRange(newStars);
         }
 
-
-        List<GameObject> GetColumnOfStars(int virtualX)
+        void GetRowBottomOfStars(int bottomOffset)
         {
+            int virtualY = Mathf.FloorToInt(instance.virtualPosition.y) - 41 + bottomOffset;
             List<GameObject> newStars = new List<GameObject>();
-            for (int y = (int)instance.virtualPosition.y + 40; y >= (int)instance.virtualPosition.y - 40; y--) // iterate from up/down positive y to negative y
+            for (int x = Mathf.FloorToInt(instance.virtualPosition.x) - 39; x <= Mathf.FloorToInt(instance.virtualPosition.x) + 40; x++)
+                if (Procedural.StarExists(x, virtualY))
+                {
+                    GameObject star = CreateStarAt(new Vector2(x, virtualY));
+                    if (star != null)
+                        newStars.Add(star);
+                }
+            allStars.AddRange(newStars);
+        }
+
+        void GetColumnRightOfStars(int rightOffset)
+        {
+            int virtualX = Mathf.FloorToInt(instance.virtualPosition.x) + 41 + rightOffset;
+            List<GameObject> newStars = new List<GameObject>();
+            for (int y = Mathf.FloorToInt(instance.virtualPosition.y) + 40; y >= Mathf.FloorToInt(instance.virtualPosition.y) - 39; y--) // iterate from up/down positive y to negative y
             {
                 if (Procedural.StarExists(virtualX, y))
                 {
@@ -225,7 +278,39 @@ namespace Completed
                         newStars.Add(star);
                 }
             }
-            return newStars;
+            allStars.AddRange(newStars);
+        }
+
+        void GetColumnLeftOfStars(int leftOffset)
+        {
+            int virtualX = Mathf.FloorToInt(instance.virtualPosition.x) - 41 + leftOffset;
+            List<GameObject> newStars = new List<GameObject>();
+            for (int y = Mathf.FloorToInt(instance.virtualPosition.y) + 39; y >= Mathf.FloorToInt(instance.virtualPosition.y) - 40; y--) // iterate from up/down positive y to negative y
+            {
+                if (Procedural.StarExists(virtualX, y))
+                {
+                    GameObject star = CreateStarAt(new Vector2(virtualX, y));
+                    if (star != null)
+                        newStars.Add(star);
+                }
+            }
+            allStars.AddRange(newStars);
+            }
+
+        private void CleanUpStars()
+        {
+            List<GameObject> garbage = new List<GameObject>();
+
+            foreach (GameObject s in allStars)
+            {
+                if ((s.transform.position.x < -41 || s.transform.position.x > 41 || s.transform.position.y < -41 || s.transform.position.y > 41) && s.GetComponent<Star>().CheckUnload())
+                    garbage.Add(s);
+            }
+            foreach (GameObject s in garbage)
+            {
+                Destroy(s.gameObject);
+                allStars.Remove(s);
+        }
         }
 
         /// <summary>
@@ -234,21 +319,37 @@ namespace Completed
         /// <param name="direction">movement vector</param>
         void ShiftAllStars(Vector2 direction)
         {
-            List<GameObject> garbage = new List<GameObject>();
             PlayerData.instance.lastPosition = instance.virtualPosition;
+            instance.virtualPosition -= direction;
             foreach (GameObject s in allStars)
+                s.transform.position += (Vector3)direction;
+
+            totalMovement += direction;
+
+            while (totalMovement.y >= 1)
             {
-                if ((s.transform.position.x < -41 || s.transform.position.x > 41 || s.transform.position.y < -41 || s.transform.position.y > 41) && s.GetComponent<Star>().CheckUnload())
-                    garbage.Add(s);
-                else
-                    s.transform.position += (Vector3)direction;
+                GetRowBottomOfStars(Mathf.FloorToInt(totalMovement.y));
+                totalMovement.y -= 1;
             }
-            foreach (GameObject s in garbage)
+            while (totalMovement.y <= -1)
             {
-                Destroy(s.gameObject);
-                allStars.Remove(s);
+                GetRowTopOfStars(Mathf.FloorToInt(totalMovement.y));
+                totalMovement.y += 1;
             }
+            while (totalMovement.x >= 1)
+            {
+                GetColumnLeftOfStars(Mathf.FloorToInt(totalMovement.x));
+                totalMovement.x -= 1;
+            }
+            while (totalMovement.x <= -1)
+            {
+                GetColumnRightOfStars(Mathf.FloorToInt(totalMovement.x));
+                totalMovement.x += 1;
         }   
+            CleanUpStars();
+        }
+
+
 
         /// <summary>
         /// Generate new row on top and cleanup last row (do first)
@@ -261,14 +362,11 @@ namespace Completed
         {
             ShiftAllStars(Vector2.down);              // shift all
             //virtualPosition.y++;  // y = 1
-            instance.virtualPosition.y++;  // y = 1
+            //instance.virtualPosition.y++;  // y = 1
 
-            List<GameObject> newStars = GetRowOfStars((int)instance.virtualPosition.y + 40);
-            foreach (GameObject s in newStars)
-                allStars.Add(s);
 
-            /*
-            GameObject[] newStars = GetRowOfStars((int)virtualPosition.y, 40);
+
+            /*s = GetRowOfStars((int)virtualPosition.y, 40);
             foreach (GameObject s in starsList[starsList.Count - 1])  // Last row
                 if (s != null)
                     Destroy(s);
@@ -284,11 +382,8 @@ namespace Completed
         {
             ShiftAllStars(Vector2.up);
             //virtualPosition.y--;  // y = -1
-            instance.virtualPosition.y--;  // y = -1
+            //instance.virtualPosition.y--;  // y = -1
 
-            List<GameObject> newStars = GetRowOfStars((int)instance.virtualPosition.y - 40);
-            foreach (GameObject s in newStars)
-                allStars.Add(s);
 
             /*
             GameObject[] newStars = GetRowOfStars((int)virtualPosition.y, -40);
@@ -305,11 +400,8 @@ namespace Completed
         {
             ShiftAllStars(Vector2.left);
             //virtualPosition.x++;
-            instance.virtualPosition.x++;
-            List<GameObject> newStars = GetColumnOfStars((int)instance.virtualPosition.x + 40);
+            //instance.virtualPosition.x++;
 
-            foreach (GameObject s in newStars)
-                allStars.Add(s);
 
             // Removes old stars from beginning
 
@@ -334,12 +426,7 @@ namespace Completed
         {
             ShiftAllStars(Vector2.right);
             //virtualPosition.x--;
-            instance.virtualPosition.x--;
-
-            List<GameObject> newStars = GetColumnOfStars((int)instance.virtualPosition.x - 40);
-
-            foreach (GameObject s in newStars)
-                allStars.Add(s);
+            //instance.virtualPosition.x--;
 
             /*
             GameObject[] newStars = GetColumnOfStars(-40, (int)virtualPosition.x - 40);
@@ -414,12 +501,16 @@ namespace Completed
             // Go back to system view
             lastKnownPosition = instance.virtualPosition;
             SceneManager.LoadScene(SystemLevel);
+            DisplayManager.Instance.ShowPopulationBar(false);
+            DisplayManager.Instance.ShowEnergyBar(true);
         }
 
         public void ToSectorView() {
             // Go back to sector view
             instance.virtualPosition = lastKnownPosition;
             SceneManager.LoadScene(SectorLevel);
+            DisplayManager.Instance.ShowPopulationBar(false);
+            DisplayManager.Instance.ShowEnergyBar(false);
         }
 
     }

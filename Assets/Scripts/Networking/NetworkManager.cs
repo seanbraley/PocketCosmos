@@ -56,7 +56,6 @@ public class NetworkManager : View {
         PhotonEngine.Instance.Controller = Controller as ViewController;
         Debug.Log(PhotonEngine.Instance.Controller);
 
-
     }
 	
 	// Update is called once per frame
@@ -72,6 +71,8 @@ public class NetworkManager : View {
         messageBox.text = "Login Successful";
 
         LoginSuccess = true;
+
+        this._controller.RetrieveKnownStars(); // TESTING
         //Use invoke to delay calling of LoadDelayed by half the length of fadeColorAnimationClip
         //Invoke("LoadDelayed", fadeColorAnimationClip.length * .5f);
 

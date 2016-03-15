@@ -43,6 +43,8 @@ public class Planet : PlanetaryBody {
     private double rotationDistance;
     private int initialRotationOffset;
 
+    public int PlanetType;
+
     public GameObject CollectSpacebuxxxxxxx_Prefab;
     private GameObject _currentWaypoint;
     public GameObject CurrentWaypoint {
@@ -63,6 +65,8 @@ public class Planet : PlanetaryBody {
     		}
     	}
     }
+
+    public int NumFeatures;
 
 	/*~*~*~*~*~*~*~*~*~*~*~* Initialization *~*~*~*~*~*~*~*~*~*~*~*/
 	/* All code under this subheading will be called once, at the
@@ -122,6 +126,9 @@ public class Planet : PlanetaryBody {
         {
             _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "blue");
         }
+
+        NumFeatures = _layeredSprite.NumLayersShowing;
+        Debug.Log("I have this many features: " + NumFeatures);
 
         // Draw orbit path (same color as planet)
         orbitPath = GetComponent<LineRenderer>();
