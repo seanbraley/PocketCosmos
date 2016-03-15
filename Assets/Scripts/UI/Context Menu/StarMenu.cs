@@ -32,19 +32,16 @@ public class StarMenu : ContextMenu {
 			SetDescription("Big Giant Hot Thing (TO-DO)");
             // Terrible things
             System.Random tmpRNG = new System.Random((int)star.myNumber);
-            tmpRNG.Next(); // pbody
-            tmpRNG.NextDouble();  // pbody
-            tmpRNG.Next(); // star
-            tmpRNG.Next(); // star
+            int numPlanets = (int)(SystemStar.MEAN_PLANET + (SystemStar.RANGE_PLANET * tmpRNG.NextGaussian()));
 
-            double val = (SystemStar.RANGE_PLANET * tmpRNG.NextGaussian());
-            int numPlanets = (int)(SystemStar.MEAN_PLANET + val);
+            int baseEnergyLevel = tmpRNG.Next(40, 100);  // Set power level
+
             // End terrible things
 
             SetTotalPlanetsText(numPlanets.ToString());
 			SetDiscoveredPlanetsText("TO-DO");
 			SetOwnedPlanetsText("TO-DO");
-			SetEnergyBarText("TO-DO");
+			SetEnergyBarText(baseEnergyLevel.ToString());
 		}
 		else {
 			SetTitle("Unknown Star");
