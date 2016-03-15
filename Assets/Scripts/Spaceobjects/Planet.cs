@@ -86,24 +86,24 @@ public class Planet : PlanetaryBody {
         if (planetNum <= 2)  // hot planets generate more power, negative population rate (usually)
         {
             energyModifier = localRNG.NextGaussian(2);
-            populationRate = localRNG.NextGaussian(-1);
+            populationRate = localRNG.NextGaussian(-2, 5);
             _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "red");
         }
         else if (planetNum > 2 & planetNum <= 5)
         {
             energyModifier = localRNG.NextGaussian(1);
-            populationRate = localRNG.NextGaussian(2);
+            populationRate = localRNG.NextGaussian(10, 5);
             _layeredSprite.Randomize((uint) localRNG.Next(), ref localRNG, "green");
         }
         else
         {
             energyModifier = localRNG.NextGaussian(-1);
-            populationRate = localRNG.NextGaussian(-1);
+            populationRate = localRNG.NextGaussian(-2, 5);
             _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "blue");
         }
 
         Debug.Log(string.Format("Created planet: {0}{1}. EnergyProduced: {2}, populationRate: {3}", 
-            homeStar.myNumber, System.Convert.ToChar(64 + planetNum), energyModifier*homeStar.baseEnergyLevel, populationRate));
+            homeStar.myNumber, System.Convert.ToChar(64 + planetNum), Mathf.RoundToInt((float)energyModifier*homeStar.baseEnergyLevel), Mathf.RoundToInt((float)populationRate)));
 
         renderer = GetComponent<Renderer>();
 
