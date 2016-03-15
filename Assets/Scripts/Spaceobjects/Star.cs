@@ -138,21 +138,28 @@ public class Star : PlanetaryBody {
         foreach (GameObject star_obj in GameManager.allStars){
             Star star = star_obj.GetComponent<Star>();
             if (star != this && star.Discovered && Vector3.Distance(transform.position,star.transform.position) <= NEARBY_STAR_DISTANCE) { // TODO: currently functioning as HOMESTARS (Change this)
-                GameObject lr_obj = new GameObject();
-                lr_obj.transform.position = this.transform.position;
-                lr_obj.gameObject.name = "NeighborConnection";
-                lr_obj.transform.parent = this.transform;
-                lr_obj.AddComponent<LineRenderer>();
-
-                LineRenderer lr = lr_obj.GetComponent<LineRenderer>();
-                lr.receiveShadows = false;
-                lr.castShadows = false;
-                lr.material = lineRendererMaterial;
-                lr.material.SetColor ("_TintColor", new Color(0,1f,0,(100f/255f)*0.8f));
-                lr.SetWidth(0.3f,0.3f);
-                lr.SetPositions(new Vector3[] {transform.position,star.transform.position});
-                neighborConnections.Add(star,lr);
+                nearbyHomeStars.Add(star);
             }
+        }
+
+        nearbyHomeStars = nearbyHomeStars.OrderBy(x => Vector3.Distance(this.transform.position,x.transform.position)).ToList();
+        for(int i=0;i < Mathf.Min(2,nearbyHomeStars.Count); i++) {
+            Star star = nearbyHomeStars[i];
+            
+            GameObject lr_obj = new GameObject();
+            lr_obj.transform.position = this.transform.position;
+            lr_obj.gameObject.name = "NeighborConnection";
+            lr_obj.transform.parent = this.transform;
+            lr_obj.AddComponent<LineRenderer>();
+
+            LineRenderer lr = lr_obj.GetComponent<LineRenderer>();
+            lr.receiveShadows = false;
+            lr.castShadows = false;
+            lr.material = lineRendererMaterial;
+            lr.material.SetColor ("_TintColor", new Color(0,1f,0,(100f/255f)*0.8f));
+            lr.SetWidth(0.3f,0.3f);
+            lr.SetPositions(new Vector3[] {transform.position,star.transform.position});
+            neighborConnections.Add(star,lr);
         }
     }
 
