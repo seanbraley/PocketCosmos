@@ -83,19 +83,19 @@ public class PlanetaryBody : MonoBehaviour {
         _layeredSprite.LoadSprites();
     }
 
-    /// <summary>
-    /// Randomize generic components, set rng etc
-    /// </summary>
-    /// <param name="i">seed for rng</param>
-    public void Randomize(int i)
+    public void SetUpRNG(uint i)
     {
-        // set local RNG
-        localRNG = new System.Random(i);
+        localRNG = new System.Random((int)i);
+    }
 
+    /// <summary>
+    /// Sets Rotation speed and direction
+    /// </summary>
+    public void SetBasicFeatures()
+    {
         // Set basic attributes (ie rotation)
         _rotationSpeed = localRNG.Next(MIN_ROTATION_SPEED, MAX_ROTATION_SPEED);
         _rotationDirection = (localRNG.NextDouble() > .5) ? 1 : -1;
-
     }
 
     /// <summary>
