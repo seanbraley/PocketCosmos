@@ -127,8 +127,8 @@ public class Star : PlanetaryBody {
         }
     }
 
-    Dictionary<Star,LineRenderer> neighborConnections;
-
+    public Dictionary<Star,LineRenderer> neighborConnections;
+    
     void ConnectToNearbyStars() {
         DisconnectFromNearbyStars();
         neighborConnections = new Dictionary<Star,LineRenderer>();
@@ -143,9 +143,11 @@ public class Star : PlanetaryBody {
         }
 
         nearbyHomeStars = nearbyHomeStars.OrderBy(x => Vector3.Distance(this.transform.position,x.transform.position)).ToList();
+        nearbyHomeStars = (from star in nearbyHomeStars
+                where (!star.neighborConnections.ContainsKey(this)) select star).ToList();
         for(int i=0;i < Mathf.Min(2,nearbyHomeStars.Count); i++) {
             Star star = nearbyHomeStars[i];
-            
+
             GameObject lr_obj = new GameObject();
             lr_obj.transform.position = this.transform.position;
             lr_obj.gameObject.name = "NeighborConnection";
@@ -156,7 +158,7 @@ public class Star : PlanetaryBody {
             lr.receiveShadows = false;
             lr.castShadows = false;
             lr.material = lineRendererMaterial;
-            lr.material.SetColor ("_TintColor", new Color(0,1f,0,(100f/255f)*0.8f));
+            lr.material.SetColor ("_TintColor", new Color(0,1f,0,(100f/255f)*0.4f));
             lr.SetWidth(0.3f,0.3f);
             lr.SetPositions(new Vector3[] {transform.position,star.transform.position});
             neighborConnections.Add(star,lr);
