@@ -53,7 +53,7 @@ public class Star : PlanetaryBody {
     public static int MIN_SIZE = 15;
     public static int MAX_SIZE = 1;
 
-    public static float NEARBY_STAR_DISTANCE = 15;
+    public static float NEARBY_STAR_DISTANCE = 6*Mathf.PI;
 
     public GameObject[] planetPrefab;
     public Material lineRendererMaterial;
@@ -134,7 +134,7 @@ public class Star : PlanetaryBody {
         List<Star> nearbyDiscoveredStars = new List<Star>();
         foreach (GameObject star_obj in GameManager.allStars){
             Star star = star_obj.GetComponent<Star>();
-            if (star.Discovered && Vector3.Distance(transform.position,star.transform.position) <= NEARBY_STAR_DISTANCE) { // TODO: currently functioning as HOMESTARS (Change this)
+            if (star != this && star.Discovered && Vector3.Distance(transform.position,star.transform.position) <= NEARBY_STAR_DISTANCE) { // TODO: currently functioning as HOMESTARS (Change this)
                 GameObject lr_obj = new GameObject();
                 lr_obj.transform.position = this.transform.position;
                 lr_obj.gameObject.name = "NeighborConnection";
