@@ -43,9 +43,6 @@ namespace Completed
 
         static List<GameObject> allStars;
         public static List<GameObject> keepLoadedStars;
-
-        BigInteger virtualX = new BigInteger();
-        BigInteger virtualY = new BigInteger();
         
 
         // Awake is always called before any Start functions
@@ -76,9 +73,6 @@ namespace Completed
                 instance.virtualPosition = lastKnownPosition;
 
             virtualPosition = instance.virtualPosition;
-
-            virtualX = new BigInteger((long)virtualPosition.x);
-            virtualX = new BigInteger((long)virtualPosition.y);
 
             //virtualPosition = instance.virtualPosition;
 
