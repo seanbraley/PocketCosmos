@@ -21,17 +21,16 @@ public class SystemStar : PlanetaryBody {
     public System.DateTime discoveryTime;
     public int numPlanets;
 	public float rotationSpeed;
+    public int baseEnergyLevel;
 	private float minDist = 5000;
 	private float maxDist = 10000;
+
 	public GameObject[] planets;
 	public GameObject planetPrefabSmooth;
 	public GameObject planetPrefabJagged;
 	public GameObject planetPrefabWindy;
-
-    private static int testSeed = 42;
-    public int myNumber;
-
-    public System.Random myRNG;
+    
+    public uint myNumber;
 
 	private Player player;
 
@@ -47,84 +46,58 @@ public class SystemStar : PlanetaryBody {
 	void Start()
     {
         base.Start();
-        parentBody = null;
+        parentBody = null;  // Stars have no parent
         // testing
         //Initialize(testSeed);
         GameObject go = GameObject.Find("GameManager");
         if (go != null) {
-        	myNumber = (int)go.GetComponent<GameManager>().selectedID;
-            testSeed = myNumber;
-            Initialize(testSeed);
+        	myNumber = go.GetComponent<GameManager>().selectedID;
+            SetUpRNG(myNumber);
+
+            // Important info about stars includes... # planets & base power
+            numPlanets = (int)(MEAN_PLANET + (RANGE_PLANET * localRNG.NextGaussian()));
+            baseEnergyLevel = localRNG.Next(40, 100);  // Set power level
+
+            SetBasicFeatures();  // Rotation
+            Size = localRNG.Next(MIN_SIZE, MAX_SIZE);
+            _layeredSprite.isStar = true;
+            _layeredSprite.RandomizeSystemStar(ref localRNG);
+            discoveryTime = GameManager.destinationStarDiscoveryTime;
+            BuildSolarSystem();
         }
-    }
-
-    void Initialize(int value)
-    {
-        // Sets basic things
-        Randomize(value);
-
-        Size = localRNG.Next(MIN_SIZE, MAX_SIZE);
-
-        // The necessity of these should be checked
-        renderer = GetComponent<Renderer>();
-        player = Camera.main.GetComponent<Player>();
-
-        // Modify the sprite
-        _layeredSprite.Randomize((uint)localRNG.Next());
-
-        discoveryTime = GameManager.destinationStarDiscoveryTime;
-
-        // Set up the solar system
-        BuildSolarSystem();
-    }
-
-    void Initialize(uint value)
-    {
-        myRNG = new System.Random((int)value);
-        Initialize();
-    }
-
-    /* void Initialize ():
-	 * 		For initial creation of stars in a new game.
-	 * 		Randomizes:
-	 * 			Name
-	 * 			Rotation
-	 * 			Size
-	 */
-
-    void Initialize () {
-		renderer = GetComponent<Renderer>();
-        player = Camera.main.GetComponent<Player>();
-        rotationSpeed = myRNG.Next(MIN_ROTATION, MAX_ROTATION);
-
-        float size = 20f;
-        transform.localScale = new Vector3(size, size, size);
-		BuildSolarSystem();
     }
 
     void BuildSolarSystem()
     {
-        //localRNG.Next(MIN_PLANETS, MAX_PLANETS+1)
-        double val = (RANGE_PLANET * localRNG.NextGaussian());
-        numPlanets = (int)(MEAN_PLANET + val);
         planets = new GameObject[numPlanets];
         Vector3 planetOrbitPos = transform.position;
 
-        for (int i = 0; i < numPlanets; i++)
+        for (int i = 1; i <= numPlanets; i++)
         {
             planetOrbitPos += new Vector3(transform.localScale.x * PLANET_DISTANCE_CONSTANT, 0);
+
+            // Choose one of three planet prefabs
             int planetType = localRNG.Next(2);
             if (planetType == 1)
-                planets[i] = Instantiate(planetPrefabWindy, planetOrbitPos, Quaternion.identity) as GameObject;
+                planets[i-1] = Instantiate(planetPrefabWindy, planetOrbitPos, Quaternion.identity) as GameObject;
             else if (planetType == 2)
-                planets[i] = Instantiate(planetPrefabJagged, planetOrbitPos, Quaternion.identity) as GameObject;
+                planets[i-1] = Instantiate(planetPrefabJagged, planetOrbitPos, Quaternion.identity) as GameObject;
             else
-                planets[i] = Instantiate(planetPrefabSmooth, planetOrbitPos, Quaternion.identity) as GameObject;
+                planets[i-1] = Instantiate(planetPrefabSmooth, planetOrbitPos, Quaternion.identity) as GameObject;
 
-            planets[i].GetComponent<Planet>().name = name + System.Convert.ToChar(65 + i);
+            // Initialize Planet basic variables
+            planets[i-1].GetComponent<Planet>().planetNum = i;
+            planets[i-1].GetComponent<Planet>().myNumber = (uint)(myNumber / (i));
+            planets[i-1].GetComponent<Planet>().parentBody = this;
+
+            
+            // Need to fix this?
+            /*  Move this to start function?
+            planets[i].GetComponent<Planet>().name = name + System.Convert.ToChar(65 + i);  // Set name
             planets[i].GetComponent<Planet>().PlanetType = planetType;
             planets[i].GetComponent<Planet>().Randomize(localRNG.Next());
             planets[i].GetComponent<Planet>().Initialize(this, i + 1);
+            */
         }
     }
 

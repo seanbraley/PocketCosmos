@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Superbest_random;
 
 public class LayeredSprite : MonoBehaviour {
 
@@ -59,51 +60,59 @@ public class LayeredSprite : MonoBehaviour {
 
 	/* End DEBUG ~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~ */
 
-    public void RandomizeSectorStar(System.Random sourceRNG)
+    /// <summary>
+    /// Stars have three sections, the base and two ring colors
+    /// </summary>
+    /// <param name="sourceRNG"></param>
+    public void RandomizeSystemStar(ref System.Random sourceRNG)
     {
+        //ShowLayers(true);
         Color c1;
         Color c2;
-        switch (sourceRNG.Next(1,2))
+        Color baseColor = Color.white;
+
+        float r = 0.5f;
+        float g = 0.5f;
+        float b = 0.5f;
+
+        switch (sourceRNG.Next(1, 3))
         {
-            case 1:
-                c1 = new Color(
-                    sourceRNG.Next(100, 255) / 255f,
-                    sourceRNG.Next(0, 150) / 255f,
-                    sourceRNG.Next(0, 150) / 255f
-                );
-                c2 = new Color(
-                    sourceRNG.Next(100, 255) / 255f,
-                    sourceRNG.Next(0, 150) / 255f,
-                    sourceRNG.Next(0, 150) / 255f
-                );
+            case 1:  // Red
+                r = sourceRNG.Next(100, 255)/255f;
+                g = sourceRNG.Next(0, 50)/255f;
+                b = sourceRNG.Next(0, 50)/255f;
+                baseColor = new Color(r, g, b);
                 break;
 
-            case 2:
-                c1 = new Color(
-                    sourceRNG.Next(100, 255) / 255f,
-                    sourceRNG.Next(100, 255) / 255f,
-                    sourceRNG.Next(0, 200) / 255f
-                );
-                c2 = new Color(
-                    sourceRNG.Next(100, 255) / 255f,
-                    sourceRNG.Next(100, 255) / 255f,
-                    sourceRNG.Next(0, 200) / 255f
-                );
+            case 2:  // Blue
+                r = sourceRNG.Next(0, 50) / 255f;
+                g = sourceRNG.Next(0, 50) / 255f;
+                b = sourceRNG.Next(100, 255) / 255f;
+                baseColor = new Color(r, g, b);
                 break;
-            default:
-                c1 = new Color(
-                    sourceRNG.Next(0, 255) / 255f,
-                    sourceRNG.Next(0, 255) / 255f,
-                    sourceRNG.Next(0, 255) / 255f
-                );
-                c2 = new Color(
-                    sourceRNG.Next(0, 255) / 255f,
-                    sourceRNG.Next(0, 255) / 255f,
-                    sourceRNG.Next(0, 255) / 255f
-                );
+            case 3: // yellow
+                r = sourceRNG.Next(150, 255) / 255f;
+                g = sourceRNG.Next(150, 255) / 255f;
+                b = sourceRNG.Next(0, 50) / 255f;
+                baseColor = new Color(r, g, b);
                 break;
         }
-        SetColors(Color.white, Color.white);
+        c1 = new Color(
+            r + (float)sourceRNG.NextGaussian(0, .1),
+            g + (float)sourceRNG.NextGaussian(0, .1),
+            b + (float)sourceRNG.NextGaussian(0, .1)
+        );
+        c2 = new Color(
+            r + (float)sourceRNG.NextGaussian(0, .1),
+            g + (float)sourceRNG.NextGaussian(0, .1),
+            b + (float)sourceRNG.NextGaussian(0, .1)
+        );
+
+        // Set up colors
+        BaseColor = baseColor;
+
+        _spriteLayers[0].color = c1;
+        _spriteLayers[1].color = c2;
     }
 
     public void Randomize(uint i) {

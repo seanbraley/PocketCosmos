@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Superbest_random;
 
 public class Planet : PlanetaryBody {
 
@@ -29,6 +30,12 @@ public class Planet : PlanetaryBody {
 	public static int MAX_MOONS = 1;
 
 	public int orbitSpeed;
+
+    // Gameplay variables
+    public double energyModifier;
+    public double populationRate;
+    public uint population;
+
 	public LineRenderer orbitPath;
 	public GameObject orbitParent;
 	public SystemStar homeStar;
@@ -37,6 +44,7 @@ public class Planet : PlanetaryBody {
 	public GameObject[] moons;
 
     public int planetNum;
+    public uint myNumber;
 
 	private Renderer renderer;
 
@@ -66,17 +74,69 @@ public class Planet : PlanetaryBody {
     	}
     }
 
-    public int NumFeatures;
-
-	/*~*~*~*~*~*~*~*~*~*~*~* Initialization *~*~*~*~*~*~*~*~*~*~*~*/
-	/* All code under this subheading will be called once, at the
-	 * beginning of the game session.
-	 */
-
 	void Start ()
     {
-        //Initialize();
-	}
+        SetUpRNG(myNumber);
+        
+        base.Start();
+
+        homeStar = parentBody.GetComponent<SystemStar>();
+
+        // Set Color
+        if (planetNum <= 2)  // hot planets generate more power, negative population rate (usually)
+        {
+            energyModifier = localRNG.NextGaussian(2);
+            populationRate = localRNG.NextGaussian(-1);
+            _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "red");
+        }
+        else if (planetNum > 2 & planetNum <= 5)
+        {
+            energyModifier = localRNG.NextGaussian(1);
+            populationRate = localRNG.NextGaussian(2);
+            _layeredSprite.Randomize((uint) localRNG.Next(), ref localRNG, "green");
+        }
+        else
+        {
+            energyModifier = localRNG.NextGaussian(-1);
+            populationRate = localRNG.NextGaussian(-1);
+            _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "blue");
+        }
+
+        Debug.Log(string.Format("Created planet: {0}{1}. EnergyProduced: {2}, populationRate: {3}", 
+            homeStar.myNumber, System.Convert.ToChar(64 + planetNum), energyModifier*homeStar.baseEnergyLevel, populationRate));
+
+        renderer = GetComponent<Renderer>();
+
+        Size = localRNG.Next(MIN_SIZE, MAX_SIZE);
+
+
+        // Set Planet Size
+        transform.localScale = new Vector3(Size, Size, Size);
+
+        // Orbit Speed is a function of distance from orbit parent (whether it be a planet or star)
+        orbitSpeed = localRNG.Next(MIN_ORBIT_SPEED, MAX_ORBIT_SPEED);
+
+        // Rotational offset
+        initialRotationOffset = localRNG.Next(0, 360);
+
+        // Randomize Location around orbit parent (for illusion of time passing)
+        // Consider actually counting the amount of time the user has been away.
+        transform.position = (transform.position - parentBody.transform.position).normalized * ORBIT_CONSTANT * planetNum +
+                             parentBody.transform.position;
+        transform.RotateAround(parentBody.transform.position, Vector3.forward, initialRotationOffset);
+
+        // Adjust for persistent rotation
+        System.TimeSpan dt = System.DateTime.Now - homeStar.discoveryTime;
+        transform.RotateAround(parentBody.transform.position, Vector3.forward, -orbitSpeed * (float)dt.TotalSeconds);
+
+        // Draw orbit path (same color as planet)
+        orbitPath = GetComponent<LineRenderer>();
+        orbitPath.materials[0].color = Color.gray;
+
+        // Draw the orbit.
+        DrawOrbit();
+
+    }
 
     public void Initialize(PlanetaryBody parent, int planetNum)
     {
@@ -106,29 +166,27 @@ public class Planet : PlanetaryBody {
 
         // Randomize Location around orbit parent (for illusion of time passing)
         // Consider actually counting the amount of time the user has been away.
-        transform.position = (transform.position - parentBody.transform.position).normalized * ORBIT_CONSTANT * planetNum + parentBody.transform.position;
+        transform.position = (transform.position - parentBody.transform.position).normalized*ORBIT_CONSTANT*planetNum +
+                             parentBody.transform.position;
         transform.RotateAround(parentBody.transform.position, Vector3.forward, initialRotationOffset);
 
         System.TimeSpan dt = System.DateTime.Now - homeStar.discoveryTime;
 
-        transform.RotateAround(parentBody.transform.position, Vector3.forward, -orbitSpeed * (float)dt.TotalSeconds);
+        transform.RotateAround(parentBody.transform.position, Vector3.forward, -orbitSpeed*(float) dt.TotalSeconds);
 
         // Set Color
         if (planetNum <= 2)
         {
-            _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "red");
+            _layeredSprite.Randomize((uint) localRNG.Next(), ref localRNG, "red");
         }
         else if (planetNum > 2 & planetNum < 4)
         {
-            _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "green");
+            _layeredSprite.Randomize((uint) localRNG.Next(), ref localRNG, "green");
         }
         else
         {
-            _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "blue");
+            _layeredSprite.Randomize((uint) localRNG.Next(), ref localRNG, "blue");
         }
-
-        NumFeatures = _layeredSprite.NumLayersShowing;
-        Debug.Log("I have this many features: " + NumFeatures);
 
         // Draw orbit path (same color as planet)
         orbitPath = GetComponent<LineRenderer>();
@@ -155,38 +213,6 @@ public class Planet : PlanetaryBody {
     		CurrentWaypoint = null;
     	}
     }
-
-	/* void BuildMoons (int numMoons)
-	 * 		Builds sub-planets to orbit this planet.
-	 * 		Randomly generates the planets using the Instantiate() method.
-	 */
-	void BuildMoons(int numMoons) {
-		moons = new GameObject[numMoons];
-		for (int i = 0; i < numMoons; i++)
-        {
-			Vector3 planetPos = transform.position;
-			// Position the moon based on the size of the planet.
-			planetPos += new Vector3 ((transform.localScale.x) + (1+i) * transform.localScale.x/16,0,0);
-			moons[i] = Instantiate(this.gameObject,planetPos,Quaternion.identity) as GameObject;
-			moons[i].GetComponent<Planet>().SetOrbitParent(this.gameObject);
-			moons[i].name = gameObject.name + System.Convert.ToChar (97+i);
-		}
-	}
-
-	/* SetOrbitParent (GameObject parent)
-	 * 		Set Orbit Parent Manually (for use by the parent itself)
-	 * 		Investigate if there is a cleaner way to do this.
-	 */
-	public void SetOrbitParent(GameObject parent) {
-		orbitParent = parent;
-	}
-
-
-
-	/*~*~*~*~*~*~*~*~*~*~*~* Updating *~*~*~*~*~*~*~*~*~*~*~*/
-	/* All code under this subheading will be called on a
-	 * per-frame basis. Maybe not all frames, but most.
-	 */
 	
 	void Update ()
     {
@@ -196,53 +222,16 @@ public class Planet : PlanetaryBody {
 	    }
     }
 
-	/* void HandleMovement ()
-	 * 		Do everything related to planetary movement:
-	 * 			Rotate
-	 * 			Orbit around home star
-	 * 			Orbit around home planet (if moon)
-	 * 			Redraw the orbit path (see DrawOrbit())
-	 */
-	void HandleMovement () {
-		// Only orbit if camera is zoomed in (for optimization)
-		if (Camera.main.orthographicSize < 1000) {
-			// if the planet's orbit path is within view
-			if (orbitPath.isVisible) {
-				// Orbit the parent.
-				transform.RotateAround (parentBody.transform.position, Vector3.up, orbitSpeed * Time.deltaTime);
-				// Rotate about planetary axis
-				//transform.Rotate (Vector3.back, rotationSpeed * Time.deltaTime);  // This is handled in the base class
-			}
-            /*
-			// if the planet is a moon we must also orbit the host star.
-			if (orbitParent.tag == Planet.TAG) {
-				// But only if the home planet is currently orbiting.
-				if (homePlanet.orbitPath.isVisible) {
-					float parentOrbitSpeed = homePlanet.orbitSpeed;
-					GameObject star = homeStar.gameObject;
-					transform.RotateAround (star.transform.position, Vector3.back, parentOrbitSpeed * Time.deltaTime);
-				}
-				//Redraw Orbit Path (for zooming and moons)
-				DrawOrbit ();
-			}
-            */
-		}
-		// we must always handle for zooming in and out.
-		orbitPath.SetWidth(ORBIT_PATH_WIDTH * Camera.main.orthographicSize, ORBIT_PATH_WIDTH * Camera.main.orthographicSize);
-	}
-
-	/* void DrawOrbit ()
-	 * 		Draw the planet's orbit path. Only necessary to call once if it 
-	 * 		is a planet, but if it is a moon it must be drawn every frame.
-	 */
-	void DrawOrbit () {
+	void DrawOrbit ()
+    {
 		float radius = Vector3.Distance(parentBody.transform.position,transform.position);
 		orbitPath.SetVertexCount(ORBIT_PATH_SEGMENTS + 1);
 		float deltaTheta = (2.0f *  Mathf.PI) / ORBIT_PATH_SEGMENTS;
 		float theta = 0;
 
 		// For each segment (+1, to complete the circle)
-		for (int i = 0; i < ORBIT_PATH_SEGMENTS + 1; i++) {
+		for (int i = 0; i < ORBIT_PATH_SEGMENTS + 1; i++)
+        {
 			// Do some trigonometry (I dun get it)
 			float x = radius * Mathf.Cos(theta);
 			float y = radius * Mathf.Sin(theta);
@@ -252,4 +241,11 @@ public class Planet : PlanetaryBody {
             theta += deltaTheta;
         }
     }
+}
+
+public enum PlanetType
+{
+    M, // earth
+    Y, // hot
+    D, // Rock
 }

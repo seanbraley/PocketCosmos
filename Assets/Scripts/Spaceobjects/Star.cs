@@ -5,6 +5,9 @@ using System.Linq;
 using System.Collections.Generic;
 using Completed;
 
+/// <summary>
+/// This class is for the stars found in the sector view (the little ones)
+/// </summary>
 public class Star : PlanetaryBody {
 
     // Add specific star properties

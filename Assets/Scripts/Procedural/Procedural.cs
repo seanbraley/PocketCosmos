@@ -24,6 +24,14 @@ public static class Procedural
             return System.Convert.ToUInt32(-(n * 2 - 1));
     }
 
+    /// <summary>
+    /// Pass in reference to the localRNG of the planetary body
+    /// </summary>
+    
+
+    
+
+
     public static Color GetColor(ushort i)
     {
         int r = i % 255;
