@@ -98,14 +98,14 @@ public class LayeredSprite : MonoBehaviour {
                 break;
         }
         c1 = new Color(
-            r + (float)sourceRNG.NextGaussian(-.1, .1),
-            g + (float)sourceRNG.NextGaussian(-.1, .1),
-            b + (float)sourceRNG.NextGaussian(-.1, .1)
+            r + (float)sourceRNG.NextGaussian(0, .1),
+            g + (float)sourceRNG.NextGaussian(0, .1),
+            b + (float)sourceRNG.NextGaussian(0, .1)
         );
         c2 = new Color(
-            r + (float)sourceRNG.NextGaussian(-.1, .1),
-            g + (float)sourceRNG.NextGaussian(-.1, .1),
-            b + (float)sourceRNG.NextGaussian(-.1, .1)
+            r + (float)sourceRNG.NextGaussian(0, .1),
+            g + (float)sourceRNG.NextGaussian(0, .1),
+            b + (float)sourceRNG.NextGaussian(0, .1)
         );
 
         // Set up colors

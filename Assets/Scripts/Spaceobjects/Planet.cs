@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Superbest_random;
 
 public class Planet : PlanetaryBody {
 
@@ -29,6 +30,12 @@ public class Planet : PlanetaryBody {
 	public static int MAX_MOONS = 1;
 
 	public int orbitSpeed;
+
+    // Gameplay variables
+    public double energyModifier;
+    public double populationRate;
+    public uint population;
+
 	public LineRenderer orbitPath;
 	public GameObject orbitParent;
 	public SystemStar homeStar;
@@ -70,14 +77,38 @@ public class Planet : PlanetaryBody {
 	void Start ()
     {
         SetUpRNG(myNumber);
-
+        
         base.Start();
+
+        homeStar = parentBody.GetComponent<SystemStar>();
+
+        // Set Color
+        if (planetNum <= 2)  // hot planets generate more power, negative population rate (usually)
+        {
+            energyModifier = localRNG.NextGaussian(2);
+            populationRate = localRNG.NextGaussian(-1);
+            _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "red");
+        }
+        else if (planetNum > 2 & planetNum <= 5)
+        {
+            energyModifier = localRNG.NextGaussian(1);
+            populationRate = localRNG.NextGaussian(2);
+            _layeredSprite.Randomize((uint) localRNG.Next(), ref localRNG, "green");
+        }
+        else
+        {
+            energyModifier = localRNG.NextGaussian(-1);
+            populationRate = localRNG.NextGaussian(-1);
+            _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "blue");
+        }
+
+        Debug.Log(string.Format("Created planet: {0}{1}. EnergyProduced: {2}, populationRate: {3}", 
+            homeStar.myNumber, System.Convert.ToChar(64 + planetNum), energyModifier*homeStar.baseEnergyLevel, populationRate));
 
         renderer = GetComponent<Renderer>();
 
         Size = localRNG.Next(MIN_SIZE, MAX_SIZE);
 
-        homeStar = parentBody.GetComponent<SystemStar>();
 
         // Set Planet Size
         transform.localScale = new Vector3(Size, Size, Size);
@@ -97,14 +128,6 @@ public class Planet : PlanetaryBody {
         // Adjust for persistent rotation
         System.TimeSpan dt = System.DateTime.Now - homeStar.discoveryTime;
         transform.RotateAround(parentBody.transform.position, Vector3.forward, -orbitSpeed * (float)dt.TotalSeconds);
-
-        // Set Color
-        if (planetNum <= 2)
-            _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "red");
-        else if (planetNum > 2 & planetNum < 4)
-            _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "green");
-        else
-            _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "blue");
 
         // Draw orbit path (same color as planet)
         orbitPath = GetComponent<LineRenderer>();
