@@ -7,7 +7,7 @@ public class ContextMenuManager : MonoBehaviour {
 
 	private StarMenu _starMenu;
 	private PlanetMenu _planetMenu;
-	private ShipMenu _shipMenu;
+	//private ShipMenu _shipMenu;
 
 	public void Awake() {
 		Instance = this; //shitty singleton, but anything more ruins everything for whatever reason.
@@ -18,15 +18,15 @@ public class ContextMenuManager : MonoBehaviour {
 	void Start () {
 		GameObject star = transform.Find("StarMenu").gameObject;
 		GameObject planet = transform.Find("PlanetMenu").gameObject;
-		GameObject ship = transform.Find("ShipMenu").gameObject;
+		//GameObject ship = transform.Find("ShipMenu").gameObject;
 
 		_starMenu = star.GetComponent<StarMenu>();
 		_planetMenu = planet.GetComponent<PlanetMenu>();
-		_shipMenu = ship.GetComponent<ShipMenu>();
+		//_shipMenu = ship.GetComponent<ShipMenu>();
 
 		ShowStarMenu(false);
 		ShowPlanetMenu(false);
-		ShowShipMenu(false);
+		//ShowShipMenu(false);
 	}
 	
 	// Update is called once per frame
@@ -38,7 +38,7 @@ public class ContextMenuManager : MonoBehaviour {
 		_starMenu.gameObject.SetActive(show);
 		if (show) {
 			ShowPlanetMenu(false);
-			ShowShipMenu(false);
+			//ShowShipMenu(false);
 		}
 	}
 
@@ -54,7 +54,7 @@ public class ContextMenuManager : MonoBehaviour {
 		_planetMenu.gameObject.SetActive(show);
 		if (show) {
 			ShowStarMenu(false);
-			ShowShipMenu(false);
+			//ShowShipMenu(false);
 		}
 	}
 
@@ -62,8 +62,9 @@ public class ContextMenuManager : MonoBehaviour {
 		_planetMenu.SetInfo(planet);
 	}
 
+	/*
 	public void ShowShipMenu(bool show) {
-		_shipMenu.gameObject.SetActive(show);
+		//_shipMenu.gameObject.SetActive(show);
 		if (show) {
 			ShowPlanetMenu(false);
 			ShowStarMenu(false);
@@ -73,4 +74,5 @@ public class ContextMenuManager : MonoBehaviour {
 	public void SetShipMenuInfo(Ship ship) {
 		
 	}
+	*/
 }
