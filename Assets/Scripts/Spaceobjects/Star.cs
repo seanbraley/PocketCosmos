@@ -128,13 +128,13 @@ public class Star : PlanetaryBody {
     }
 
     public Dictionary<Star,LineRenderer> neighborConnections;
-    
+
     void ConnectToNearbyStars() {
         DisconnectFromNearbyStars();
         neighborConnections = new Dictionary<Star,LineRenderer>();
         Debug.Log(GameManager.allStars.Count);
         List<Star> nearbyHomeStars = new List<Star>();
-        List<Star> nearbyDiscoveredStars = new List<Star>();
+
         foreach (GameObject star_obj in GameManager.allStars){
             Star star = star_obj.GetComponent<Star>();
             if (star != this && star.Discovered && Vector3.Distance(transform.position,star.transform.position) <= NEARBY_STAR_DISTANCE) { // TODO: currently functioning as HOMESTARS (Change this)
@@ -145,6 +145,7 @@ public class Star : PlanetaryBody {
         nearbyHomeStars = nearbyHomeStars.OrderBy(x => Vector3.Distance(this.transform.position,x.transform.position)).ToList();
         nearbyHomeStars = (from star in nearbyHomeStars
                 where (!star.neighborConnections.ContainsKey(this)) select star).ToList();
+
         for(int i=0;i < Mathf.Min(2,nearbyHomeStars.Count); i++) {
             Star star = nearbyHomeStars[i];
 
