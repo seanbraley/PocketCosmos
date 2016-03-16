@@ -19,28 +19,25 @@ public class ShipMenuItem : MonoBehaviour {
 	public string StatusText {
 		get {
 			if (_statusText != null)
-				return null;
-			else
 				return _statusText.text;
+			else {
+				return null;
+			}
 		}
 		set {
 			if (_statusText != null)
-				return;
-			else
 				_statusText.text = value;
 		}
 	}
 	public Color StatusColor {
 		get {
 			if (_statusText != null)
-				return new Color(0,0,0,0);
-			else
 				return _statusText.color;
+			else
+				return new Color(0,0,0,0);
 		}
 		set {
 			if (_statusText != null)
-				return;
-			else
 				_statusText.color = value;
 		}
 	}
@@ -71,27 +68,30 @@ public class ShipMenuItem : MonoBehaviour {
 	public Sprite ResearchRacerSprite;
 	public Sprite ColonyCarrierSprite;
 
-	void Initialize(ShipInfo info) {
+	public void Initialize(ShipInfo info) {
 		_shipClassImage = transform.Find("Image").GetComponent<Image>();
 		_nameText = transform.Find("Name").GetComponent<Text>();
 		_statusText = transform.Find("Status").GetComponent<Text>();
-
 
 		NameText = info.name;
 		ShipClass = info.ship_class;
 
 		if (info.origin_planet != 0 && info.destination_planet != 0) {
+			Debug.Log("o ^ d");
 			StatusText = "On Route";
-			StatusColor = Color.yellow;
-		}
-		else if (info.origin_planet != 0 && info.destination_planet == 0) {
-			StatusText = "Arrived";
-			StatusColor = Color.green;
-		}
-		else if (info.origin_planet == 0 && info.destination_planet != 0) {
-			StatusText = "Waiting";
 			StatusColor = Color.red;
 		}
+		else if (info.origin_planet == 0 && info.destination_planet != 0) {
+			Debug.Log("!o ^ d");
+			StatusText = "Arrived";
+			StatusColor = Color.blue;
+		}
+		else if (info.origin_planet != 0 && info.destination_planet == 0) {
+			Debug.Log("o ^ !d");
+			StatusText = "Ready";
+			StatusColor = Color.green;
+		}
+		Debug.Log(_statusText.text);
 	}
 
 	// Use this for initialization

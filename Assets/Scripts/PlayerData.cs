@@ -226,7 +226,7 @@ public class ShipInfo {
             this.origin_planet = 0;
             this.destination_planet = 123;
         }
-        if (rand < (2f/3f)) {
+        else if (rand < (2f/3f)) {
             this.origin_planet = 123;
             this.destination_planet = 0;
         }
