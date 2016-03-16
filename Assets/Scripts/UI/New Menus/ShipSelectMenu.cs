@@ -47,7 +47,7 @@ public class ShipSelectMenu : MonoBehaviour {
 		}
 	}
 
-	void PopulateShipSelectMenu() {
+	void PopulateShipSelectMenu(/*uint id*/) {
 		// TODO - Actually populate with real ships
 		for (int i = 0; i < Random.Range(10,100); i++) {
 			AddShipSelectMenuItem();

@@ -77,17 +77,14 @@ public class ShipSelectMenuItem : MonoBehaviour {
 		ShipClass = info.ship_class;
 
 		if (info.origin_planet != 0 && info.destination_planet != 0) {
-			Debug.Log("o ^ d");
 			StatusText = "On Route";
 			StatusColor = Color.red;
 		}
 		else if (info.origin_planet == 0 && info.destination_planet != 0) {
-			Debug.Log("!o ^ d");
 			StatusText = "Arrived";
 			StatusColor = Color.blue;
 		}
 		else if (info.origin_planet != 0 && info.destination_planet == 0) {
-			Debug.Log("o ^ !d");
 			StatusText = "Ready";
 			StatusColor = Color.green;
 		}
