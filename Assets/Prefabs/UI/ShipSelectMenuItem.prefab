@@ -10,6 +10,7 @@ GameObject:
   - 224: {fileID: 22445706}
   - 222: {fileID: 22201676}
   - 114: {fileID: 11413964}
+  - 114: {fileID: 11484640}
   m_Layer: 5
   m_Name: Status
   m_TagString: Untagged
@@ -27,6 +28,7 @@ GameObject:
   - 224: {fileID: 22454098}
   - 222: {fileID: 22234924}
   - 114: {fileID: 11487522}
+  - 114: {fileID: 11462996}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -44,6 +46,7 @@ GameObject:
   - 224: {fileID: 22468080}
   - 222: {fileID: 22275442}
   - 114: {fileID: 11451090}
+  - 114: {fileID: 11439174}
   m_Layer: 5
   m_Name: Name
   m_TagString: Untagged
@@ -64,7 +67,7 @@ GameObject:
   - 114: {fileID: 11454496}
   - 114: {fileID: 11407380}
   m_Layer: 5
-  m_Name: ShipMenuItem
+  m_Name: ShipSelectMenuItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,6 +121,20 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Ready
+--- !u!114 &11439174
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 185200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 1, y: 1}
+  m_UseGraphicAlpha: 1
 --- !u!114 &11451090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -130,7 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -189,7 +206,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11454642}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 185842}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &11454642
@@ -219,6 +247,34 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11462996
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
+--- !u!114 &11484640
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 105458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 1, y: 1}
+  m_UseGraphicAlpha: 1
 --- !u!114 &11487522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -304,8 +360,8 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 0.3}
   m_AnchorMax: {x: 1, y: 0.6}
-  m_AnchoredPosition: {x: 21.25, y: -2.5}
-  m_SizeDelta: {x: -47.5, y: 5}
+  m_AnchoredPosition: {x: 23, y: -2.5}
+  m_SizeDelta: {x: -54, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22454098
 RectTransform:
@@ -321,8 +377,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 3, y: 0}
-  m_SizeDelta: {x: 40, y: -6}
+  m_AnchoredPosition: {x: 5, y: 0}
+  m_SizeDelta: {x: 40, y: -10}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!224 &22468080
 RectTransform:
@@ -338,8 +394,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0.6}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 21.25, y: 0}
-  m_SizeDelta: {x: -47.5, y: 0}
+  m_AnchoredPosition: {x: 23, y: -0.5}
+  m_SizeDelta: {x: -54, y: -1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &100100000
 Prefab:
