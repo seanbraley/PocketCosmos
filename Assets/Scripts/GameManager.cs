@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;       //Allows us to use Lists. 
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine.SceneManagement;  // scene management at run-time.
 using UnityEngine.EventSystems;     // handles input, raycasting, and sending events.
 
@@ -42,11 +41,8 @@ namespace Completed
 
         public GameObject[] starPrefabs;
 
-        static List<GameObject> allStars;
+        public static List<GameObject> allStars;
         public static List<GameObject> keepLoadedStars;
-
-        BigInteger virtualX = new BigInteger();
-        BigInteger virtualY = new BigInteger();
         
 
         // Awake is always called before any Start functions
@@ -77,9 +73,6 @@ namespace Completed
                 instance.virtualPosition = lastKnownPosition;
 
             virtualPosition = instance.virtualPosition;
-
-            virtualX = new BigInteger((long)virtualPosition.x);
-            virtualX = new BigInteger((long)virtualPosition.y);
 
             //virtualPosition = instance.virtualPosition;
 

@@ -2,10 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-/// <summary>
-/// https://bitbucket.org/Superbest/superbest-random/src/f067e1dc014c?at=master
-/// Using this ^^ thx to creator
-/// </summary>
 namespace Superbest_random
 {
     /// <summary>

@@ -18,5 +18,10 @@ public enum ClientParameterCode : byte
     LastLocY,
     StarId,
     KnownStars,
-    DiscoverStar
+    DiscoverStar,
+    PlanetId,
+    Population,
+    Power,
+    ShipId,
+    Time
 }
