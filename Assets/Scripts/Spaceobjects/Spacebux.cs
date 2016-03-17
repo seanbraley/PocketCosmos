@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Spacebux : Resource {
     
     protected bool _ready;
+    protected bool _needToUpdate;
 
     // Use this for initialization
     protected override void Start()
     {
         _amountIncrease = 1;
         _ready = false;
+        _needToUpdate = true;
         _planet = this.gameObject.GetComponent<Planet>();
         _resourceType = Utility.ResourceType.Spacebux;
     }
@@ -17,6 +20,10 @@ public class Spacebux : Resource {
     // Update is called once per frame
     protected override void Update()
     {
+        // Status changed - update resource parameters from local save data
+        if (_needToUpdate) {
+            _needToUpdate = false;
+        }
 
         if (_planet.transform.position.y > 0 && (int)_planet.transform.position.x == 0)
         {
@@ -28,10 +35,12 @@ public class Spacebux : Resource {
     public override void Gather()
     {
         if (_ready) {
-            //capacity += _amountIncrease;
-            //PlayerData.instance.Spacebux+= _amountIncrease;
-            NetworkManager.instance._controller.CollectSpacebux(1); // TESTING - collect variable amounts of spacebux later
+            var currTime = DateTime.Now;
+            PlayerData.instance.spacebux += _amountIncrease; // update locally first
+            NetworkManager.instance._controller.CollectSpacebux(_amountIncrease); // collect spacebux
+            //PlayerData.instance.ownedPlanets.Find(x => x.planetID == _planet.myNumber && x.planetID == _planet.planetNum).lastCollectedTime = currTime; // update the local data state
             _ready = false;
+            _needToUpdate = true;
             GetComponent<Planet>().SetWaypoint(null);
         }
         else {

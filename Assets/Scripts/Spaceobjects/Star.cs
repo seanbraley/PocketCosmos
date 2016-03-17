@@ -67,7 +67,7 @@ public class Star : PlanetaryBody {
 
     public bool debug = false;
 
-    private System.DateTime discoveryTime;
+    public System.DateTime discoveryTime;
 
     private System.Random localRNG;
 

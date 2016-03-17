@@ -82,6 +82,9 @@ public class PlayerData : MonoBehaviour {
         spacebux = value;
     }
 
+    public void UpdateLastCollected(DateTime value, long starID, int planetID) {
+    }
+
     // update list of all known stars for a player
     public void UpdateKnownStars(long[] value) {
         discoveredStarSystems = new List<long>(value); ;
@@ -164,10 +167,14 @@ public class PlayerInfo {
 [Serializable]
 public class OwnedPlanet {
 
-    public DateTime discoveryTime;
-    public DateTime lastCollectedTime;
-    public long starID;                         // which star it orbits
-    public int planetID;
+    public DateTime lastCollectedTime
+    {
+        get { return lastCollectedTime; }
+        set { lastCollectedTime = value; }
+    }
+
+    public long starID { get; private set; } // which star it orbits
+    public int planetID { get; private set; }
 
     public OwnedPlanet(GameObject p)
     {
@@ -175,16 +182,10 @@ public class OwnedPlanet {
         // TO DO get time from server
         starID = p.GetComponent<Planet>().orbitParent.GetComponent<Star>().myNumber;
         planetID = p.GetComponent<Planet>().planetNum;
-        discoveryTime = System.DateTime.Now;
         lastCollectedTime = new DateTime();
 
     }
-
-    public DateTime LastCollectedTime
-    {
-        get { return lastCollectedTime; }
-        set { lastCollectedTime = value; }
-    }
+    
 }
 
 [Serializable]

@@ -44,6 +44,21 @@ public class Player : MonoBehaviour {
                     ContextMenuManager.Instance.SetStarMenuInfo(selectedSystemStar);
                 }
                 else if (selectedPlanet) {
+                    // set colour according to status
+                    if (selectedPlanet.personalOwnership && selectedPlanet.ownershipState) {
+                        // you own it and occupy it
+                        selected.GetComponent<PlanetaryBody>().Halo_Prefab.GetComponent<SpriteRenderer>().color = Color.green;
+                    }
+                    else if (!selectedPlanet.personalOwnership && selectedPlanet.ownershipState)
+                    {
+                        // someone else owns it and occupies it
+                        selected.GetComponent<PlanetaryBody>().Halo_Prefab.GetComponent<SpriteRenderer>().color = Color.red;
+                    }
+                    else
+                    {
+                        // no one owns it and it is unoccupied
+                        selected.GetComponent<PlanetaryBody>().Halo_Prefab.GetComponent<SpriteRenderer>().color = Color.white;
+                    }
                     DisplayManager.Instance.ShowPopulationBar(true);
                     DisplayManager.Instance.ShowEnergyBar(true);
                     ContextMenuManager.Instance.ShowPlanetMenu(true);
@@ -58,6 +73,7 @@ public class Player : MonoBehaviour {
             }
         }
     }
+    
 
     private int mouseClicks = 0;
     private float mouseTimer = 0f;
@@ -215,7 +231,6 @@ public class Player : MonoBehaviour {
                 GameManager.instance.selectedID = selected.GetComponent<Star>().myNumber;
                 // Highlight selection by turning on the halo
                 selected.GetComponent<PlanetaryBody>().ShowHalo(true);
-
             }
             else {
                 // Turn off the halo

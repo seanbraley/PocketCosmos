@@ -8,7 +8,7 @@ public class Resource : MonoBehaviour {
 
     //Variables accessible by subclass
     protected uint _capacity;
-    protected uint _amountIncrease;
+    protected int _amountIncrease;
     protected Utility.ResourceType _resourceType;
     protected Planet _planet;
     /*** Game Engine methods, all can be overridden by subclass ***/

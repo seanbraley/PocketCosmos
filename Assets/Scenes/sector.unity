@@ -911,7 +911,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22484884, guid: 86cb1f34bec4ef34a84d3c622e0d81c0, type: 2}
       propertyPath: m_SizeDelta.y
-      value: -256.19995
+      value: -256.4685
       objectReference: {fileID: 0}
     - target: {fileID: 11403088, guid: 86cb1f34bec4ef34a84d3c622e0d81c0, type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -932,6 +932,10 @@ Prefab:
     - target: {fileID: 11403088, guid: 86cb1f34bec4ef34a84d3c622e0d81c0, type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 22484884, guid: 86cb1f34bec4ef34a84d3c622e0d81c0, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 86cb1f34bec4ef34a84d3c622e0d81c0, type: 2}
@@ -2964,7 +2968,7 @@ Canvas:
   m_GameObject: {fileID: 914214827}
   m_Enabled: 1
   serializedVersion: 2
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1862349480}
   m_PlaneDistance: 100
   m_PixelPerfect: 0

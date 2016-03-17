@@ -187,12 +187,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentBody: {fileID: 0}
-  Halo_Prefab: {fileID: 179368, guid: 230ed6a6ebfc9b84fb6f1e3bcac1b9ff, type: 2}
+  Halo_Prefab: {fileID: 132468, guid: a41836248d5f77b42bb793a594604e5a, type: 2}
+  numPlanets: 0
   rotationSpeed: 0
+  baseEnergyLevel: 0
   planets: []
   planetPrefabSmooth: {fileID: 0}
   planetPrefabJagged: {fileID: 0}
   planetPrefabWindy: {fileID: 0}
+  myNumber: 0
 --- !u!135 &13527844
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -1894,6 +1897,10 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Halo_Prefab
+      value: 
+      objectReference: {fileID: 132468, guid: a41836248d5f77b42bb793a594604e5a, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 167330}

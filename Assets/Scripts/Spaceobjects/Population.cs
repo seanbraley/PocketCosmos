@@ -17,7 +17,7 @@ public class Population : Resource {
     protected override void Update () {
         if (_planet.transform.position.y > 0 && (int)_planet.transform.position.x == 0)
         {
-            _capacity += _amountIncrease;
+            //_capacity += _amountIncrease;
             Debug.Log(_planet.name + " population is now " + _capacity); //testing
             //GetComponent<Planet>().SetWaypoint("spacebux");
         }

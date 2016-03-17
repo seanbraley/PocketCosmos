@@ -31,6 +31,9 @@ public class Planet : PlanetaryBody {
 
 	public int orbitSpeed;
 
+    public bool personalOwnership = false;  // you own it - true = you own it, false = someone else owns it
+    public bool ownershipState = false;     // does anyone own it - true = someone does, false = unoccupied
+
     // Gameplay variables
     public double energyModifier;
     public double populationRate;
@@ -128,7 +131,7 @@ public class Planet : PlanetaryBody {
         // Adjust for persistent rotation
         System.TimeSpan dt = System.DateTime.Now - homeStar.discoveryTime;
         transform.RotateAround(parentBody.transform.position, Vector3.forward, -orbitSpeed * (float)dt.TotalSeconds);
-
+        Debug.Log(myNumber + " planet number: " + planetNum + " rot. time = " + 360 / orbitSpeed);
         // Draw orbit path (same color as planet)
         orbitPath = GetComponent<LineRenderer>();
         orbitPath.materials[0].color = Color.gray;
