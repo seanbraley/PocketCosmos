@@ -7,10 +7,10 @@ public class Population : Resource {
 
     // Use this for initialization
     protected override void Start () {
-        _amountIncrease = 1;
         _ready = false;
         _planet = this.gameObject.GetComponent<Planet>();
         _resourceType = Utility.ResourceType.People;
+        _amountIncrease = (int)_planet.populationRate;
     }
 
     // Update is called once per frame

@@ -131,7 +131,7 @@ public class Planet : PlanetaryBody {
         // Adjust for persistent rotation
         System.TimeSpan dt = System.DateTime.Now - homeStar.discoveryTime;
         transform.RotateAround(parentBody.transform.position, Vector3.forward, -orbitSpeed * (float)dt.TotalSeconds);
-        Debug.Log(myNumber + " planet number: " + planetNum + " rot. time = " + 360 / orbitSpeed);
+        Debug.Log(homeStar.myNumber + " planet number: " + planetNum + " rot. time = " + 360 / orbitSpeed);
         // Draw orbit path (same color as planet)
         orbitPath = GetComponent<LineRenderer>();
         orbitPath.materials[0].color = Color.gray;

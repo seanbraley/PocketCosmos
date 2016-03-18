@@ -167,10 +167,11 @@ public class PlayerInfo {
 [Serializable]
 public class OwnedPlanet {
 
-    public DateTime lastCollectedTime
+    private DateTime lastcollectedtime;
+    public DateTime LastCollectedTime
     {
-        get { return lastCollectedTime; }
-        set { lastCollectedTime = value; }
+        get { return lastcollectedtime; }
+        set { lastcollectedtime = value; }
     }
 
     public long starID { get; private set; } // which star it orbits
@@ -180,9 +181,9 @@ public class OwnedPlanet {
     {
         // p.GetComponent<Planet>().Discovered = true;  // TODO - implement this
         // TO DO get time from server
-        starID = p.GetComponent<Planet>().orbitParent.GetComponent<Star>().myNumber;
+        starID = p.GetComponent<Planet>().homeStar.myNumber;
         planetID = p.GetComponent<Planet>().planetNum;
-        lastCollectedTime = new DateTime();
+        LastCollectedTime = new DateTime();
 
     }
     
