@@ -35,7 +35,7 @@ public class ShipSelectMenu : MonoBehaviour {
 		item.transform.parent = _layoutGroup.transform;
 		item.transform.localScale = new Vector3(1,1,1);
 		ShipSelectMenuItem script = item.GetComponent<ShipSelectMenuItem>();
-		script.Initialize(new ShipInfo());
+		script.SetInfo(new ShipInfo());
 		_ShipSelectMenuItems.Add(script);
 	}
 
@@ -49,7 +49,7 @@ public class ShipSelectMenu : MonoBehaviour {
 
 	void PopulateShipSelectMenu(/*uint id*/) {
 		// TODO - Actually populate with real ships
-		for (int i = 0; i < Random.Range(10,100); i++) {
+		for (int i = 0; i < Random.Range(5,20); i++) {
 			AddShipSelectMenuItem();
 		}
 		OrderShipSelectMenuItems();

@@ -843,7 +843,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22484884, guid: 86cb1f34bec4ef34a84d3c622e0d81c0, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -256.19995
       objectReference: {fileID: 0}
     - target: {fileID: 11403088, guid: 86cb1f34bec4ef34a84d3c622e0d81c0, type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -867,6 +867,26 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 154478, guid: 86cb1f34bec4ef34a84d3c622e0d81c0, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22422038, guid: 86cb1f34bec4ef34a84d3c622e0d81c0, type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415402, guid: 86cb1f34bec4ef34a84d3c622e0d81c0, type: 2}
+      propertyPath: m_Inertia
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415402, guid: 86cb1f34bec4ef34a84d3c622e0d81c0, type: 2}
+      propertyPath: m_DecelerationRate
+      value: 1e-15
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415402, guid: 86cb1f34bec4ef34a84d3c622e0d81c0, type: 2}
+      propertyPath: m_ScrollSensitivity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11415402, guid: 86cb1f34bec4ef34a84d3c622e0d81c0, type: 2}
+      propertyPath: m_VerticalScrollbarVisibility
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1206,6 +1226,24 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 456412383}
+--- !u!1 &612083288 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 188756, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+  m_PrefabInternal: {fileID: 1248853702}
+--- !u!114 &612083292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 612083288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 2, y: 2}
+  m_UseGraphicAlpha: 1
 --- !u!1 &612920518
 GameObject:
   m_ObjectHideFlags: 0
@@ -2713,18 +2751,86 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 22465634, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
-      propertyPath: m_SizeDelta.y
-      value: -3.8399966
-      objectReference: {fileID: 0}
     - target: {fileID: 22415774, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
       propertyPath: m_SizeDelta.y
       value: -3.8399928
+      objectReference: {fileID: 0}
+    - target: {fileID: 22465634, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: m_SizeDelta.y
+      value: -3.8399966
       objectReference: {fileID: 0}
     - target: {fileID: 22484878, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
       propertyPath: m_SizeDelta.y
       value: -3.8399851
       objectReference: {fileID: 0}
+    - target: {fileID: 11480068, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480068, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480068, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11417210, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: ResearchRacerSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: abe98744b2caa3a45a1717bf24c8cbf5,
+        type: 3}
+    - target: {fileID: 11417210, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: ColonyCarrierSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: eabe529904db0554783444780471e40a,
+        type: 3}
+    - target: {fileID: 112720, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11402908, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1556996727}
+    - target: {fileID: 11402908, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 115716, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: m_Name
+      value: Name
+      objectReference: {fileID: 0}
+    - target: {fileID: 151036, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: m_Name
+      value: ShipClassText
+      objectReference: {fileID: 0}
+    - target: {fileID: 117642, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: m_Name
+      value: ShipClassImage
+      objectReference: {fileID: 0}
+    - target: {fileID: 175488, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: m_Name
+      value: OriginText
+      objectReference: {fileID: 0}
+    - target: {fileID: 187736, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: m_Name
+      value: DestinationText
+      objectReference: {fileID: 0}
+    - target: {fileID: 187736, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11417210, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: ResearchSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 797962ccce75f784c873d87fd92d8385,
+        type: 3}
+    - target: {fileID: 11417210, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+      propertyPath: ColonizeSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 07aa1437e9073004888eeded9e76cc80,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
   m_IsPrefabParent: 0
@@ -3148,6 +3254,24 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1359736720}
+--- !u!1 &1457188124 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 117642, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+  m_PrefabInternal: {fileID: 1248853702}
+--- !u!114 &1457188128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1457188124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1460056228
 GameObject:
   m_ObjectHideFlags: 0
@@ -3221,6 +3345,24 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1460056228}
+--- !u!1 &1498120005 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 120830, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+  m_PrefabInternal: {fileID: 1248853702}
+--- !u!114 &1498120009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1498120005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 2, y: 2}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1530998330
 GameObject:
   m_ObjectHideFlags: 0
@@ -3372,6 +3514,10 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!1 &1556996727 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 112720, guid: d67d8f918be00244b93501a58cfa1822, type: 2}
+  m_PrefabInternal: {fileID: 1248853702}
 --- !u!1001 &1558238014
 Prefab:
   m_ObjectHideFlags: 0

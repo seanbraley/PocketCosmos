@@ -68,7 +68,7 @@ public class ShipSelectMenuItem : MonoBehaviour {
 	public Sprite ResearchRacerSprite;
 	public Sprite ColonyCarrierSprite;
 
-	public void Initialize(ShipInfo info) {
+	public void SetInfo(ShipInfo info) {
 		_shipClassImage = transform.Find("Image").GetComponent<Image>();
 		_nameText = transform.Find("Name").GetComponent<Text>();
 		_statusText = transform.Find("Status").GetComponent<Text>();
@@ -88,7 +88,14 @@ public class ShipSelectMenuItem : MonoBehaviour {
 			StatusText = "Ready";
 			StatusColor = Color.green;
 		}
+
+		GetComponent<Button>().onClick.AddListener(() => OpenShipMenu(info));
 		Debug.Log(_statusText.text);
+	}
+
+	void OpenShipMenu(ShipInfo info) {
+		ShipMenu.Instance.gameObject.SetActive(true);
+		ShipMenu.Instance.SetInfo(info);
 	}
 
 	// Use this for initialization
