@@ -70,6 +70,7 @@ public class ShipMenu : MonoBehaviour {
 		}
 	}
 
+	private RectTransform _originTransform;
 	private Image _originImage;
 	private Text _originText;
 	public uint OriginID {
@@ -77,7 +78,6 @@ public class ShipMenu : MonoBehaviour {
 			return uint.Parse(_originText.text);
 		}
 		set {
-			Debug.Log("Origin: " + value.ToString());
 			if (value != 0) {
 				ShowOrigin(true);
 				_originText.text = value.ToString();
@@ -88,6 +88,7 @@ public class ShipMenu : MonoBehaviour {
 		}
 	}
 
+	private RectTransform _destinationTransform;
 	private Image _destinationImage;
 	private Text _destinationText;
 	public uint DestinationID {
@@ -95,7 +96,6 @@ public class ShipMenu : MonoBehaviour {
 			return uint.Parse(_destinationText.text);
 		}
 		set {
-			Debug.Log("DESTINATION: " + value.ToString());
 			if (value != 0) {
 				ShowDestination(true);
 				_destinationText.text = value.ToString();
@@ -112,6 +112,8 @@ public class ShipMenu : MonoBehaviour {
 	private Button _shipSpecificButton;
 	private Image _shipSpecificButtonImage;
 	private Text _shipSpecificButtonText;
+
+	private ProgressBar _progressBar;
 
 	public Sprite ResearchSprite;
 	public Sprite ColonizeSprite;
@@ -131,10 +133,13 @@ public class ShipMenu : MonoBehaviour {
 		_nameText = transform.Find("Name").GetComponent<Text>();
 		_statusText = transform.Find("Status").GetComponent<Text>();
 
-		_originImage = transform.Find("OriginImage").GetComponent<Image>();
-		_originText = transform.Find("OriginText").GetComponent<Text>();
-		_destinationImage = transform.Find("DestinationImage").GetComponent<Image>();
-		_destinationText = transform.Find("DestinationText").GetComponent<Text>();
+		_originTransform = transform.Find("Origin").GetComponent<RectTransform>();
+		_originImage = transform.Find("Origin/Image").GetComponent<Image>();
+		_originText = transform.Find("Origin/Text").GetComponent<Text>();
+
+		_destinationTransform = transform.Find("Destination").GetComponent<RectTransform>();
+		_destinationImage = transform.Find("Destination/Image").GetComponent<Image>();
+		_destinationText = transform.Find("Destination/Text").GetComponent<Text>();
 
 		_travelButton = transform.Find("TravelButton").GetComponent<Button>();
 		_destroyButton = transform.Find("DestroyButton").GetComponent<Button>();
@@ -142,6 +147,9 @@ public class ShipMenu : MonoBehaviour {
 		_shipSpecificButton = transform.Find("ShipSpecificButton").GetComponent<Button>();
 		_shipSpecificButtonImage = transform.Find("ShipSpecificButton/Image").GetComponent<Image>();
 		_shipSpecificButtonText = transform.Find("ShipSpecificButton/Text").GetComponent<Text>();
+
+		_progressBar = transform.Find("ProgressBar").GetComponent<ProgressBar>();
+		_progressBar.SetInfo(info);
 
 		NameText = info.name;
 		ShipClass = info.ship_class;
@@ -161,16 +169,32 @@ public class ShipMenu : MonoBehaviour {
 			StatusText = "Ready";
 			StatusColor = Color.green;
 		}
-		Debug.Log(_statusText.text);
 	}
 
 	void ShowOrigin(bool show) {
-		_originText.gameObject.SetActive(show);
-		_originImage.gameObject.SetActive(show);
+		_originTransform.gameObject.SetActive(show);
+		ArrangeOriginAndDestination();
 	}
 
 	void ShowDestination(bool show) {
-		_destinationText.gameObject.SetActive(show);
-		_destinationImage.gameObject.SetActive(show);
+		_destinationTransform.gameObject.SetActive(show);
+		ArrangeOriginAndDestination();
+	}
+
+	void ArrangeOriginAndDestination() {
+		if (_originTransform.gameObject.activeSelf && _destinationTransform.gameObject.activeSelf) {
+			_originTransform.anchorMin = new Vector2(0f,_originTransform.anchorMin.y);
+			_originTransform.anchorMax = new Vector2(0.5f,_originTransform.anchorMax.y);
+			_destinationTransform.anchorMin = new Vector2(0.5f,_destinationTransform.anchorMin.y);
+			_destinationTransform.anchorMax = new Vector2(1f,_destinationTransform.anchorMax.y);
+		}
+		else if (_originTransform.gameObject.activeSelf) {
+			_originTransform.anchorMin = new Vector2(0f,_originTransform.anchorMin.y);
+			_originTransform.anchorMax = new Vector2(1f,_originTransform.anchorMax.y);
+		}
+		else if (_destinationTransform.gameObject.activeSelf) {
+			_destinationTransform.anchorMin = new Vector2(0f,_destinationTransform.anchorMin.y);
+			_destinationTransform.anchorMax = new Vector2(1f,_destinationTransform.anchorMax.y);
+		}
 	}
 }
