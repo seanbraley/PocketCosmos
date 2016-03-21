@@ -197,10 +197,10 @@ public class ShipInfo {
     public string ship_class;
     public uint origin_planet;
     public uint destination_planet;
-    public float departure_time;
-    public float arrival_time;
+    public DateTime departure_time;
+    public DateTime arrival_time;
 
-    public ShipInfo(uint id, string name, string ship_class, uint origin_planet, uint destination_planet, float departure_time, float arrival_time) {
+    public ShipInfo(uint id, string name, string ship_class, uint origin_planet, uint destination_planet, DateTime departure_time, DateTime arrival_time) {
         this.id = id;
         this.name = name;
         this.ship_class = ship_class;
@@ -227,16 +227,28 @@ public class ShipInfo {
         if (rand < (1f/3f)) {
             this.origin_planet = 0;
             this.destination_planet = 123;
+            departure_time = DateTime.MinValue;
+            arrival_time = DateTime.MinValue;
         }
         else if (rand < (2f/3f)) {
             this.origin_planet = 123;
             this.destination_planet = 0;
+            departure_time = DateTime.MinValue;
+            arrival_time = DateTime.MinValue;
         }
         else {
             this.origin_planet = 123;
             this.destination_planet = 456;
+            departure_time = DateTime.Now.Subtract(new TimeSpan(0,
+                                                        0, //UnityEngine.Random.Range(0,1),
+                                                        0, //UnityEngine.Random.Range(0,60),
+                                                        UnityEngine.Random.Range(0,60),
+                                                        0)); //Random Start Time (for now);
+            arrival_time  = DateTime.Now.Add(new TimeSpan(0,
+                                                    0, //UnityEngine.Random.Range(0,1),
+                                                    0, //UnityEngine.Random.Range(0,60),
+                                                    UnityEngine.Random.Range(0,60),
+                                                    0)); //Random Start Time (for now);
         }
-        this.departure_time = 0;
-        this.arrival_time = 0;
     }
 }
