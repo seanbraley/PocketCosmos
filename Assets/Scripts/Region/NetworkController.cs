@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ExitGames.Client.Photon;
-
 //The spefic ViewController to handle login event
 //This clss is responsible for crafting the login mesage to send to the server
 //It also has a list of the relevent Login handlers. 
@@ -13,20 +12,19 @@ public class NetworkController : ViewController
     {
         LoginResponseHandler loginHandler = new LoginResponseHandler(this); // register handler!
         OperationHandlers.Add((byte)loginHandler.Code, loginHandler);
-
         PlayerProfileResponseHandler profileHandler = new PlayerProfileResponseHandler(this);
         OperationHandlers.Add((byte)profileHandler.Code, profileHandler);
-
         SpacebuxResponseHandler spacebuxHandler = new SpacebuxResponseHandler(this);
-        OperationHandlers.Add((byte)spacebuxHandler.Code, spacebuxHandler);   
-
+        OperationHandlers.Add((byte)spacebuxHandler.Code, spacebuxHandler);
         KnownStarsResponseHandler knownstarsHandler = new KnownStarsResponseHandler(this);
         OperationHandlers.Add((byte)knownstarsHandler.Code, knownstarsHandler);
-
         DiscoveredStarsResponseHandler discoveredstarsHandler = new DiscoveredStarsResponseHandler(this);
         OperationHandlers.Add((byte)discoveredstarsHandler.Code, discoveredstarsHandler);
-    }  
-
+        PlayerShipsResponseHandler retrieveShipsResponseHandler = new PlayerShipsResponseHandler(this);
+        OperationHandlers.Add((byte)retrieveShipsResponseHandler.Code, retrieveShipsResponseHandler);
+        PlayerPlanetResponseHandler retrievePlanetsResponseHandler = new PlayerPlanetResponseHandler(this);
+        OperationHandlers.Add((byte)retrievePlanetsResponseHandler.Code, retrievePlanetsResponseHandler);
+    }
     public void SendLogin(string username, string password)
     {
         //encrtypt this later
@@ -36,12 +34,10 @@ public class NetworkController : ViewController
             {(byte) ClientParameterCode.Password, password},
             {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.Login}
         };
-
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, false);
-
     }
-    
+
     public void SendRegister(string username, string password, string email)
     {
         var param = new Dictionary<byte, object>()
@@ -55,22 +51,39 @@ public class NetworkController : ViewController
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, false);
     }
-
     public void RetrieveProfile()
     {
-
         //encrtypt this later
         var param = new Dictionary<byte, object>()
         {
             {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.Profile}
         };
-
         ControlledView.LogDebug("SENDING PROFILE REQUEST");
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
-
     }
-
+    public void RetrieveShips()
+    {
+        //encrtypt this later
+        var param = new Dictionary<byte, object>()
+        {
+            {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.PlayerShips}
+        };
+        ControlledView.LogDebug("SENDING GET SHIP REQUEST");
+        //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
+        SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
+    }
+    public void RetrievePlanets()
+    {
+        //encrtypt this later
+        var param = new Dictionary<byte, object>()
+        {
+            {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.KnownPlanet}
+        };
+        ControlledView.LogDebug("SENDING GET Planet REQUEST");
+        //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
+        SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
+    }
     public void CollectSpacebux(int value)
     {
         //encrtypt this later
@@ -79,12 +92,10 @@ public class NetworkController : ViewController
             {(byte) ClientParameterCode.Spacebux, value},
             {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.Spacebux}
         };
-
         ControlledView.LogDebug("SENDING SPACEBUX REQUEST");
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
-
     public void SpendSpacebux(int value)
     {
         //encrtypt this later
@@ -97,7 +108,6 @@ public class NetworkController : ViewController
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
-
     public void RetrieveKnownStars()
     {
         //encrtypt this later
@@ -105,12 +115,10 @@ public class NetworkController : ViewController
         {
             {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.KnownStars}
         };
-
         ControlledView.LogDebug("SENDING KNOWN STARS REQUEST");
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
-
     public void SendDiscoveredStar(long starID)
     {
         var param = new Dictionary<byte, object>()
@@ -122,9 +130,7 @@ public class NetworkController : ViewController
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
-
     public void SendDiscoveredPlanet(long starID, int planetID)
     {
     }
-
 }

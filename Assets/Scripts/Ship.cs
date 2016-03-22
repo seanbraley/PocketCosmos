@@ -65,10 +65,11 @@ public class Ship : MonoBehaviour {
 		transform.position = Vector3.MoveTowards (startPos, endPos, speed * travelTime);
 
 		if (transform.position == endPos) {
-
+            
             Star destinationStar = destination.GetComponent<Star>();
             Planet destinationPlanet = destination.GetComponent<Planet>();
-            if (destinationStar) {
+            if (destinationStar)
+            {
                 // It's a star - discover the gameobject this ship was sent to
                 destinationStar.Discovered = true;
                 //PlayerData.instance.discoveredStarSystems.Add(new DiscoveredStar(destination, System.DateTime.Now));
@@ -76,17 +77,20 @@ public class Ship : MonoBehaviour {
                 destinationStar.SetDiscoveryTime(System.DateTime.Now);
                 origin.GetComponent<Star>().Unload();
                 destinationStar.Unload();
-                Destroy(this.gameObject);
             }
-            if (destinationPlanet) {
+            if (destinationPlanet)
+            {
                 // It's a planet - perform an action on the planet depending on ship class
+                // Carrier ship: colonize the ship
                 destinationPlanet.personalOwnership = true;
                 destinationPlanet.ownershipState = true;
                 var owned = new OwnedPlanet(destination);
                 owned.LastCollectedTime = DateTime.Now;
+                owned.PlanetPower = Mathf.RoundToInt((float)destinationPlanet.energyModifier * destinationPlanet.homeStar.baseEnergyLevel);
+                owned.PlanetPopulation = 1000;
                 PlayerData.instance.ownedPlanets.Add(owned); // TESTING - add a planet
-                Destroy(this.gameObject);
             }
+            Destroy(this.gameObject);            
         }
 
 		DrawLines ();
@@ -128,4 +132,3 @@ public class Ship : MonoBehaviour {
 
 
 }
-

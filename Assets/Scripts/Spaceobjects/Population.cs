@@ -10,7 +10,7 @@ public class Population : Resource {
         _ready = false;
         _planet = this.gameObject.GetComponent<Planet>();
         _resourceType = Utility.ResourceType.People;
-        _amountIncrease = (int)_planet.populationRate;
+        _amountIncrease = Mathf.RoundToInt((float)_planet.populationRate);
     }
 
     // Update is called once per frame

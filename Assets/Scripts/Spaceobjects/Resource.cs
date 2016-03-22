@@ -7,7 +7,7 @@ public class Resource : MonoBehaviour {
     //Public variables
 
     //Variables accessible by subclass
-    protected uint _capacity;
+    protected int _capacity;
     protected int _amountIncrease;
     protected Utility.ResourceType _resourceType;
     protected Planet _planet;

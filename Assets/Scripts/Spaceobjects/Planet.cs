@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 using Superbest_random;
 
 public class Planet : PlanetaryBody {
@@ -37,7 +38,7 @@ public class Planet : PlanetaryBody {
     // Gameplay variables
     public double energyModifier;
     public double populationRate;
-    public uint population;
+    public long population;
 
 	public LineRenderer orbitPath;
 	public GameObject orbitParent;

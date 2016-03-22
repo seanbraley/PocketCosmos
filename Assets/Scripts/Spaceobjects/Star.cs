@@ -132,7 +132,7 @@ public class Star : PlanetaryBody {
     void ConnectToNearbyStars() {
         DisconnectFromNearbyStars();
         neighborConnections = new Dictionary<Star,LineRenderer>();
-        Debug.Log(GameManager.allStars.Count);
+        //Debug.Log(GameManager.allStars.Count);
         List<Star> nearbyHomeStars = new List<Star>();
 
         foreach (GameObject star_obj in GameManager.allStars){

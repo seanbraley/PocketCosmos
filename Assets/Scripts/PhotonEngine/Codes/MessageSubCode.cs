@@ -21,5 +21,6 @@ public enum MessageSubCode
     ColonizePlanet,
     KnownPlanet,
     SpendSpacebux,
-    CreateShip
+    CreateShip,
+    PlayerShips
 }

@@ -40,9 +40,10 @@ public class Spacebux : Resource {
     {
         if (_ready) {
             var currTime = DateTime.Now;
+            //PlayerData.instance.ownedPlanets.Find(
+            //    x => x.starID == (long)_planet.homeStar.myNumber && x.planetID == _planet.planetNum).LastCollectedTime = currTime; // TO DO - update the local data state
             PlayerData.instance.spacebux += _amountIncrease; // update locally first
             NetworkManager.instance._controller.CollectSpacebux(_amountIncrease); // collect spacebux
-            //PlayerData.instance.ownedPlanets.Find(x => x.planetID == _planet.myNumber && x.planetID == _planet.planetNum).lastCollectedTime = currTime; // update the local data state
             _ready = false;
             _needToUpdate = true;
             GetComponent<Planet>().SetWaypoint(null);
