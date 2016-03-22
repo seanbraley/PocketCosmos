@@ -118,6 +118,8 @@ public class ShipMenu : MonoBehaviour {
 	public Sprite ResearchSprite;
 	public Sprite ColonizeSprite;
 
+	private ShipInfo _shipInfo;
+
 	// Use this for initialization
 	void Awake () {
 		if (Instance != null && Instance != this) {
@@ -128,6 +130,7 @@ public class ShipMenu : MonoBehaviour {
 	}
 
 	public void SetInfo(ShipInfo info) {
+		_shipInfo = info;
 		_shipClassText = transform.Find("ShipClassText").GetComponent<Text>();
 		_shipClassImage = transform.Find("ShipClassImage").GetComponent<Image>();
 		_nameText = transform.Find("Name").GetComponent<Text>();
@@ -159,16 +162,24 @@ public class ShipMenu : MonoBehaviour {
 
 		if (info.origin_planet != 0 && info.destination_planet != 0) {
 			StatusText = "On Route";
+			_travelButton.interactable = false;
+			_shipSpecificButton.interactable = false;
 			StatusColor = Color.red;
 		}
 		else if (info.origin_planet == 0 && info.destination_planet != 0) {
 			StatusText = "Arrived";
+			_travelButton.interactable = true;
+			_shipSpecificButton.interactable = true;
 			StatusColor = Color.blue;
 		}
 		else if (info.origin_planet != 0 && info.destination_planet == 0) {
 			StatusText = "Ready";
+			_travelButton.interactable = true;
+			_shipSpecificButton.interactable = true;
 			StatusColor = Color.green;
 		}
+
+		_travelButton.onClick.AddListener(() => BeginLaunchSetup());
 	}
 
 	void ShowOrigin(bool show) {
@@ -196,5 +207,12 @@ public class ShipMenu : MonoBehaviour {
 			_destinationTransform.anchorMin = new Vector2(0f,_destinationTransform.anchorMin.y);
 			_destinationTransform.anchorMax = new Vector2(1f,_destinationTransform.anchorMax.y);
 		}
+	}
+
+	void BeginLaunchSetup() {
+		ShipMissionPanel.Instance.gameObject.SetActive(true);
+		ShipMissionPanel.Instance.SetInfo(_shipInfo);
+		ShipSelectMenu.Instance.gameObject.SetActive(false);
+		gameObject.SetActive(false);
 	}
 }

@@ -28,26 +28,31 @@ public class Player : MonoBehaviour {
 
             if (selected != null) {
                 selected.GetComponent<PlanetaryBody>().ShowHalo(true);
-                Star selectedStar = selected.GetComponent<Star>();
-                SystemStar selectedSystemStar = selected.GetComponent<SystemStar>();                
-                Planet selectedPlanet = selected.GetComponent<Planet>();
-                if (selectedStar) {
-                    DisplayManager.Instance.ShowPopulationBar(false);
-                    DisplayManager.Instance.ShowEnergyBar(true);
-                    ContextMenuManager.Instance.ShowStarMenu(true);
-                    ContextMenuManager.Instance.SetStarMenuInfo(selectedStar);
+                if (ShipMissionPanel.Instance.gameObject.activeSelf) {
+                    ShipMissionPanel.Instance.Destination = selected;
                 }
-                else if (selectedSystemStar) {
-                    DisplayManager.Instance.ShowPopulationBar(false);
-                    DisplayManager.Instance.ShowEnergyBar(true);
-                    ContextMenuManager.Instance.ShowStarMenu(true);
-                    ContextMenuManager.Instance.SetStarMenuInfo(selectedSystemStar);
-                }
-                else if (selectedPlanet) {
-                    DisplayManager.Instance.ShowPopulationBar(true);
-                    DisplayManager.Instance.ShowEnergyBar(true);
-                    ContextMenuManager.Instance.ShowPlanetMenu(true);
-                    ContextMenuManager.Instance.SetPlanetMenuInfo(selectedPlanet);
+                else {
+                    Star selectedStar = selected.GetComponent<Star>();
+                    SystemStar selectedSystemStar = selected.GetComponent<SystemStar>();                
+                    Planet selectedPlanet = selected.GetComponent<Planet>();
+                    if (selectedStar) {
+                        DisplayManager.Instance.ShowPopulationBar(false);
+                        DisplayManager.Instance.ShowEnergyBar(true);
+                        ContextMenuManager.Instance.ShowStarMenu(true);
+                        ContextMenuManager.Instance.SetStarMenuInfo(selectedStar);
+                    }
+                    else if (selectedSystemStar) {
+                        DisplayManager.Instance.ShowPopulationBar(false);
+                        DisplayManager.Instance.ShowEnergyBar(true);
+                        ContextMenuManager.Instance.ShowStarMenu(true);
+                        ContextMenuManager.Instance.SetStarMenuInfo(selectedSystemStar);
+                    }
+                    else if (selectedPlanet) {
+                        DisplayManager.Instance.ShowPopulationBar(true);
+                        DisplayManager.Instance.ShowEnergyBar(true);
+                        ContextMenuManager.Instance.ShowPlanetMenu(true);
+                        ContextMenuManager.Instance.SetPlanetMenuInfo(selectedPlanet);
+                    }
                 }
             }
             else {

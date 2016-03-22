@@ -229,7 +229,7 @@ public class ShipInfo {
             arrival_time = DateTime.MinValue;
         }
         else if (rand < (2f/3f)) {
-            this.origin_planet = 123;
+            this.origin_planet = 339770494;
             this.destination_planet = 0;
             departure_time = DateTime.MinValue;
             arrival_time = DateTime.MinValue;
