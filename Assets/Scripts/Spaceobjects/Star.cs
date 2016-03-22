@@ -30,6 +30,7 @@ public class Star : PlanetaryBody {
                     );
                 //CurrentWaypoint = HomeStarIcon_Prefab;
                 ConnectToNearbyStars();
+                KeepLoaded();
             }
             else {
                 //CurrentWaypoint = UndiscoveredStarIcon_Prefab;

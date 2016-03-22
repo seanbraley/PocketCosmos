@@ -512,6 +512,16 @@ namespace Completed
             DisplayManager.Instance.ShowEnergyBar(false);
         }
 
+        public Star FindStar(uint searchID) {
+            foreach (GameObject star_obj in allStars) {
+                Star star = star_obj.GetComponent<Star>();
+                if (star.myNumber == searchID) {
+                    return star;
+                }
+            }
+            return null;
+        }
+
     }
        
    
