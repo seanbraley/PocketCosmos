@@ -23,11 +23,17 @@ public class DebugShipLaunch : MonoBehaviour {
 	IEnumerator LaunchSetupCoroutine() {
         //yield return null;
         GameObject origin = Player.instance.selected;
-		if (origin == null || !origin.GetComponent<Star>().Discovered) {
-            _currentCoroutine = null;
-            Debug.Log("CANT SEND SHIP FROM HERE");
-            yield break;
-		}
+        Star originStar = origin.GetComponent<Star>();
+        Planet originPlanet = origin.GetComponent<Planet>();
+        //if (origin == null || !origin.GetComponent<Star>().Discovered) {
+        if (originStar) {
+            if (origin == null || !originStar.Discovered)
+            {
+                _currentCoroutine = null;
+                Debug.Log("CANT SEND SHIP FROM THIS STAR.");
+                yield break;
+            }            
+        }
         if (PlayerData.instance.spacebux < 5)
         {
             _currentCoroutine = null;
@@ -56,18 +62,38 @@ public class DebugShipLaunch : MonoBehaviour {
 		}
 		LaunchShip(origin,destination);
 		yield return true;
-        NetworkManager.instance._controller.SendDiscoveredStar(destination.gameObject.GetComponent<Star>().myNumber); // TESTING
-        NetworkManager.instance._controller.RetrieveKnownStars(); // TESTING
+        if (destination.GetComponent<Planet>() != null) {
+            // Destination is a planet
+        }
+        else if (destination.GetComponent<Star>() != null) {
+            // Destination is a star
+            NetworkManager.instance._controller.SendDiscoveredStar(destination.gameObject.GetComponent<Star>().myNumber); // TESTING
+            NetworkManager.instance._controller.RetrieveKnownStars(); // TESTING
+        }
     }
 
 	public void LaunchShip(GameObject origin, GameObject destination) {
 		Debug.Log("Launching Ship!");
+
         PlayerData.instance.spacebux -= 5;
-        NetworkManager.instance._controller.SpendSpacebux(5); // TESTING
-        GameObject ship = Instantiate(Ship_Prefab,Vector3.zero,Quaternion.identity) as GameObject;
-		ship.GetComponent<Ship>().origin = origin;
-		ship.GetComponent<Ship>().destination = destination;
-        origin.GetComponent<Star>().KeepLoaded();
-        destination.GetComponent<Star>().KeepLoaded();
+        NetworkManager.instance._controller.SpendSpacebux(5); // TESTING - update with actual cost later
+
+        
+        Star originStar = origin.GetComponent<Star>();
+        Planet originPlanet = origin.GetComponent<Planet>();
+        if (originStar) {
+            GameObject ship = Instantiate(Ship_Prefab, Vector3.zero, Quaternion.identity) as GameObject;
+            ship.GetComponent<Ship>().origin = origin;
+            ship.GetComponent<Ship>().destination = destination;
+            origin.GetComponent<Star>().KeepLoaded();
+            destination.GetComponent<Star>().KeepLoaded();
+        }
+        if (originPlanet) {
+            GameObject ship = Instantiate(Ship_Prefab, Vector3.zero, Quaternion.identity) as GameObject;
+            ship.transform.localScale += new Vector3(4F, 4f, 0);
+            ship.GetComponent<Ship>().origin = origin;
+            ship.GetComponent<Ship>().destination = destination;
+        }
+        
     }
 }

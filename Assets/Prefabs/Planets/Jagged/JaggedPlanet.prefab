@@ -408,7 +408,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46982b098cc1e047a24e487bac9105f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  capacity: 0
 --- !u!114 &11439228
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -432,7 +431,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc0b7424215943d40912d934ab1efda0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  capacity: 0
 --- !u!114 &11476606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -444,7 +442,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a4625cc497a3184dbe3dd4936abd5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  capacity: 0
 --- !u!114 &11482588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -457,14 +454,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentBody: {fileID: 0}
-  Halo_Prefab: {fileID: 179368, guid: 230ed6a6ebfc9b84fb6f1e3bcac1b9ff, type: 2}
+  Halo_Prefab: {fileID: 132468, guid: a41836248d5f77b42bb793a594604e5a, type: 2}
   orbitSpeed: 0
+  personalOwnership: 0
+  ownershipState: 0
+  energyModifier: 0
+  populationRate: 0
+  population: 0
   orbitPath: {fileID: 0}
   orbitParent: {fileID: 0}
   homeStar: {fileID: 0}
   homePlanet: {fileID: 0}
   moons: []
   planetNum: 0
+  myNumber: 0
+  PlanetType: 0
   CollectSpacebuxxxxxxx_Prefab: {fileID: 124846, guid: 0d41a7ed3fb6e094b89116a9606b4787,
     type: 2}
 --- !u!120 &12061266

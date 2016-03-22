@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class Ship : MonoBehaviour {
 
@@ -64,16 +65,33 @@ public class Ship : MonoBehaviour {
 		transform.position = Vector3.MoveTowards (startPos, endPos, speed * travelTime);
 
 		if (transform.position == endPos) {
-            // Discover the gameobject this planet was sent to
-            destination.GetComponent<Star>().Discovered = true;
-            //PlayerData.instance.discoveredStarSystems.Add(new DiscoveredStar(destination, System.DateTime.Now));
-            PlayerData.instance.discoveredStarSystems.Add(destination.GetComponent<Star>().myNumber);
-            destination.GetComponent<Star>().SetDiscoveryTime(System.DateTime.Now);
-            origin.GetComponent<Star>().Unload();
-            destination.GetComponent<Star>().Unload();
-            Destroy(this.gameObject);
-          
-		}
+            
+            Star destinationStar = destination.GetComponent<Star>();
+            Planet destinationPlanet = destination.GetComponent<Planet>();
+            if (destinationStar)
+            {
+                // It's a star - discover the gameobject this ship was sent to
+                destinationStar.Discovered = true;
+                //PlayerData.instance.discoveredStarSystems.Add(new DiscoveredStar(destination, System.DateTime.Now));
+                PlayerData.instance.discoveredStarSystems.Add(destination.GetComponent<Star>().myNumber);
+                destinationStar.SetDiscoveryTime(System.DateTime.Now);
+                origin.GetComponent<Star>().Unload();
+                destinationStar.Unload();
+            }
+            if (destinationPlanet)
+            {
+                // It's a planet - perform an action on the planet depending on ship class
+                // Carrier ship: colonize the ship
+                destinationPlanet.personalOwnership = true;
+                destinationPlanet.ownershipState = true;
+                var owned = new OwnedPlanet(destination);
+                owned.LastCollectedTime = DateTime.Now;
+                owned.PlanetPower = Mathf.RoundToInt((float)destinationPlanet.energyModifier * destinationPlanet.homeStar.baseEnergyLevel);
+                owned.PlanetPopulation = 1000;
+                PlayerData.instance.ownedPlanets.Add(owned); // TESTING - add a planet
+            }
+            Destroy(this.gameObject);            
+        }
 
 		DrawLines ();
 	}
@@ -111,4 +129,6 @@ public class Ship : MonoBehaviour {
 	void OrbitAround(GameObject orbitObject) {
 
 	}
+
+
 }

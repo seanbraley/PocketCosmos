@@ -101,7 +101,7 @@ public class ResourceBar : MonoBehaviour {
 
 		// Slide to goal position
 		while (rectTransform.anchoredPosition != goalPosition) {
-			Debug.Log(rectTransform.anchoredPosition);
+			//Debug.Log(rectTransform.anchoredPosition);
 			rectTransform.anchoredPosition = Vector2.MoveTowards(rectTransform.anchoredPosition,goalPosition,deltaY*speed*Time.deltaTime);
 			yield return null;
 		}

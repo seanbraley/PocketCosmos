@@ -124,6 +124,8 @@ public class StartOptions : MonoBehaviour
         Application.LoadLevel(sceneToStart);
 
         NetworkManager.instance._controller.RetrieveProfile();  //testing
+        NetworkManager.instance._controller.RetrievePlanets();
+        NetworkManager.instance._controller.RetrieveShips();
     }
 
 

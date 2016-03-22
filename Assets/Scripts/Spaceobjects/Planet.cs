@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 using Superbest_random;
 
 public class Planet : PlanetaryBody {
@@ -31,10 +32,13 @@ public class Planet : PlanetaryBody {
 
 	public int orbitSpeed;
 
+    public bool personalOwnership = false;  // you own it - true = you own it, false = someone else owns it
+    public bool ownershipState = false;     // does anyone own it - true = someone does, false = unoccupied
+
     // Gameplay variables
     public double energyModifier;
     public double populationRate;
-    public uint population;
+    public long population;
 
 	public LineRenderer orbitPath;
 	public GameObject orbitParent;
@@ -128,7 +132,7 @@ public class Planet : PlanetaryBody {
         // Adjust for persistent rotation
         System.TimeSpan dt = System.DateTime.Now - homeStar.discoveryTime;
         transform.RotateAround(parentBody.transform.position, Vector3.forward, -orbitSpeed * (float)dt.TotalSeconds);
-
+        Debug.Log(homeStar.myNumber + " planet number: " + planetNum + " rot. time = " + 360 / orbitSpeed);
         // Draw orbit path (same color as planet)
         orbitPath = GetComponent<LineRenderer>();
         orbitPath.materials[0].color = Color.gray;

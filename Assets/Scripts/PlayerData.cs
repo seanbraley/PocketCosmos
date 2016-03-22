@@ -81,6 +81,12 @@ public class PlayerData : MonoBehaviour {
     public void UpdateSpacebux(int value) {
         spacebux = value;
     }
+    
+    // update list of owned planets for a player
+    public void UpdateOwnedPlanets(List<OwnedPlanet> value)
+    {
+        ownedPlanets = new List<OwnedPlanet>(value);
+    }
 
     // update list of all known stars for a player
     public void UpdateKnownStars(long[] value) {
@@ -92,6 +98,7 @@ public class PlayerData : MonoBehaviour {
     {
         discoveredStarSystems.Add(value); ;
     }
+
 
     // Load game data - works on all platforms except Web
     public void Load() {
@@ -164,25 +171,35 @@ public class PlayerInfo {
 [Serializable]
 public class OwnedPlanet {
 
-    public DateTime discoveryTime;
-    public DateTime lastCollectedTime;
-    public long starID;                         // which star it orbits
-    public int planetID;
+    private DateTime lastcollectedtime;
+    public DateTime LastCollectedTime
+    {
+        get { return lastcollectedtime; }
+        set { lastcollectedtime = value; }
+    }
+
+    private long planetpopulation;
+    public long PlanetPopulation
+    {
+        get { return planetpopulation; }
+        set { planetpopulation = value; }
+    }
+
+    private int planetpower;
+    public int PlanetPower
+    {
+        get { return planetpower; }
+        set { planetpower = value; }
+    }
+
+    public long starID { get; private set; } // which star it orbits
+    public int planetID { get; private set; }
 
     public OwnedPlanet(GameObject p)
     {
-        // p.GetComponent<Planet>().Discovered = true;  // TODO - implement this
-        // TO DO get time from server
-        starID = p.GetComponent<Planet>().orbitParent.GetComponent<Star>().myNumber;
+        starID = p.GetComponent<Planet>().homeStar.myNumber;
         planetID = p.GetComponent<Planet>().planetNum;
-        discoveryTime = System.DateTime.Now;
-        lastCollectedTime = new DateTime();
-
+        LastCollectedTime = new DateTime();
     }
-
-    public DateTime LastCollectedTime
-    {
-        get { return lastCollectedTime; }
-        set { lastCollectedTime = value; }
-    }
+    
 }

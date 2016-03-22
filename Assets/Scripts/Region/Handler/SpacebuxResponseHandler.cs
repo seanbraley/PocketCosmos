@@ -1,4 +1,9 @@
 using Completed;
+using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
+using System;
 using ExitGames.Client.Photon;
 
 //A PlayerProfileResponseHandler to deal with spacebux responses from the server
@@ -22,11 +27,11 @@ public class SpacebuxResponseHandler : PhotonOperationHandler
         if (response.ReturnCode == 0)
         {
             view.LogDebug(response.Parameters[(byte)ClientParameterCode.Spacebux].ToString());
-
+            
             // Update local data
             PlayerData.instance.UpdateSpacebux((int)response.Parameters[(byte)ClientParameterCode.Spacebux]);
         }
-        if (response.ReturnCode == 5)
+        else if (response.ReturnCode == 5)
         {
             view.LogDebug("Not enough spacebux to spend!");
         }
