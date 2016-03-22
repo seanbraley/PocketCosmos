@@ -15,6 +15,7 @@ public class ContextMenuManager : MonoBehaviour {
 	}
 
 	// Use this for initialization
+	/*
 	void Start () {
 		GameObject star = transform.Find("StarMenu").gameObject;
 		GameObject planet = transform.Find("PlanetMenu").gameObject;
@@ -28,6 +29,7 @@ public class ContextMenuManager : MonoBehaviour {
 		ShowPlanetMenu(false);
 		//ShowShipMenu(false);
 	}
+	*/
 	
 	// Update is called once per frame
 	void Update () {

@@ -95,6 +95,7 @@ public class ShipSelectMenuItem : MonoBehaviour {
 
 	void OpenShipMenu(ShipInfo info) {
 		ShipMenu.Instance.gameObject.SetActive(true);
+		ShipMenu.Instance.transform.SetAsLastSibling();
 		ShipMenu.Instance.SetInfo(info);
 	}
 

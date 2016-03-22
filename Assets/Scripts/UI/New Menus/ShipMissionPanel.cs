@@ -49,7 +49,7 @@ public class ShipMissionPanel : MonoBehaviour {
 		_messageDisplayText = transform.Find("MessageDisplay").GetComponent<Text>();
 		_cancelButton.onClick.AddListener(() => CancelShipLaunch());
 		_okayButton.onClick.AddListener(() => LaunchShip());
-
+		gameObject.SetActive(false);
 	}
 
 	public void SetInfo(ShipInfo info) {
@@ -97,13 +97,19 @@ public class ShipMissionPanel : MonoBehaviour {
 	}
 
 	public void LaunchShip(GameObject origin, GameObject destination) {
-		Debug.Log("Launching Ship!");
-        PlayerData.instance.spacebux -= 5;
-        NetworkManager.instance._controller.SpendSpacebux(5); // TESTING
-        GameObject ship = Instantiate(Ship_Prefab,Vector3.zero,Quaternion.identity) as GameObject;
-		ship.GetComponent<Ship>().origin = Origin;
-		ship.GetComponent<Ship>().destination = Destination;
-        origin.GetComponent<Star>().KeepLoaded();
-        destination.GetComponent<Star>().KeepLoaded();
+		if (PlayerData.instance.spacebux >= 5) {
+			Debug.Log("Launching Ship!");
+	        PlayerData.instance.spacebux -= 5;
+	        NetworkManager.instance._controller.SpendSpacebux(5); // TESTING
+	        GameObject ship = Instantiate(Ship_Prefab,Vector3.zero,Quaternion.identity) as GameObject;
+			ship.GetComponent<Ship>().origin = Origin;
+			ship.GetComponent<Ship>().destination = Destination;
+	        origin.GetComponent<Star>().KeepLoaded();
+	        destination.GetComponent<Star>().KeepLoaded();
+	        gameObject.SetActive(false);
+		}
+		else {
+
+		}
     }
 }

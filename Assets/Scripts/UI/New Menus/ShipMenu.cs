@@ -127,6 +127,8 @@ public class ShipMenu : MonoBehaviour {
 		}
 		Instance = this; //shitty singleton, but anything more ruins everything for whatever reason.
 		                 // I'm not even mad rn.
+
+        gameObject.SetActive(false);
 	}
 
 	public void SetInfo(ShipInfo info) {

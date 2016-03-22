@@ -24,6 +24,7 @@ public class ShipSelectMenu : MonoBehaviour {
 		_ShipSelectMenuItems = new List<ShipSelectMenuItem>();
 		FindLayoutGroup();
 		PopulateShipSelectMenu();
+		gameObject.SetActive(false);
 	}
 
 	void FindLayoutGroup() {
