@@ -38,17 +38,23 @@ public class Player : MonoBehaviour {
                 if (selectedStar) {
                     DisplayManager.Instance.ShowPopulationBar(false);
                     DisplayManager.Instance.ShowEnergyBar(true);
-                        ShipSelectMenu.Instance.gameObject.SetActive(true);
+                    ShipSelectMenu.Instance.gameObject.SetActive(true);
+                    ShipSelectMenu.Instance.PopulateShipSelectMenu(selectedStar.myNumber);
 
                 }
                 else if (selectedSystemStar) {
                     DisplayManager.Instance.ShowPopulationBar(false);
                     DisplayManager.Instance.ShowEnergyBar(true);
                         ShipSelectMenu.Instance.gameObject.SetActive(true);
-                }
-                else if (selectedPlanet) {
-                    // set colour according to status
-                    if (selectedPlanet.personalOwnership && selectedPlanet.ownershipState) {
+                        ShipSelectMenu.Instance.PopulateShipSelectMenu(selectedSystemStar.myNumber);
+
+                    }
+                    else if (selectedPlanet) {
+                        // set colour according to status
+                        PlanetMenu.Instance.SetInfo(selectedPlanet);
+                        ShipSelectMenu.Instance.PopulateShipSelectMenu(selectedPlanet.homeStar.myNumber, selectedPlanet.planetNum);
+
+                        if (selectedPlanet.personalOwnership && selectedPlanet.ownershipState) {
                         // you own it and occupy it
                         selected.GetComponent<PlanetaryBody>().Halo_Prefab.GetComponent<SpriteRenderer>().color = Color.green;
                     }

@@ -27,6 +27,8 @@ public class PlayerShipsResponseHandler : PhotonOperationHandler
             // Deserialize
             var xmlData = @response.Parameters[(byte)ClientParameterCode.PlayerShips].ToString();
             var shipCollection = XmlShipList.LoadFromText(xmlData);
+            foreach (SanShip s in shipCollection.Ships)
+                PlayerData.instance.shipList.Add(new ShipInfo(s));
 
             // Update local data
             //PlayerData.instance.UpdateKnownStars((long[])response.Parameters[(byte)ClientParameterCode.KnownStars]);

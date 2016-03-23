@@ -13,6 +13,9 @@ public class ShipSelectMenu : MonoBehaviour {
 
 	private GameObject _layoutGroup;
 
+    private uint _starID;
+    private int _planetID;
+
 	// Use this for initialization
 	void Awake () {
 		if (Instance != null && Instance != this) {
@@ -23,7 +26,6 @@ public class ShipSelectMenu : MonoBehaviour {
 
 		_ShipSelectMenuItems = new List<ShipSelectMenuItem>();
 		FindLayoutGroup();
-		PopulateShipSelectMenu();
 		gameObject.SetActive(false);
 	}
 
@@ -40,7 +42,18 @@ public class ShipSelectMenu : MonoBehaviour {
 		_ShipSelectMenuItems.Add(script);
 	}
 
-	void OrderShipSelectMenuItems() {
+    void AddShipSelectMenuItem(ShipInfo s)
+    {
+        GameObject item = Instantiate(ShipSelectMenuItem_Prefab) as GameObject;
+        item.transform.parent = _layoutGroup.transform;
+        item.transform.localScale = new Vector3(1, 1, 1);
+        ShipSelectMenuItem script = item.GetComponent<ShipSelectMenuItem>();
+        script.SetInfo(s);
+        _ShipSelectMenuItems.Add(script);
+    }
+
+
+    void OrderShipSelectMenuItems() {
 		_ShipSelectMenuItems = _ShipSelectMenuItems.OrderBy(a => a.ShipClass).ThenBy(b => b.StatusText).ThenBy(c => c.NameText).ToList();
 		for (int i = 0; i < _ShipSelectMenuItems.Count; i++) {
 			ShipSelectMenuItem ship = _ShipSelectMenuItems[i];
@@ -48,13 +61,45 @@ public class ShipSelectMenu : MonoBehaviour {
 		}
 	}
 
-	void PopulateShipSelectMenu(/*uint id*/) {
-		// TODO - Actually populate with real ships
-		for (int i = 0; i < Random.Range(5,20); i++) {
-			AddShipSelectMenuItem();
-		}
-		OrderShipSelectMenuItems();
+	public void PopulateShipSelectMenu(uint starID)
+    {
+
+        foreach (ShipSelectMenuItem s in _ShipSelectMenuItems)
+            Destroy(s.gameObject);
+        _ShipSelectMenuItems = new List<ShipSelectMenuItem>();
+        _starID = starID;
+        _planetID = 0;
+        foreach (ShipInfo s in PlayerData.instance.shipList)
+            if (s.origin_star == starID)
+                AddShipSelectMenuItem(s);
+        OrderShipSelectMenuItems();
 	}
+
+    public void PopulateShipSelectMenu(uint starID, int planetNum)
+    {
+
+        foreach (ShipSelectMenuItem s in _ShipSelectMenuItems)
+            Destroy(s.gameObject);
+        _ShipSelectMenuItems = new List<ShipSelectMenuItem>();
+        _starID = starID;
+        _planetID = planetNum;
+        foreach (ShipInfo s in PlayerData.instance.shipList)
+            if (s.origin_star == starID)
+                if (s.origin_planet == planetNum)
+                    AddShipSelectMenuItem(s);
+        OrderShipSelectMenuItems();
+    }
+
+    public void Refresh()
+    {
+        foreach (ShipSelectMenuItem s in _ShipSelectMenuItems)
+            Destroy(s.gameObject);
+        _ShipSelectMenuItems = new List<ShipSelectMenuItem>();
+        if (_planetID == 0)
+            PopulateShipSelectMenu(_starID);
+        else
+            PopulateShipSelectMenu(_starID, _planetID);
+    }
 	
 	// Update is called once per frame
 	void Update () {

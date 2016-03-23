@@ -8,21 +8,35 @@ public class ShipInfo
     //Probably put this class in its own file
     public uint id;
     public string name;
-    public string ship_class;
-    public uint origin_planet;
-    public uint destination_planet;
+    public int ship_class;
+    public int origin_planet;
+    public uint origin_star;
+    public int destination_planet;
+    public uint destination_star;
+    public int population;
+    public long power;
     public DateTime departure_time;
     public DateTime arrival_time;
 
-    public ShipInfo(uint id, string name, string ship_class, uint origin_planet, uint destination_planet, DateTime departure_time, DateTime arrival_time)
+    public ShipInfo(int ship_class, int origin_planet, uint origin_star)
     {
-        this.id = id;
-        this.name = name;
+        this.id = (uint)origin_planet + origin_star + (uint)DateTime.Now.Ticks;
         this.ship_class = ship_class;
         this.origin_planet = origin_planet;
-        this.destination_planet = destination_planet;
-        this.departure_time = departure_time;
-        this.arrival_time = arrival_time;
+        this.origin_star = origin_star;
+    }
+
+    public ShipInfo(SanShip s)
+    {
+        this.id = (uint)s.ShipId;
+        //this.name = name;
+        this.ship_class = s.Class;
+        this.origin_planet = s.HomePlanet;
+        this.origin_star = (uint)s.HomeStar;
+        this.destination_planet = s.DestPlanet;
+        this.destination_star = (uint)s.DestStar;
+        this.departure_time = s.StartTime;
+        this.arrival_time = s.EndTime;
     }
 
     public ShipInfo()
@@ -38,8 +52,7 @@ public class ShipInfo
             name += let;
         }
         this.name = name;
-        string[] classes = new string[] { "Colony Carrier", "Research Racer" };
-        this.ship_class = classes[UnityEngine.Random.Range(0, classes.Length)];
+        this.ship_class = UnityEngine.Random.Range(0, 1);
         float rand = UnityEngine.Random.value;
         if (rand < (1f / 3f))
         {

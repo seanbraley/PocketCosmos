@@ -50,19 +50,24 @@ public class ShipMenu : MonoBehaviour {
 
 	private Image _shipClassImage;
 	private Text _shipClassText;
-	public string ShipClass {
+    private int _shipClass;
+	public int ShipClass {
 		get {
-			return _shipClassText.text;
+            return _shipClass;
 		}
 		set {
-			_shipClassText.text = value;
-			if (value == "Research Racer") {
-				_shipClassImage.sprite = ResearchRacerSprite;
+            _shipClass = value;
+			if (value == 0) {
+                _shipClassText.text = "Research Racer";
+
+                _shipClassImage.sprite = ResearchRacerSprite;
 				_shipSpecificButtonText.text = "Research";
 				_shipSpecificButtonImage.sprite = ResearchSprite;
 			}
-			if (value == "Colony Carrier") {
-				_shipClassImage.sprite = ColonyCarrierSprite;
+			else {
+                _shipClassText.text = "Colony Carrier";
+
+                _shipClassImage.sprite = ColonyCarrierSprite;
 				_shipSpecificButtonText.text = "Colonize";
 				_shipSpecificButtonImage.sprite = ColonizeSprite;
 
@@ -159,8 +164,8 @@ public class ShipMenu : MonoBehaviour {
 		NameText = info.name;
 		ShipClass = info.ship_class;
 
-		OriginID = info.origin_planet;
-		DestinationID = info.destination_planet;
+		OriginID = (uint)info.origin_planet;
+		DestinationID = (uint)info.destination_planet;
 
 		if (info.origin_planet != 0 && info.destination_planet != 0) {
 			StatusText = "On Route";

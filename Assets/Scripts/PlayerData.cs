@@ -17,6 +17,7 @@ public class PlayerData : MonoBehaviour {
     public Vector2 lastPosition;
     public List<OwnedPlanet> ownedPlanets;
     public List<long> discoveredStarSystems;
+    public List<ShipInfo> shipList;
 
 
     // ----- Accessors -----

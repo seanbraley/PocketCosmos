@@ -43,23 +43,24 @@ public class ShipSelectMenuItem : MonoBehaviour {
 	}
 
 	private Image _shipClassImage;
-	public string ShipClass {
+    // FIX THIS LATER
+	public int ShipClass {
 		get {
 			if (_shipClassImage.sprite == ResearchRacerSprite) {
-				return "Research Racer";
+				return 0;
 			}
 			else if (_shipClassImage.sprite == ColonyCarrierSprite) {
-				return "Colony Carrier";
+				return 1;
 			}
 			else {
-				return null;
+				return 0;
 			}
 		}
 		set {
-			if (value == "Research Racer") {
+			if (value == 0) {
 				_shipClassImage.sprite = ResearchRacerSprite;
 			}
-			if (value == "Colony Carrier") {
+			if (value == 1) {
 				_shipClassImage.sprite = ColonyCarrierSprite;
 			}
 		}

@@ -15,7 +15,7 @@ public class PlanetMenu : MonoBehaviour {
 			_nameText.text = value;
 		}
 	}
-
+    private Planet _planet;
 	private Button _shipsButton;
 	private Button _buildResearchRacerButton;
 	private Button _buildColonyCarrierButton;
@@ -30,14 +30,20 @@ public class PlanetMenu : MonoBehaviour {
 
         _nameText = transform.Find("Name").GetComponent<Text>();
         _shipsButton = transform.Find("ShipsButton").GetComponent<Button>();
-        _buildResearchRacerButton = transform.Find("BuildResearchRacer").GetComponent<Button>();
-        _buildColonyCarrierButton = transform.Find("BuildColonyCarrier").GetComponent<Button>();
         _shipsButton.onClick.AddListener(() => ShowShipMenu());
+
+        _buildResearchRacerButton = transform.Find("BuildResearchRacer").GetComponent<Button>();
+        _buildResearchRacerButton.onClick.AddListener(() => BuildResearchRacer());
+
+        _buildColonyCarrierButton = transform.Find("BuildColonyCarrier").GetComponent<Button>();
+        _buildColonyCarrierButton.onClick.AddListener(() => BuildColonyCarrier());
+
         gameObject.SetActive(false);
 
 	}
 
 	public void SetInfo(Planet planet) {
+        _planet = planet;
 		_nameText = transform.Find("Name").GetComponent<Text>();
 
 		_shipsButton = transform.Find("ShipsButton").GetComponent<Button>();
@@ -52,4 +58,22 @@ public class PlanetMenu : MonoBehaviour {
 		ShipSelectMenu.Instance.transform.SetAsLastSibling();
 		transform.SetAsFirstSibling();
 	}
+
+    /// <summary>
+    /// TODO: Needs network integration (SUSIE DO SOMETHING HERE)
+    /// </summary>
+    void BuildResearchRacer()
+    {
+        // Build ship
+        ShipInfo s = new ShipInfo(0, _planet.planetNum, _planet.homeStar.myNumber);
+        PlayerData.instance.shipList.Add(s);
+        ShipSelectMenu.Instance.Refresh();
+    }
+
+    void BuildColonyCarrier()
+    {
+        ShipInfo s = new ShipInfo(1, _planet.planetNum, _planet.homeStar.myNumber);
+        PlayerData.instance.shipList.Add(s);
+        ShipSelectMenu.Instance.Refresh();
+    }
 }
