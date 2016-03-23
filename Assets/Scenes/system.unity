@@ -340,7 +340,28 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22462602, guid: 31407f33985bf4a449276323d4df620e, type: 2}
       propertyPath: m_SizeDelta.y
-      value: -256.6448
+      value: -3.6897278
+      objectReference: {fileID: 0}
+    - target: {fileID: 22462602, guid: 31407f33985bf4a449276323d4df620e, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.0000019073486
+      objectReference: {fileID: 0}
+    - target: {fileID: 156196, guid: 31407f33985bf4a449276323d4df620e, type: 2}
+      propertyPath: m_Name
+      value: ReturnScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 11461544, guid: 31407f33985bf4a449276323d4df620e, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 11477318, guid: 94189d89c7f53f64e941ef914bce7d70,
+        type: 2}
+    - target: {fileID: 11461544, guid: 31407f33985bf4a449276323d4df620e, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToSectorView
+      objectReference: {fileID: 0}
+    - target: {fileID: 11484934, guid: 31407f33985bf4a449276323d4df620e, type: 2}
+      propertyPath: m_Text
+      value: Return
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 31407f33985bf4a449276323d4df620e, type: 2}
