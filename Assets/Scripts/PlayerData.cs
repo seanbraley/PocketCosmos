@@ -45,7 +45,9 @@ public class PlayerData : MonoBehaviour {
             Destroy(gameObject);
 
         //Sets this to not be destroyed when reloading scene
-        DontDestroyOnLoad(gameObject);        
+        DontDestroyOnLoad(gameObject);
+
+        shipList = new List<ShipInfo>();
 
     }
 
@@ -98,6 +100,12 @@ public class PlayerData : MonoBehaviour {
     public void AddDiscoveredStar(long value)
     {
         discoveredStarSystems.Add(value); ;
+    }
+    
+    // update list of all known ships for a player
+    public void AddNewShip(ShipInfo s)
+    {
+        shipList.Add(s);
     }
 
 

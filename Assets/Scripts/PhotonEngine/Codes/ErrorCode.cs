@@ -16,4 +16,6 @@ public enum ErrorCode
     UserCurrentlyLoggedIn = 3,
     NoProfileFound = 4,
     NotEnoughSpaceBux = 5,
+    NotEnoughPopulation = 6,
+    PlanetNotOwned = 7,
 }

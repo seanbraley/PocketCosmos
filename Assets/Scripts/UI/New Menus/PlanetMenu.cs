@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
 
 public class PlanetMenu : MonoBehaviour {
 
@@ -58,15 +61,13 @@ public class PlanetMenu : MonoBehaviour {
 		ShipSelectMenu.Instance.transform.SetAsLastSibling();
 		transform.SetAsFirstSibling();
 	}
-
-    /// <summary>
-    /// TODO: Needs network integration (SUSIE DO SOMETHING HERE)
-    /// </summary>
+    
     void BuildResearchRacer()
     {
         // Build ship
         ShipInfo s = new ShipInfo(0, _planet.planetNum, _planet.homeStar.myNumber);
         PlayerData.instance.shipList.Add(s);
+        NetworkManager.instance._controller.SendNewShip(s); // Send ship creation request to server
         ShipSelectMenu.Instance.Refresh();
     }
 
@@ -74,6 +75,8 @@ public class PlanetMenu : MonoBehaviour {
     {
         ShipInfo s = new ShipInfo(1, _planet.planetNum, _planet.homeStar.myNumber);
         PlayerData.instance.shipList.Add(s);
+        NetworkManager.instance._controller.SendNewShip(s); // Send ship creation request to server
         ShipSelectMenu.Instance.Refresh();
     }
+    
 }

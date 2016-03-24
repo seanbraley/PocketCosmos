@@ -6,7 +6,7 @@ using System;
 public class ShipInfo
 {
     //Probably put this class in its own file
-    public uint id;
+    public uint id { get; set; }
     public string name;
     public int ship_class;
     public int origin_planet;
@@ -35,8 +35,8 @@ public class ShipInfo
         this.origin_star = (uint)s.HomeStar;
         this.destination_planet = s.DestPlanet;
         this.destination_star = (uint)s.DestStar;
-        this.departure_time = s.StartTime;
-        this.arrival_time = s.EndTime;
+        //this.departure_time = s.StartTime;
+        //this.arrival_time = s.EndTime;
     }
 
     public ShipInfo()

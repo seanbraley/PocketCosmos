@@ -24,6 +24,9 @@ public class NetworkController : ViewController
         OperationHandlers.Add((byte)retrieveShipsResponseHandler.Code, retrieveShipsResponseHandler);
         PlayerPlanetResponseHandler retrievePlanetsResponseHandler = new PlayerPlanetResponseHandler(this);
         OperationHandlers.Add((byte)retrievePlanetsResponseHandler.Code, retrievePlanetsResponseHandler);
+        CreateShipsResponseHandler createShipsResponseHandler = new CreateShipsResponseHandler(this);
+        OperationHandlers.Add((byte)createShipsResponseHandler.Code, createShipsResponseHandler);
+        
     }
     public void SendLogin(string username, string password)
     {
@@ -51,6 +54,7 @@ public class NetworkController : ViewController
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, false);
     }
+
     public void RetrieveProfile()
     {
         //encrtypt this later
@@ -62,6 +66,7 @@ public class NetworkController : ViewController
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
+
     public void RetrieveShips()
     {
         //encrtypt this later
@@ -73,6 +78,7 @@ public class NetworkController : ViewController
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
+
     public void RetrievePlanets()
     {
         //encrtypt this later
@@ -84,6 +90,7 @@ public class NetworkController : ViewController
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
+
     public void CollectSpacebux(int value)
     {
         //encrtypt this later
@@ -96,6 +103,7 @@ public class NetworkController : ViewController
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
+
     public void SpendSpacebux(int value)
     {
         //encrtypt this later
@@ -108,6 +116,7 @@ public class NetworkController : ViewController
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
+
     public void RetrieveKnownStars()
     {
         //encrtypt this later
@@ -119,6 +128,7 @@ public class NetworkController : ViewController
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
+
     public void SendDiscoveredStar(long starID)
     {
         var param = new Dictionary<byte, object>()
@@ -130,6 +140,23 @@ public class NetworkController : ViewController
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
+
+    public void SendNewShip(ShipInfo s)
+    {
+        var param = new Dictionary<byte, object>()
+        {
+            {(byte) ClientParameterCode.StarId, (long)s.origin_star},
+            {(byte) ClientParameterCode.PlanetId, (int) s.origin_planet},
+            {(byte) ClientParameterCode.Power, (int) s.power},
+            {(byte) ClientParameterCode.Population, (int) s.population},
+            {(byte) ClientParameterCode.Class, (int) s.ship_class},
+            {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.CreateShip}        
+        };
+        ControlledView.LogDebug("SENDING CREATE SHIP REQUEST");
+        //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
+        SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
+    }
+
     public void SendDiscoveredPlanet(long starID, int planetID)
     {
     }
