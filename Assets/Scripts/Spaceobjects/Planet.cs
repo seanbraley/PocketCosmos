@@ -240,7 +240,7 @@ public class Planet : PlanetaryBody {
 			float x = radius * Mathf.Cos(theta);
 			float y = radius * Mathf.Sin(theta);
 			// account for the solar system's position
-			Vector3 pos = new Vector3(x, y, 0) + parentBody.transform.position;
+			Vector3 pos = new Vector3(x, y, 65) + parentBody.transform.position;
             orbitPath.SetPosition(i, pos);
             theta += deltaTheta;
         }

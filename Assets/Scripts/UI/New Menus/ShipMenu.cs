@@ -220,6 +220,7 @@ public class ShipMenu : MonoBehaviour {
 		ShipMissionPanel.Instance.gameObject.SetActive(true);
 		ShipMissionPanel.Instance.SetInfo(_shipInfo);
 		ShipSelectMenu.Instance.gameObject.SetActive(false);
+		PlanetMenu.Instance.gameObject.SetActive(false);
 		gameObject.SetActive(false);
 	}
 }

@@ -25,8 +25,8 @@ namespace Completed
         // for clicking on an object
         public uint selectedID = 0;         // Selected star's number
 
-        public int SectorLevel = 2;         // These should match scene and sector level numbers in build                    
-        public int SystemLevel = 3;
+        public static int SectorLevel = 2;         // These should match scene and sector level numbers in build                    
+        public static int SystemLevel = 3;
 
         public float speed = 0.025f;
         public float touchThreshold = 5.0f;
@@ -521,6 +521,17 @@ namespace Completed
             }
             return null;
         }
+
+        public Planet FindPlanet(int planetNum) {
+            SystemStar star = GameObject.FindGameObjectsWithTag("Star")[0].GetComponent<SystemStar>();
+            if (star.planets.Length > planetNum) {
+                return star.planets[planetNum-1].GetComponent<Planet>();
+            }
+            else {
+                return null;
+            }
+        }
+
 
     }
        

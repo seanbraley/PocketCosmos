@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.SceneManagement;  // scene management at run-time.
+using Completed;
+
 
 public class Ship : MonoBehaviour {
 
@@ -45,6 +48,10 @@ public class Ship : MonoBehaviour {
         timeToDestination = Vector3.Distance(destination.transform.position, origin.transform.position) / 2f;
 
 		speed = Vector3.Distance (origin.transform.position, destination.transform.position) / timeToDestination;
+
+		if (SceneManager.GetActiveScene().buildIndex == GameManager.SystemLevel) {
+			transform.localScale = new Vector3(5,5,5);
+		}
 
     }
 	

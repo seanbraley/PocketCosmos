@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;  // scene management at run-time.
 using Completed;
 
 public class ShipMissionPanel : MonoBehaviour {
@@ -61,7 +62,13 @@ public class ShipMissionPanel : MonoBehaviour {
 
 		_cancelButton.onClick.AddListener(() => CancelShipLaunch());
 		_okayButton.onClick.AddListener(() => LaunchShip());
-		Origin = GameManager.instance.FindStar(339770494).gameObject;
+
+		if (SceneManager.GetActiveScene().buildIndex == GameManager.SectorLevel) {
+			Origin = GameManager.instance.FindStar(_ship.origin_star).gameObject;
+		}
+		else {
+			Origin = GameManager.instance.FindPlanet(_ship.origin_planet).gameObject;
+		}
 		_destination = null;
 	}
 	
@@ -97,19 +104,14 @@ public class ShipMissionPanel : MonoBehaviour {
 	}
 
 	public void LaunchShip(GameObject origin, GameObject destination) {
-		if (PlayerData.instance.spacebux >= 5) {
-			Debug.Log("Launching Ship!");
-	        PlayerData.instance.spacebux -= 5;
-	        NetworkManager.instance._controller.SpendSpacebux(5); // TESTING
-	        GameObject ship = Instantiate(Ship_Prefab,Vector3.zero,Quaternion.identity) as GameObject;
-			ship.GetComponent<Ship>().origin = Origin;
-			ship.GetComponent<Ship>().destination = Destination;
-	        origin.GetComponent<Star>().KeepLoaded();
-	        destination.GetComponent<Star>().KeepLoaded();
-	        gameObject.SetActive(false);
+		Debug.Log("Launching Ship!");
+        GameObject ship = Instantiate(Ship_Prefab,Vector3.zero,Quaternion.identity) as GameObject;
+		ship.GetComponent<Ship>().origin = Origin;
+		ship.GetComponent<Ship>().destination = Destination;
+		if (origin.GetComponent<Star>()) {
+			origin.GetComponent<Star>().KeepLoaded();
+			destination.GetComponent<Star>().KeepLoaded();
 		}
-		else {
-
-		}
+        gameObject.SetActive(false);
     }
 }

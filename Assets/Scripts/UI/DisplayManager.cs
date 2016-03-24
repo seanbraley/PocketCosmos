@@ -31,7 +31,7 @@ public class DisplayManager : MonoBehaviour {
 
         energyBar = transform.Find("EnergyBar").GetComponent<ResourceBar>();
         energyBar.Initialize();
-        if (SceneManager.GetActiveScene().buildIndex != GameManager.instance.SystemLevel) {
+        if (SceneManager.GetActiveScene().buildIndex != GameManager.SystemLevel) {
             energyBar.Hide(0);
         }
         else {

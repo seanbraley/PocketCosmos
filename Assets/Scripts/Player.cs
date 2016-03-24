@@ -158,7 +158,7 @@ public class Player : MonoBehaviour {
                     mouseClicks = 0;
                     /*Here you can add your double click event*/
                     if (selected != null)
-                    if (selected != null && SceneManager.GetActiveScene().buildIndex == GameManager.instance.SectorLevel)
+                    if (selected != null && SceneManager.GetActiveScene().buildIndex == GameManager.SectorLevel)
                     {                            
                             if (selected.GetComponent<Star>().Discovered)
                             {
@@ -175,7 +175,7 @@ public class Player : MonoBehaviour {
                             // Loads selected star's system
                             //SceneManager.LoadScene(GameManager.instance.SystemLevel);
                         }
-                    if (selected != null && SceneManager.GetActiveScene().buildIndex == GameManager.instance.SystemLevel)
+                    if (selected != null && SceneManager.GetActiveScene().buildIndex == GameManager.SystemLevel)
                     {
                         ClickSystemObject();
                         
@@ -186,11 +186,11 @@ public class Player : MonoBehaviour {
                     mouseClicks = 0;
                     mouseTimer = 0;
                     /*Here you can add your single click event*/
-                    if (SceneManager.GetActiveScene().buildIndex == GameManager.instance.SectorLevel)
+                    if (SceneManager.GetActiveScene().buildIndex == GameManager.SectorLevel)
                     {
                         ClickSectorObject();
                     }
-                    if (SceneManager.GetActiveScene().buildIndex == GameManager.instance.SystemLevel)
+                    if (SceneManager.GetActiveScene().buildIndex == GameManager.SystemLevel)
                     {
                         ClickSystemObject();
                     }
@@ -203,11 +203,11 @@ public class Player : MonoBehaviour {
                 mouseClicks = 0;
                 mouseTimer = 0;
                 /*Here you can add your single click event*/
-                if (SceneManager.GetActiveScene().buildIndex == GameManager.instance.SectorLevel)
+                if (SceneManager.GetActiveScene().buildIndex == GameManager.SectorLevel)
                 {
                     ClickSectorObject();
                 }
-                if (SceneManager.GetActiveScene().buildIndex == GameManager.instance.SystemLevel)
+                if (SceneManager.GetActiveScene().buildIndex == GameManager.SystemLevel)
                 {
                     ClickSystemObject();
                 }
@@ -286,11 +286,11 @@ public class Player : MonoBehaviour {
                 if (Input.GetTouch(i).tapCount == 1)
                 {
                     /*Here you can add your single click event*/
-                    if (SceneManager.GetActiveScene().buildIndex == GameManager.instance.SectorLevel)
+                    if (SceneManager.GetActiveScene().buildIndex == GameManager.SectorLevel)
                     {
                         TouchSectorObject();
                     }
-                    if (SceneManager.GetActiveScene().buildIndex == GameManager.instance.SystemLevel)
+                    if (SceneManager.GetActiveScene().buildIndex == GameManager.SystemLevel)
                     {
                         TouchSystemObject();
                     }
@@ -299,9 +299,9 @@ public class Player : MonoBehaviour {
                 if (Input.GetTouch(i).tapCount == 2)
                 {
                     /*Here you can add your double click event*/
-                    if (selected != null && SceneManager.GetActiveScene().buildIndex == GameManager.instance.SectorLevel)
+                    if (selected != null && SceneManager.GetActiveScene().buildIndex == GameManager.SectorLevel)
                     {                        
-                        if (SceneManager.GetActiveScene().buildIndex == GameManager.instance.SectorLevel)
+                        if (SceneManager.GetActiveScene().buildIndex == GameManager.SectorLevel)
                         {
                             // Save last known position
                             //GameManager.instance.lastKnownPosition = GameManager.instance.virtualPosition;
@@ -309,13 +309,13 @@ public class Player : MonoBehaviour {
                             if (selected.GetComponent<Star>().Discovered)
                             {
                                 GameManager.instance.SetDiscovery(selected.GetComponent<Star>().GetDiscoveryTime());
-                                SceneManager.LoadScene(GameManager.instance.SystemLevel);
+                                SceneManager.LoadScene(GameManager.SystemLevel);
                             }
                             else {
                                 Debug.Log("You haven't discovered that star system yet!");
                             }
                         }
-                        if (SceneManager.GetActiveScene().buildIndex == GameManager.instance.SystemLevel)
+                        if (SceneManager.GetActiveScene().buildIndex == GameManager.SystemLevel)
                         {
                             TouchSystemObject();
                         }

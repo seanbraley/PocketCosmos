@@ -340,7 +340,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22462602, guid: 31407f33985bf4a449276323d4df620e, type: 2}
       propertyPath: m_SizeDelta.y
-      value: -3.6897278
+      value: -256.6448
       objectReference: {fileID: 0}
     - target: {fileID: 22462602, guid: 31407f33985bf4a449276323d4df620e, type: 2}
       propertyPath: m_AnchoredPosition.y
