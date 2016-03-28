@@ -61,15 +61,7 @@ public class DebugShipLaunch : MonoBehaviour {
 			yield return null;
 		}
 		LaunchShip(origin,destination);
-		yield return true;
-        if (destination.GetComponent<Planet>() != null) {
-            // Destination is a planet
-        }
-        else if (destination.GetComponent<Star>() != null) {
-            // Destination is a star
-            NetworkManager.instance._controller.SendDiscoveredStar(destination.gameObject.GetComponent<Star>().myNumber); // TESTING
-            NetworkManager.instance._controller.RetrieveKnownStars(); // TESTING
-        }
+		yield return true;        
     }
 
 	public void LaunchShip(GameObject origin, GameObject destination) {

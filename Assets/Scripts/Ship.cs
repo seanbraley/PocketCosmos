@@ -80,7 +80,9 @@ public class Ship : MonoBehaviour {
                 // It's a star - discover the gameobject this ship was sent to
                 destinationStar.Discovered = true;
                 //PlayerData.instance.discoveredStarSystems.Add(new DiscoveredStar(destination, System.DateTime.Now));
-                PlayerData.instance.discoveredStarSystems.Add(destination.GetComponent<Star>().myNumber);
+                NetworkManager.instance._controller.SendDiscoveredStar(destination.gameObject.GetComponent<Star>().myNumber);
+                NetworkManager.instance._controller.RetrieveKnownStars();
+                //PlayerData.instance.discoveredStarSystems.Add(destination.GetComponent<Star>().myNumber);
                 destinationStar.SetDiscoveryTime(System.DateTime.Now);
                 origin.GetComponent<Star>().Unload();
                 destinationStar.Unload();

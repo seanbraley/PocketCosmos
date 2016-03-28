@@ -135,7 +135,8 @@ namespace Completed
                                               Input.GetTouch(i).position);
                                     lastTouchPos = Input.GetTouch(i).position;
 
-                                    Player.instance.checkMouseDoubleClick();
+                                    Player.instance.checkTouchDoubleClick();
+
 
                                     break;
                                 case TouchPhase.Moved:

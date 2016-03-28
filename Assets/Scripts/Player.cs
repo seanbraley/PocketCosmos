@@ -281,7 +281,7 @@ public class Player : MonoBehaviour {
     {
         for (var i = 0; i < Input.touchCount; ++i)
         {
-            if (Input.GetTouch(i).phase == TouchPhase.Began)
+            if (Input.GetTouch(i).phase == TouchPhase.Began && GUIUtility.hotControl == 0)
             {
                 if (Input.GetTouch(i).tapCount == 1)
                 {
@@ -343,9 +343,9 @@ public class Player : MonoBehaviour {
                 }
                 // Set selected object
                 selected = FindGameObjectAtPosition(touchPos);
+                selected.GetComponent<Star>().KeepLoaded();
                 GameManager.instance.selectedID = selected.GetComponent<Star>().myNumber;
                 // Highlight selection by turning on the halo
-                selected.GetComponent<Star>().KeepLoaded();
                 selected.GetComponent<PlanetaryBody>().ShowHalo(true);
             }
             else {
@@ -367,11 +367,11 @@ public class Player : MonoBehaviour {
             Vector3 touchPos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
             if (FindGameObjectAtPosition(touchPos) != null)
             {
+                // de-select previous object and turn off halo if applicable
                 GameObject prevSelect = selected;
                 // Set selected object
                 selected = FindGameObjectAtPosition(touchPos);
-                // Do something
-                Debug.Log("Touched "+ selected.name);  //testing
+                Debug.Log("Clicked " + selected.name);  //testing
                 //Collect(selected.GetComponent<Population>());  // testing
                 Collect(selected.GetComponent<Spacebux>());  // testing
             }
@@ -379,7 +379,7 @@ public class Player : MonoBehaviour {
             {
                 selected = null;
             }
-        }        
+        }
     }
 
     // Collect resource
