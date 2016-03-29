@@ -27,7 +27,10 @@ public class NetworkController : ViewController
         CreateShipsResponseHandler createShipsResponseHandler = new CreateShipsResponseHandler(this);
         OperationHandlers.Add((byte)createShipsResponseHandler.Code, createShipsResponseHandler);
         SendShipOnMissionResponseHandler sendShipOnMissionsResponseHandler = new SendShipOnMissionResponseHandler(this);
-        OperationHandlers.Add((byte)sendShipOnMissionsResponseHandler.Code, sendShipOnMissionsResponseHandler);       
+        OperationHandlers.Add((byte)sendShipOnMissionsResponseHandler.Code, sendShipOnMissionsResponseHandler);
+        ColonizePlanetResponseHandler colonizePlanetResponseHandler = new ColonizePlanetResponseHandler(this);
+        OperationHandlers.Add((byte)colonizePlanetResponseHandler.Code, colonizePlanetResponseHandler);
+        
 
 
     }
