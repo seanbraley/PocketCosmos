@@ -66,7 +66,7 @@ public class PlanetMenu : MonoBehaviour {
     {
         // Build ship
         ShipInfo s = new ShipInfo(0, _planet.planetNum, _planet.homeStar.myNumber);
-        PlayerData.instance.shipList.Add(s);
+        //PlayerData.instance.shipList.Add(s);
         NetworkManager.instance._controller.SendNewShip(s); // Send ship creation request to server
         ShipSelectMenu.Instance.Refresh();
     }
@@ -74,7 +74,7 @@ public class PlanetMenu : MonoBehaviour {
     void BuildColonyCarrier()
     {
         ShipInfo s = new ShipInfo(1, _planet.planetNum, _planet.homeStar.myNumber);
-        PlayerData.instance.shipList.Add(s);
+        //PlayerData.instance.shipList.Add(s);
         NetworkManager.instance._controller.SendNewShip(s); // Send ship creation request to server
         ShipSelectMenu.Instance.Refresh();
     }

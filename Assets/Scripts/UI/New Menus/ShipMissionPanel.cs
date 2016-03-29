@@ -108,10 +108,29 @@ public class ShipMissionPanel : MonoBehaviour {
         GameObject ship = Instantiate(Ship_Prefab,Vector3.zero,Quaternion.identity) as GameObject;
 		ship.GetComponent<Ship>().origin = Origin;
 		ship.GetComponent<Ship>().destination = Destination;
-		if (origin.GetComponent<Star>()) {
+        ship.GetComponent<Ship>().id = (int)_ship.id;
+        if (origin.GetComponent<Star>()) {
 			origin.GetComponent<Star>().KeepLoaded();
 			destination.GetComponent<Star>().KeepLoaded();
 		}
+
+        Star destinationStar = destination.GetComponent<Star>();
+        Planet destinationPlanet = destination.GetComponent<Planet>();
+        if (destinationStar)
+        {
+            // It's a star
+            _ship.destination_star = (uint)destinationStar.myNumber;
+            _ship.destination_planet = 1;
+            NetworkManager.instance._controller.SendShipOnMission(_ship);
+        }
+        if (destinationPlanet)
+        {
+            // It's a planet
+            _ship.destination_star = (uint)destinationPlanet.myNumber;
+            _ship.destination_planet = destinationPlanet.planetNum;
+            NetworkManager.instance._controller.SendShipOnMission(_ship);
+        }        
+
         gameObject.SetActive(false);
     }
 }

@@ -26,7 +26,10 @@ public class NetworkController : ViewController
         OperationHandlers.Add((byte)retrievePlanetsResponseHandler.Code, retrievePlanetsResponseHandler);
         CreateShipsResponseHandler createShipsResponseHandler = new CreateShipsResponseHandler(this);
         OperationHandlers.Add((byte)createShipsResponseHandler.Code, createShipsResponseHandler);
-        
+        SendShipOnMissionResponseHandler sendShipOnMissionsResponseHandler = new SendShipOnMissionResponseHandler(this);
+        OperationHandlers.Add((byte)sendShipOnMissionsResponseHandler.Code, sendShipOnMissionsResponseHandler);       
+
+
     }
     public void SendLogin(string username, string password)
     {
@@ -157,6 +160,32 @@ public class NetworkController : ViewController
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
 
+
+    public void SendShipOnMission(ShipInfo s)
+    {
+        var param = new Dictionary<byte, object>()
+        {
+            {(byte) ClientParameterCode.ShipId, (int) s.id},
+            {(byte) ClientParameterCode.StarId, (long) s.destination_star},
+            {(byte) ClientParameterCode.PlanetId, (int) s.destination_planet},
+            {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.SendShip}
+        };
+        ControlledView.LogDebug("SENDING SEND SHIP REQUEST");
+        //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
+        SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
+    }
+
+    public void SendMissionComplete(int value)
+    {
+        var param = new Dictionary<byte, object>()
+        {
+            {(byte) ClientParameterCode.ShipId, value },
+            {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.CompleteShip}
+        };
+        ControlledView.LogDebug("SENDING SEND SHIP REQUEST");
+        //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
+        SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
+    }
     public void SendDiscoveredPlanet(long starID, int planetID)
     {
     }

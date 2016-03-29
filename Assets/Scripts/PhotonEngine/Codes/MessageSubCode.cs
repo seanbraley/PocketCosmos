@@ -22,5 +22,8 @@ public enum MessageSubCode
     KnownPlanet,
     SpendSpacebux,
     CreateShip,
-    PlayerShips
+    PlayerShips,
+    KnownPlanetByStar,
+    CompleteShip,
+    SendShip
 }

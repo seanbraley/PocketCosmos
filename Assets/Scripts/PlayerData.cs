@@ -16,6 +16,7 @@ public class PlayerData : MonoBehaviour {
     public long homestarID;
     public Vector2 lastPosition;
     public List<OwnedPlanet> ownedPlanets;
+    public List<OwnedPlanet> knownPlanets;
     public List<long> discoveredStarSystems;
     public List<ShipInfo> shipList;
 
@@ -85,12 +86,6 @@ public class PlayerData : MonoBehaviour {
         spacebux = value;
     }
     
-    // update list of owned planets for a player
-    public void UpdateOwnedPlanets(List<OwnedPlanet> value)
-    {
-        ownedPlanets = new List<OwnedPlanet>(value);
-    }
-
     // update list of all known stars for a player
     public void UpdateKnownStars(long[] value) {
         discoveredStarSystems = new List<long>(value); ;
@@ -108,6 +103,19 @@ public class PlayerData : MonoBehaviour {
         shipList.Add(s);
     }
 
+    // update list of owned planets for a player
+    public void AddOwnedPlanet(OwnedPlanet p)
+    {
+        p.playerOwned = 1;
+        ownedPlanets.Add(p);
+    }
+
+    // update list of known planets for a player
+    public void AddKnownPlanet(OwnedPlanet p)
+    {
+        knownPlanets.Add(p);
+    }
+    
 
     // Load game data - works on all platforms except Web
     public void Load() {
@@ -180,35 +188,37 @@ public class PlayerInfo {
 [Serializable]
 public class OwnedPlanet {
 
-    private DateTime lastcollectedtime;
-    public DateTime LastCollectedTime
-    {
-        get { return lastcollectedtime; }
-        set { lastcollectedtime = value; }
-    }
+    public DateTime lastcollectedtime { get; set; }
 
-    private long planetpopulation;
-    public long PlanetPopulation
-    {
-        get { return planetpopulation; }
-        set { planetpopulation = value; }
-    }
+    public long planetpopulation { get; set; }
+    public int planetpower { get; set; }
 
-    private int planetpower;
-    public int PlanetPower
-    {
-        get { return planetpower; }
-        set { planetpower = value; }
-    }
-
-    public long starID { get; private set; } // which star it orbits
-    public int planetID { get; private set; }
+    public long starID { get; set; } // which star it orbits
+    public int planetID { get; set; }
+    public int playerOwned { get; set; } // 0 = enemy owned, 1 = you own, 2 = unknown/unoccupied
 
     public OwnedPlanet(GameObject p)
     {
         starID = p.GetComponent<Planet>().homeStar.myNumber;
         planetID = p.GetComponent<Planet>().planetNum;
-        LastCollectedTime = new DateTime();
+        lastcollectedtime = new DateTime();
     }
-    
+
+
+    public OwnedPlanet(SanPlanet p)
+    {
+        starID = p.StarId;
+        planetID = p.PlanetNum;
+        if (p.PlayerOwned)
+        {
+            playerOwned = 1;  // 1 = you own
+        }
+        else {
+            playerOwned = 0;  // 0 = enemy owned
+        }
+        planetpopulation = p.Population;
+        planetpower = p.Power;
+        lastcollectedtime = new DateTime();
+    }
+
 }

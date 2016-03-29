@@ -18,9 +18,10 @@ public class Ship : MonoBehaviour {
 	public Material render;
 	private LineRenderer dRend;
 	private LineRenderer lRend;
+    public int id;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 
 		lRend = new GameObject().AddComponent<LineRenderer>() as LineRenderer;
 		lRend.name = "Travel Path";
@@ -75,12 +76,13 @@ public class Ship : MonoBehaviour {
             
             Star destinationStar = destination.GetComponent<Star>();
             Planet destinationPlanet = destination.GetComponent<Planet>();
+            NetworkManager.instance._controller.SendMissionComplete(id); // NETWORK STUFF
             if (destinationStar)
             {
                 // It's a star - discover the gameobject this ship was sent to
                 destinationStar.Discovered = true;
                 //PlayerData.instance.discoveredStarSystems.Add(new DiscoveredStar(destination, System.DateTime.Now));
-                NetworkManager.instance._controller.SendDiscoveredStar(destination.gameObject.GetComponent<Star>().myNumber);
+                //NetworkManager.instance._controller.SendDiscoveredStar(destination.gameObject.GetComponent<Star>().myNumber);
                 NetworkManager.instance._controller.RetrieveKnownStars();
                 //PlayerData.instance.discoveredStarSystems.Add(destination.GetComponent<Star>().myNumber);
                 destinationStar.SetDiscoveryTime(System.DateTime.Now);
@@ -94,9 +96,9 @@ public class Ship : MonoBehaviour {
                 destinationPlanet.personalOwnership = true;
                 destinationPlanet.ownershipState = true;
                 var owned = new OwnedPlanet(destination);
-                owned.LastCollectedTime = DateTime.Now;
-                owned.PlanetPower = Mathf.RoundToInt((float)destinationPlanet.energyModifier * destinationPlanet.homeStar.baseEnergyLevel);
-                owned.PlanetPopulation = 1000;
+                owned.lastcollectedtime = DateTime.Now;
+                owned.planetpower = Mathf.RoundToInt((float)destinationPlanet.energyModifier * destinationPlanet.homeStar.baseEnergyLevel);
+                owned.planetpopulation = 1000;
                 PlayerData.instance.ownedPlanets.Add(owned); // TESTING - add a planet
             }
             Destroy(this.gameObject);            

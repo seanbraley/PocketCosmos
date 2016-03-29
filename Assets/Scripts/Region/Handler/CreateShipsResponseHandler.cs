@@ -23,25 +23,30 @@ public class CreateShipsResponseHandler : PhotonOperationHandler
         view.LogDebug("GOT A RESPONSE for CREATING SHIP");
         if (response.ReturnCode == 0)
         {
-            //view.LogDebug(response.Parameters[(byte)ClientParameterCode.ShipId].ToString());
-            var value = response.Parameters[(byte)ClientParameterCode.ShipId].ToString();
-            view.LogDebug("ship id: " + value);
-            // Update local data
-            PlayerData.instance.shipList.LastOrDefault().id = (uint) int.Parse(value);
+            view.LogDebug(response.Parameters[(byte)ClientParameterCode.PlayerShips].ToString());
+
+            // Deserialize
+            var xmlData = response.Parameters[(byte)ClientParameterCode.PlayerShips].ToString();
+            XmlSerializer deserializer = new XmlSerializer(typeof(XmlShipList));
+            TextReader reader = new StringReader(xmlData);
+            object obj = deserializer.Deserialize(reader);
+            XmlShipList shipCollection = (XmlShipList)obj;
+            reader.Close();
+
+            // Update local data - add this one ship
+            foreach (SanShip s in shipCollection.Ships)
+                PlayerData.instance.AddNewShip(new ShipInfo(s));
+
         }
         else if (response.ReturnCode == 6)
         {
             // Not enough population
             view.LogDebug("RESPONSE: " + response.DebugMessage);
-            // Delete the ship that was added
-            PlayerData.instance.shipList.RemoveAt(PlayerData.instance.shipList.Count);
         }
         else if (response.ReturnCode == 7)
         {
             // You don't own this planet
             view.LogDebug("RESPONSE: " + response.DebugMessage);
-            // Delete the ship that was added
-            PlayerData.instance.shipList.RemoveAt(PlayerData.instance.shipList.Count);
         }
         else
         {
