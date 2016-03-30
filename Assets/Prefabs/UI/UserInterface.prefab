@@ -1653,7 +1653,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ResearchRacerSprite: {fileID: 21300000, guid: abe98744b2caa3a45a1717bf24c8cbf5,
     type: 3}
-  ColonyCarrierSprite: {fileID: 21300000, guid: eabe529904db0554783444780471e40a,
+  ColonyCarrierSprite: {fileID: 21300000, guid: dc0b36e8233ce004ca9e04333caf7dba,
     type: 3}
   ResearchSprite: {fileID: 21300000, guid: 797962ccce75f784c873d87fd92d8385, type: 3}
   ColonizeSprite: {fileID: 21300000, guid: 07aa1437e9073004888eeded9e76cc80, type: 3}
@@ -3955,7 +3955,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: abe98744b2caa3a45a1717bf24c8cbf5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dc0b36e8233ce004ca9e04333caf7dba, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

@@ -20,6 +20,27 @@ public class Ship : MonoBehaviour {
 	private LineRenderer lRend;
     public int id;
 
+    private int _shipClass;
+    public int ShipClass {
+    	get {
+    		return _shipClass;
+    	}
+    	set {
+    		_shipClass = value;
+    		if (value == 0) {
+    			GetComponent<SpriteRenderer>().sprite = ResearchRacerSprite;
+    		}
+    		else {
+    			GetComponent<SpriteRenderer>().sprite = ColonyCarrierSprite;
+    		}
+    	}
+    }
+
+    public Sprite ResearchRacerSprite;
+    public Sprite ColonyCarrierSprite;
+
+    private ShipInfo _info;
+
     // Use this for initialization
     void Start () {
 
@@ -54,6 +75,11 @@ public class Ship : MonoBehaviour {
 			transform.localScale = new Vector3(5,5,5);
 		}
 
+    }
+
+    public void SetInfo(ShipInfo info) {
+    	_info = info;
+    	ShipClass = info.ship_class;
     }
 	
 	// Update is called once per frame
