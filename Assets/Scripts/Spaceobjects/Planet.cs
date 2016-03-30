@@ -86,6 +86,29 @@ public class Planet : PlanetaryBody {
 
         homeStar = parentBody.GetComponent<SystemStar>();
 
+        // Set ownership status
+        if (PlayerData.instance.CheckPlanetStatus(myNumber, planetNum) == 1)
+        {
+            personalOwnership = true;
+            ownershipState = true;
+        }
+        else if (PlayerData.instance.CheckPlanetStatus(myNumber, planetNum) == 0)
+        {
+            personalOwnership = false;
+            ownershipState = true;
+            this.gameObject.GetComponent<Spacebux>().enabled = false;
+            this.gameObject.GetComponent<Population>().enabled = false;
+            this.gameObject.GetComponent<Power>().enabled = false;
+        }
+        else 
+        {
+            personalOwnership = false;
+            ownershipState = false;
+            this.gameObject.GetComponent<Spacebux>().enabled = false;
+            this.gameObject.GetComponent<Population>().enabled = false;
+            this.gameObject.GetComponent<Power>().enabled = false;
+        }
+
         // Set Color
         if (planetNum <= 2)  // hot planets generate more power, negative population rate (usually)
         {

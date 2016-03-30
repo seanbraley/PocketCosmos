@@ -38,19 +38,23 @@ public class Spacebux : Resource {
     
     public override void Gather()
     {
-        if (_ready) {
-            var currTime = DateTime.Now;
-            //PlayerData.instance.ownedPlanets.Find(
-            //    x => x.starID == (long)_planet.homeStar.myNumber && x.planetID == _planet.planetNum).LastCollectedTime = currTime; // TO DO - update the local data state
-            PlayerData.instance.spacebux += _amountIncrease; // update locally first
-            NetworkManager.instance._controller.CollectSpacebux(_amountIncrease); // collect spacebux
-            _ready = false;
-            _needToUpdate = true;
-            GetComponent<Planet>().SetWaypoint(null);
+        if (this.enabled) {
+            if (_ready)
+            {
+                var currTime = DateTime.Now;
+                //PlayerData.instance.ownedPlanets.Find(
+                //    x => x.starID == (long)_planet.homeStar.myNumber && x.planetID == _planet.planetNum).LastCollectedTime = currTime; // TO DO - update the local data state
+                PlayerData.instance.spacebux += _amountIncrease; // update locally first
+                NetworkManager.instance._controller.CollectSpacebux(_amountIncrease); // collect spacebux
+                _ready = false;
+                _needToUpdate = true;
+                GetComponent<Planet>().SetWaypoint(null);
+            }
+            else {
+                Debug.Log("Can't gather spacebux from " + _planet.name + " yet!");
+            }
         }
-        else {
-            Debug.Log("Can't gather spacebux from " + _planet.name + " yet!");
-        }
+        
     }
 
 }

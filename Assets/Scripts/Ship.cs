@@ -99,7 +99,7 @@ public class Ship : MonoBehaviour {
                 owned.lastcollectedtime = DateTime.Now;
                 owned.planetpower = Mathf.RoundToInt((float)destinationPlanet.energyModifier * destinationPlanet.homeStar.baseEnergyLevel);
                 owned.planetpopulation = 1000;
-                PlayerData.instance.ownedPlanets.Add(owned); // TESTING - add a planet
+                PlayerData.instance.AddOwnedPlanet(owned); // TESTING - add a planet
             }
             Destroy(this.gameObject);            
         }

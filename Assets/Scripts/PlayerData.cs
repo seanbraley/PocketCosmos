@@ -16,7 +16,6 @@ public class PlayerData : MonoBehaviour {
     public long homestarID;
     public Vector2 lastPosition;
     public List<OwnedPlanet> ownedPlanets;
-    public List<OwnedPlanet> knownPlanets;
     public List<long> discoveredStarSystems;
     public List<ShipInfo> shipList;
 
@@ -113,9 +112,29 @@ public class PlayerData : MonoBehaviour {
     // update list of known planets for a player
     public void AddKnownPlanet(OwnedPlanet p)
     {
-        knownPlanets.Add(p);
+        ownedPlanets.Add(p);
     }
-    
+
+
+    // Checks whether the ownership status of this planet
+    public int CheckPlanetStatus(long starID, int planetID)
+    {
+        var p = ownedPlanets.Find(x => x.starID == starID && x.planetID == planetID);
+        if (p == null) {
+            // not a known planet
+            return 2;
+        }
+        if (p.playerOwned == 1)
+        {
+            // player owns it
+            return 1;
+        }
+        else {
+            // someone else owns it
+            return 0;
+        }
+    }
+
 
     // Load game data - works on all platforms except Web
     public void Load() {
@@ -218,7 +237,7 @@ public class OwnedPlanet {
         }
         planetpopulation = p.Population;
         planetpower = p.Power;
-        lastcollectedtime = new DateTime();
+        lastcollectedtime = p.LastCollected;
     }
 
 }
