@@ -50,6 +50,8 @@ public class Planet : PlanetaryBody {
     public int planetNum;
     public uint myNumber;
 
+    public DateTime lastResourceCollection;
+
 	private Renderer renderer;
 
     private double rotationDistance;
