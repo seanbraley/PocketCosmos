@@ -29,11 +29,11 @@ public class Spacebux : Resource {
         }
 
         //var elapsedTime = DateTime.Now - PlayerData.instance.ownedPlanets
-        if (_planet.transform.position.y > 0 && (int)_planet.transform.position.x == 0)
+        if ((DateTime.Now - _planet.lastResourceCollection).TotalSeconds > _orbitperiod)
         {
             _ready = true;
             GetComponent<Planet>().SetWaypoint("spacebux");
-        }        
+        }
     }
     
     public override void Gather()
@@ -41,13 +41,13 @@ public class Spacebux : Resource {
         if (this.enabled) {
             if (_ready)
             {
-                var currTime = DateTime.Now;
                 //PlayerData.instance.ownedPlanets.Find(
                 //    x => x.starID == (long)_planet.homeStar.myNumber && x.planetID == _planet.planetNum).LastCollectedTime = currTime; // TO DO - update the local data state
                 PlayerData.instance.spacebux += _amountIncrease; // update locally first
                 NetworkManager.instance._controller.CollectSpacebux(_amountIncrease); // collect spacebux
                 _ready = false;
                 _needToUpdate = true;
+                _planet.lastResourceCollection = DateTime.Now;
                 GetComponent<Planet>().SetWaypoint(null);
             }
             else {
