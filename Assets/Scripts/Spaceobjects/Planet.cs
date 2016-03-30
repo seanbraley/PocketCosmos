@@ -51,6 +51,7 @@ public class Planet : PlanetaryBody {
     public uint myNumber;
 
     public DateTime lastResourceCollection;
+    public DateTime lastPopulationIncrease;
 
     private Renderer renderer;
 
