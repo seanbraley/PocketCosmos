@@ -72,7 +72,7 @@ public class Planet : PlanetaryBody {
     		}
     		else
     		{
-    			_currentWaypoint = Instantiate(value,transform.position + Vector3.back*3,Quaternion.identity) as GameObject;
+    			_currentWaypoint = Instantiate(value,transform.position,Quaternion.identity) as GameObject;
     			Vector3 SBsize = new Vector3(transform.localScale.x,transform.localScale.x,transform.localScale.x);
     			_currentWaypoint.transform.localScale = SBsize;
     			_currentWaypoint.transform.parent = this.transform;

@@ -130,7 +130,7 @@ public class ShipMissionPanel : MonoBehaviour {
             _ship.destination_planet = destinationPlanet.planetNum;
             NetworkManager.instance._controller.SendShipOnMission(_ship);
         }        
-
+        ship.GetComponent<Ship>().SetInfo(_ship);
         gameObject.SetActive(false);
     }
 }
