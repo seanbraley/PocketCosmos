@@ -52,10 +52,11 @@ public class Ship : MonoBehaviour {
 		dRend.gameObject.transform.parent = this.transform;
 
 
-		Color c = new Color (1, 0, 0);
-		render.color = c;
+		Color c =  new Color (0.8f,0.1f,0.1f,0.5f);
 		dRend.material = render;
+		dRend.SetColors(c,c);
 		lRend.material = render;
+		lRend.SetColors(c,c);
 
 		timeToDestination = Vector3.Distance(origin.transform.position,destination.transform.position) / 5;
 

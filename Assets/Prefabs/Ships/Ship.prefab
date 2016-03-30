@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   origin: {fileID: 0}
   destination: {fileID: 0}
-  render: {fileID: 2100000, guid: 245eac021811f9e408ff1a5d727c7046, type: 2}
+  render: {fileID: 2100000, guid: 21c315bff0b23814e926959d147d9b38, type: 2}
   id: 0
   ResearchRacerSprite: {fileID: 21300000, guid: abe98744b2caa3a45a1717bf24c8cbf5,
     type: 3}
