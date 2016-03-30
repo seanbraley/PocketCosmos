@@ -52,7 +52,7 @@ public class Planet : PlanetaryBody {
 
     public DateTime lastResourceCollection;
 
-	private Renderer renderer;
+    private Renderer renderer;
 
     private double rotationDistance;
     private int initialRotationOffset;
