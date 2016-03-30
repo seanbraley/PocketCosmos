@@ -35,12 +35,12 @@ public class KnownStarsResponseHandler : PhotonOperationHandler
             XmlStarPlayerList starCollection = (XmlStarPlayerList)obj;
             reader.Close();
 
-             // Update local data
+            List<KnownStar> stars = new List<KnownStar>();
             foreach (SanStarPlayer s in starCollection.StarPlayers)
-                PlayerData.instance.AddDiscoveredStar(new KnownStar(s));
+                stars.Add(new KnownStar(s));
 
             // Update local data
-            PlayerData.instance.UpdateKnownStars((List<KnownStar>)response.Parameters[(byte)ClientParameterCode.KnownStars]);
+            PlayerData.instance.UpdateKnownStars(stars);
         }
         else
         {
