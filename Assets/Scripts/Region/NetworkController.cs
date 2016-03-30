@@ -34,6 +34,8 @@ public class NetworkController : ViewController
 
 
     }
+
+
     public void SendLogin(string username, string password)
     {
         //encrtypt this later
@@ -109,6 +111,24 @@ public class NetworkController : ViewController
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
+    
+
+    public void CollectSpacebux(long starID, int planetID, int value, string timestring)
+    {
+        //encrtypt this later
+        var param = new Dictionary<byte, object>()
+        {
+            {(byte) ClientParameterCode.StarId, starID},
+            {(byte) ClientParameterCode.PlanetId, planetID},
+            {(byte) ClientParameterCode.Spacebux, value},
+            {(byte) ClientParameterCode.Time, timestring},
+            {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.Spacebux}
+        };
+        ControlledView.LogDebug("SENDING SPACEBUX COLLECTION REQUEST");
+        //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
+        SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
+    }
+
 
     public void SpendSpacebux(int value)
     {

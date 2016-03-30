@@ -16,7 +16,7 @@ public class PlayerData : MonoBehaviour {
     public long homestarID;
     public Vector2 lastPosition;
     public List<OwnedPlanet> ownedPlanets;
-    public List<long> discoveredStarSystems;
+    public List<KnownStar> discoveredStarSystems;
     public List<ShipInfo> shipList;
 
 
@@ -84,18 +84,19 @@ public class PlayerData : MonoBehaviour {
     public void UpdateSpacebux(int value) {
         spacebux = value;
     }
-    
+
     // update list of all known stars for a player
-    public void UpdateKnownStars(long[] value) {
-        discoveredStarSystems = new List<long>(value);
+    public void UpdateKnownStars(List<KnownStar> stars)
+    {
+        discoveredStarSystems = new List<KnownStar>(stars);
+    }
+    
+    // add a newly discovered star
+    public void AddDiscoveredStar(KnownStar s)
+    {
+        discoveredStarSystems.Add(s); ;
     }
 
-    // add a newly discovered star
-    public void AddDiscoveredStar(long value)
-    {
-        discoveredStarSystems.Add(value);
-    }
-    
     // update list of all known ships for a player
     public void AddNewShip(ShipInfo s)
     {
@@ -199,7 +200,7 @@ public class PlayerInfo {
 
 
     public List<OwnedPlanet> ownedPlanets;
-    public List<long> discoveredStarSystems;
+    public List<KnownStar> discoveredStarSystems;
     
 }
 
@@ -238,6 +239,22 @@ public class OwnedPlanet {
         planetpopulation = p.Population;
         planetpower = p.Power;
         lastcollectedtime = p.LastCollected;
+    }
+
+}
+
+
+
+[Serializable]
+public class KnownStar
+{
+    public long starID { get; set; } // which star it orbits
+    public DateTime lastVisited { get; set; }
+    
+    public KnownStar(SanStarPlayer s)
+    {
+        starID = s.StarId;
+        lastVisited = s.LastVisited;
     }
 
 }
