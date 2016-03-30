@@ -17,10 +17,10 @@ public class Population : Resource {
 
     // Update is called once per frame
     protected override void Update () {
-        if ((DateTime.Now - _planet.lastPopulationIncrease).TotalSeconds > _orbitperiod)
+        //if ((DateTime.Now - _planet.lastPopulationIncrease).TotalSeconds > _orbitperiod)
         {
-            _capacity += _amountIncrease;
-            Debug.Log(_planet.name + " population is now " + _capacity); //testing
+            //_capacity += _amountIncrease;
+            //Debug.Log(_planet.name + " population is now " + _capacity); //testing
             //GetComponent<Planet>().SetWaypoint("spacebux");
         }
     }    
