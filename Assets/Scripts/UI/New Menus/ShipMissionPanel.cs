@@ -123,7 +123,7 @@ public class ShipMissionPanel : MonoBehaviour {
             _ship.destination_planet = 1;
             NetworkManager.instance._controller.SendShipOnMission(_ship);
         }
-        if (destinationPlanet)
+        else if (destinationPlanet)
         {
             // It's a planet
             _ship.destination_star = (uint)destinationPlanet.myNumber;
