@@ -86,6 +86,8 @@ public class Planet : PlanetaryBody {
         SetUpRNG(myNumber);
         
         base.Start();
+        // Draw orbit path (same color as planet)
+        orbitPath = GetComponent<LineRenderer>();
 
         homeStar = parentBody.GetComponent<SystemStar>();
 
@@ -164,9 +166,6 @@ public class Planet : PlanetaryBody {
         Debug.Log("Dt is: " + dt.TotalSeconds);
         transform.RotateAround(parentBody.transform.position, Vector3.forward, (float)(-orbitSpeed * dt.TotalSeconds));
         Debug.Log(homeStar.myNumber + " planet number: " + planetNum + " rot. time = " + 360 / orbitSpeed);
-        // Draw orbit path (same color as planet)
-        orbitPath = GetComponent<LineRenderer>();
-        orbitPath.materials[0].color = Color.gray;
 
         // Draw the orbit.
         DrawOrbit();
