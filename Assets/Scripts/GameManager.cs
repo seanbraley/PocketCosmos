@@ -3,6 +3,9 @@ using System.Collections;       //Allows us to use Lists.
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;  // scene management at run-time.
 using UnityEngine.EventSystems;     // handles input, raycasting, and sending events.
+using System.Xml.Serialization;
+using System.IO;
+using System;
 
 namespace Completed
 {
@@ -474,6 +477,14 @@ namespace Completed
         {
             if (SceneManager.GetActiveScene().buildIndex == SystemLevel)
             {
+                XmlSerializer serializer = new XmlSerializer(typeof(DateTime));
+                var xmlCurrentTime = "";
+                using (StringWriter textWriter = new StringWriter())
+                {
+                    serializer.Serialize(textWriter, DateTime.Now);
+                    xmlCurrentTime = textWriter.ToString();
+                }
+                NetworkManager.instance._controller.SendVisitedTime(GameManager.instance.selectedID, xmlCurrentTime);
                 ToSectorView();
             }
             if (SceneManager.GetActiveScene().buildIndex == SectorLevel)

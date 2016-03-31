@@ -33,9 +33,7 @@ public class NetworkController : ViewController
         OperationHandlers.Add((byte)colonizePlanetResponseHandler.Code, colonizePlanetResponseHandler);
         UpdateVisitedTimeResponseHandler updateVisitedTimeResponseHandler = new UpdateVisitedTimeResponseHandler(this);
         OperationHandlers.Add((byte)updateVisitedTimeResponseHandler.Code, updateVisitedTimeResponseHandler);
-
-
-
+        
     }
 
 
@@ -218,11 +216,11 @@ public class NetworkController : ViewController
     {
         var param = new Dictionary<byte, object>()
         {
-            {(byte) ClientParameterCode.ShipId, starID},
+            {(byte) ClientParameterCode.StarId, starID},
             { (byte) ClientParameterCode.Time, timestring},
-            {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.CompleteShip}
+            {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.UpdateTime}
         };
-        ControlledView.LogDebug("SENDING SEND SHIP REQUEST");
+        ControlledView.LogDebug("SENDING SEND LAST VISITED TIME REQUEST");
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
