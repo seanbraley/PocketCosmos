@@ -94,6 +94,7 @@ public class Planet : PlanetaryBody {
         {
             personalOwnership = true;
             ownershipState = true;
+            orbitPath.SetColors(Color.green,Color.green);
         }
         else if (PlayerData.instance.CheckPlanetStatus(myNumber, planetNum) == 0)
         {
@@ -102,6 +103,7 @@ public class Planet : PlanetaryBody {
             this.gameObject.GetComponent<Spacebux>().enabled = false;
             this.gameObject.GetComponent<Population>().enabled = false;
             this.gameObject.GetComponent<Power>().enabled = false;
+            orbitPath.SetColors(Color.red,Color.red);
         }
         else 
         {
@@ -110,6 +112,7 @@ public class Planet : PlanetaryBody {
             this.gameObject.GetComponent<Spacebux>().enabled = false;
             this.gameObject.GetComponent<Population>().enabled = false;
             this.gameObject.GetComponent<Power>().enabled = false;
+            orbitPath.SetColors(Color.white,Color.white);
         }
 
         // Set Color
