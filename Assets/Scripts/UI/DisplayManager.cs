@@ -63,6 +63,11 @@ public class DisplayManager : MonoBehaviour {
         populationBar.IsShowing = show;
     }
 
+    public void SetPopulationBarValue(long pop)
+    {
+        populationBar.Value = (int)pop;
+    }
+
     public void ShowEnergyBar(bool show) {
         energyBar.IsShowing = show;
     }

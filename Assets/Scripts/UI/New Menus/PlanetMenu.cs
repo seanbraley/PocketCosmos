@@ -73,11 +73,17 @@ public class PlanetMenu : MonoBehaviour {
 
     void BuildColonyCarrier()
     {
-        ShipInfo s = new ShipInfo(1, _planet.planetNum, _planet.homeStar.myNumber);
-        s.population = 100; // TESTING - REMOVE
-        //PlayerData.instance.shipList.Add(s);
-        NetworkManager.instance._controller.SendNewShip(s); // Send ship creation request to server
-        ShipSelectMenu.Instance.Refresh();
+        if (_planet.personalOwnership && _planet.population >= 100)
+        {
+            ShipInfo s = new ShipInfo(1, _planet.planetNum, _planet.homeStar.myNumber);
+            s.population = 100; // TESTING - REMOVE
+            _planet.population -= s.population;
+            PlayerData.instance.SetPlanetPopulation(_planet.homeStar.myNumber, _planet.planetNum, _planet.population);
+            DisplayManager.Instance.SetPopulationBarValue(_planet.population);
+            //PlayerData.instance.shipList.Add(s);
+            NetworkManager.instance._controller.SendNewShip(s); // Send ship creation request to server
+            ShipSelectMenu.Instance.Refresh();
+        }
     }
     
 }

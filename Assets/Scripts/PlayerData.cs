@@ -116,6 +116,12 @@ public class PlayerData : MonoBehaviour {
         ownedPlanets.Add(p);
     }
 
+    // update last visited time of star
+    public void UpdateLastVisitedTime(KnownStar s)
+    {
+        discoveredStarSystems.Find(x => x.starID == s.starID).lastVisited = s.lastVisited;
+    }
+    
 
     // Checks whether the ownership status of this planet
     public int CheckPlanetStatus(long starID, int planetID)
@@ -133,6 +139,29 @@ public class PlayerData : MonoBehaviour {
         else {
             // someone else owns it
             return 0;
+        }
+    }
+
+    public long GetPlanetPopulation(long starID, int planetID)
+    {
+        var p = ownedPlanets.Find(x => x.starID == starID && x.planetID == planetID);
+        if (p == null)
+        {
+            // not a known planet
+            return 0;
+        }
+        else
+        {
+            return p.planetpopulation;
+        }
+    }
+
+    public void SetPlanetPopulation(long starID, int planetID, long amount)
+    {
+        var p = ownedPlanets.Find(x => x.starID == starID && x.planetID == planetID);
+        if (p != null)
+        {
+            p.planetpopulation = amount;
         }
     }
 
@@ -159,6 +188,21 @@ public class PlayerData : MonoBehaviour {
             p.lastcollectedtime = DateTime.Now;
         }
     }
+
+    public DateTime GetLastVisitedTime(long starID)
+    {
+        var s = discoveredStarSystems.Find(x => x.starID == starID);
+        if (s == null)
+        {
+            // not a known planet
+            return DateTime.Now;
+        }
+        else
+        {
+            return s.lastVisited;
+        }
+    }
+
     // Load game data - works on all platforms except Web
     public void Load() {
         // Accessing load data

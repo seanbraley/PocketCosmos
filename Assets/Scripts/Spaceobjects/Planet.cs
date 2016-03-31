@@ -55,6 +55,8 @@ public class Planet : PlanetaryBody {
 
     private Renderer renderer;
 
+    private TimeSpan dt = TimeSpan.Zero;
+
     private double rotationDistance;
     private int initialRotationOffset;
 
@@ -118,24 +120,25 @@ public class Planet : PlanetaryBody {
         }
 
 	    lastResourceCollection = PlayerData.instance.GetPlanetLastCollectedTime(myNumber, planetNum);
+	    population = PlayerData.instance.GetPlanetPopulation(myNumber, planetNum);
 
         // Set Color
         if (planetNum <= 2)  // hot planets generate more power, negative population rate (usually)
         {
             energyModifier = localRNG.NextGaussian(2);
-            populationRate = localRNG.NextGaussian(-2, 5);
+            populationRate = localRNG.NextGaussian(3, 1);
             _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "red");
         }
         else if (planetNum > 2 & planetNum <= 5)
         {
             energyModifier = localRNG.NextGaussian(1);
-            populationRate = localRNG.NextGaussian(10, 5);
+            populationRate = localRNG.NextGaussian(5, 4);
             _layeredSprite.Randomize((uint) localRNG.Next(), ref localRNG, "green");
         }
         else
         {
             energyModifier = localRNG.NextGaussian(-1);
-            populationRate = localRNG.NextGaussian(-2, 5);
+            populationRate = localRNG.NextGaussian(3, 1);
             _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "blue");
         }
 
@@ -162,8 +165,15 @@ public class Planet : PlanetaryBody {
                              parentBody.transform.position;
         transform.RotateAround(parentBody.transform.position, Vector3.forward, initialRotationOffset);
 
+
+        // Adding population based on missing time
+        population += (long)(populationRate *
+                       (DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds / (360 / orbitSpeed));
+        this.dt = TimeSpan.FromSeconds((DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds % (360 / orbitSpeed));
+        Debug.Log("DT for pop is: " + (DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds);
+
         // Adjust for persistent rotation
-	    System.TimeSpan dt = System.DateTime.Now - DateTime.ParseExact("2016-03-03 14:40:52,531", "yyyy-MM-dd HH:mm:ss,fff",
+        System.TimeSpan dt = System.DateTime.Now - DateTime.ParseExact("2016-03-03 14:40:52,531", "yyyy-MM-dd HH:mm:ss,fff",
                                        System.Globalization.CultureInfo.InvariantCulture);// HACK homeStar.discoveryTime;
         Debug.Log("Dt is: " + dt.TotalSeconds);
         transform.RotateAround(parentBody.transform.position, Vector3.forward, (float)(-orbitSpeed * dt.TotalSeconds));
@@ -256,6 +266,19 @@ public class Planet : PlanetaryBody {
 	    if (CurrentWaypoint != null) {
 	    	CurrentWaypoint.transform.rotation = Quaternion.identity;
 	    }
+
+	    dt += TimeSpan.FromSeconds(Time.deltaTime);
+	    if (dt.TotalSeconds >= 360 / orbitSpeed)
+	    {
+	        dt = TimeSpan.Zero;
+	        AddPopulation();
+	    }
+    }
+
+    void AddPopulation()
+    {
+        population += (long)populationRate;
+        PlayerData.instance.SetPlanetPopulation(myNumber, planetNum, population);
     }
 
 	void DrawOrbit ()
