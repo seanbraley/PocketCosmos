@@ -150,6 +150,15 @@ public class PlayerData : MonoBehaviour {
         }
     }
 
+    public void SetPlanetPopulation(long starID, int planetID, long amount)
+    {
+        var p = ownedPlanets.Find(x => x.starID == starID && x.planetID == planetID);
+        if (p != null)
+        {
+            p.planetpopulation = amount;
+        }
+    }
+
     public DateTime GetPlanetLastCollectedTime(long starID, int planetID)
     {
         var p = ownedPlanets.Find(x => x.starID == starID && x.planetID == planetID);
