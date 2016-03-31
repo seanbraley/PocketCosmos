@@ -10,6 +10,7 @@ public class NetworkController : ViewController
 {
     public NetworkController(View controlledView, byte subOperationCode = 0) : base(controlledView, subOperationCode)
     {
+        // All the handlers! All of them!
         LoginResponseHandler loginHandler = new LoginResponseHandler(this); // register handler!
         OperationHandlers.Add((byte)loginHandler.Code, loginHandler);
         PlayerProfileResponseHandler profileHandler = new PlayerProfileResponseHandler(this);
@@ -30,7 +31,9 @@ public class NetworkController : ViewController
         OperationHandlers.Add((byte)sendShipOnMissionsResponseHandler.Code, sendShipOnMissionsResponseHandler);
         ColonizePlanetResponseHandler colonizePlanetResponseHandler = new ColonizePlanetResponseHandler(this);
         OperationHandlers.Add((byte)colonizePlanetResponseHandler.Code, colonizePlanetResponseHandler);
-        
+        UpdateVisitedTimeResponseHandler updateVisitedTimeResponseHandler = new UpdateVisitedTimeResponseHandler(this);
+        OperationHandlers.Add((byte)updateVisitedTimeResponseHandler.Code, updateVisitedTimeResponseHandler);
+
 
 
     }
@@ -204,6 +207,19 @@ public class NetworkController : ViewController
         {
             {(byte) ClientParameterCode.ShipId, value },
             {(byte) ClientParameterCode.Time, timestring},
+            {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.CompleteShip}
+        };
+        ControlledView.LogDebug("SENDING SEND SHIP REQUEST");
+        //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
+        SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
+    }
+
+    public void SendVisitedTime(long starID, string timestring)
+    {
+        var param = new Dictionary<byte, object>()
+        {
+            {(byte) ClientParameterCode.ShipId, starID},
+            { (byte) ClientParameterCode.Time, timestring},
             {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.CompleteShip}
         };
         ControlledView.LogDebug("SENDING SEND SHIP REQUEST");

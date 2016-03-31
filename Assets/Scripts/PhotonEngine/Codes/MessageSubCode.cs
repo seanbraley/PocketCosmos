@@ -25,5 +25,7 @@ public enum MessageSubCode
     PlayerShips,
     KnownPlanetByStar,
     CompleteShip,
-    SendShip
+    SendShip,
+    Population,
+    UpdateTime
 }
