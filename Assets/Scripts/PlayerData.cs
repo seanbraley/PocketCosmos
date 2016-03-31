@@ -136,7 +136,29 @@ public class PlayerData : MonoBehaviour {
         }
     }
 
+    public DateTime GetPlanetLastCollectedTime(long starID, int planetID)
+    {
+        var p = ownedPlanets.Find(x => x.starID == starID && x.planetID == planetID);
+        if (p == null)
+        {
+            // not a known planet
+            return DateTime.Now;
+        }
+        else
+        {
+            return p.lastcollectedtime;
+        }
+    }
 
+    public void SetPlanetLastCollectedTime(long starID, int planetID)
+    {
+        var p = ownedPlanets.Find(x => x.starID == starID && x.planetID == planetID);
+        if (p != null)
+        {
+            // not a known planet
+            p.lastcollectedtime = DateTime.Now;
+        }
+    }
     // Load game data - works on all platforms except Web
     public void Load() {
         // Accessing load data
