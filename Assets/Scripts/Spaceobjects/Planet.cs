@@ -126,19 +126,19 @@ public class Planet : PlanetaryBody {
         if (planetNum <= 2)  // hot planets generate more power, negative population rate (usually)
         {
             energyModifier = localRNG.NextGaussian(2);
-            populationRate = localRNG.NextGaussian(-2, 5);
+            populationRate = localRNG.NextGaussian(3, 1);
             _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "red");
         }
         else if (planetNum > 2 & planetNum <= 5)
         {
             energyModifier = localRNG.NextGaussian(1);
-            populationRate = localRNG.NextGaussian(10, 5);
+            populationRate = localRNG.NextGaussian(5, 4);
             _layeredSprite.Randomize((uint) localRNG.Next(), ref localRNG, "green");
         }
         else
         {
             energyModifier = localRNG.NextGaussian(-1);
-            populationRate = localRNG.NextGaussian(-2, 5);
+            populationRate = localRNG.NextGaussian(3, 1);
             _layeredSprite.Randomize((uint)localRNG.Next(), ref localRNG, "blue");
         }
 
