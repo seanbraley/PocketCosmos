@@ -123,9 +123,9 @@ public class Planet : PlanetaryBody {
 	    population = PlayerData.instance.GetPlanetPopulation(myNumber, planetNum);
 
         // Adding population based on missing time
-	    //population += (populationRate*
-	    //               (DateTime.Now - PlayerData.instance.GetLastVisitTime(myNumber, planetNum)).TotalSeconds);
-	    //this.dt = TimeSpan.FromSeconds((DateTime.Now - PlayerData.instance.GetLastVisitTime(myNumber, planetNum)).TotalSeconds%(360/orbitSpeed));
+        population += (long)(populationRate*
+                       (DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds);
+        this.dt = TimeSpan.FromSeconds((DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds%(360/orbitSpeed));
         // Set Color
         if (planetNum <= 2)  // hot planets generate more power, negative population rate (usually)
         {

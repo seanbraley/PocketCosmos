@@ -182,6 +182,21 @@ public class PlayerData : MonoBehaviour {
             p.lastcollectedtime = DateTime.Now;
         }
     }
+
+    public DateTime GetLastVisitedTime(long starID)
+    {
+        var s = discoveredStarSystems.Find(x => x.starID == starID);
+        if (s == null)
+        {
+            // not a known planet
+            return DateTime.Now;
+        }
+        else
+        {
+            return s.lastVisited;
+        }
+    }
+
     // Load game data - works on all platforms except Web
     public void Load() {
         // Accessing load data
