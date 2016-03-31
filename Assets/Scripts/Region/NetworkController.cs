@@ -33,7 +33,10 @@ public class NetworkController : ViewController
         OperationHandlers.Add((byte)colonizePlanetResponseHandler.Code, colonizePlanetResponseHandler);
         UpdateVisitedTimeResponseHandler updateVisitedTimeResponseHandler = new UpdateVisitedTimeResponseHandler(this);
         OperationHandlers.Add((byte)updateVisitedTimeResponseHandler.Code, updateVisitedTimeResponseHandler);
-        
+        UpdatePopulationResponseHandler updatePopulationResponseHandler = new UpdatePopulationResponseHandler(this);
+        OperationHandlers.Add((byte)updatePopulationResponseHandler.Code, updatePopulationResponseHandler);
+
+
     }
 
 
@@ -221,6 +224,21 @@ public class NetworkController : ViewController
             {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.UpdateTime}
         };
         ControlledView.LogDebug("SENDING SEND LAST VISITED TIME REQUEST");
+        //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
+        SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
+    }
+
+
+    public void UpdatePopulation(long starID, int planetID, int value)
+    {
+        var param = new Dictionary<byte, object>()
+        {
+            {(byte) ClientParameterCode.StarId, starID},
+            { (byte) ClientParameterCode.PlanetId, planetID},
+            { (byte) ClientParameterCode.Population, value},
+            {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.Population}
+        };
+        ControlledView.LogDebug("SENDING POPULATION UPDATE REQUEST");
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }

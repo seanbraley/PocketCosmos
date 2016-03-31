@@ -166,11 +166,15 @@ public class Planet : PlanetaryBody {
         transform.RotateAround(parentBody.transform.position, Vector3.forward, initialRotationOffset);
 
 
-        // Adding population based on missing time
-        population += (long)(populationRate *
-                       (DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds / (360 / orbitSpeed));
-        this.dt = TimeSpan.FromSeconds((DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds % (360 / orbitSpeed));
-        Debug.Log("DT for pop is: " + (DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds);
+        if (personalOwnership) {
+            // Adding population based on missing time
+            long populationIncrease = (long)(populationRate *
+                           (DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds / (360 / orbitSpeed));
+            NetworkManager.instance._controller.UpdatePopulation(myNumber, planetNum, (int)populationIncrease);
+            population += populationIncrease;
+            this.dt = TimeSpan.FromSeconds((DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds % (360 / orbitSpeed));
+            Debug.Log("DT for pop is: " + (DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds);
+        }
 
         // Adjust for persistent rotation
         System.TimeSpan dt = System.DateTime.Now - DateTime.ParseExact("2016-03-03 14:40:52,531", "yyyy-MM-dd HH:mm:ss,fff",
@@ -268,7 +272,7 @@ public class Planet : PlanetaryBody {
 	    }
 
 	    dt += TimeSpan.FromSeconds(Time.deltaTime);
-	    if (dt.TotalSeconds >= 360 / orbitSpeed)
+	    if (personalOwnership && dt.TotalSeconds >= 360 / orbitSpeed)
 	    {
 	        dt = TimeSpan.Zero;
 	        AddPopulation();
@@ -278,6 +282,7 @@ public class Planet : PlanetaryBody {
     void AddPopulation()
     {
         population += (long)populationRate;
+        NetworkManager.instance._controller.UpdatePopulation(myNumber, planetNum, (int)populationRate);
         PlayerData.instance.SetPlanetPopulation(myNumber, planetNum, population);
     }
 
