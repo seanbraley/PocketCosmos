@@ -57,6 +57,7 @@ public class Spacebux : Resource {
                 _ready = false;
                 _needToUpdate = true;
                 _planet.lastResourceCollection = DateTime.Now;
+                PlayerData.instance.GetPlanetLastCollectedTime(_planet.myNumber, _planet.planetNum);
                 GetComponent<Planet>().SetWaypoint(null);
             }
             else {
