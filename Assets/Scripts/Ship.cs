@@ -139,6 +139,7 @@ public class Ship : MonoBehaviour {
                 owned.planetpopulation = 1000;
                 PlayerData.instance.AddOwnedPlanet(owned); // TESTING - add a planet
             }
+            PlayerData.instance.shipList.Remove(_info);
             Destroy(this.gameObject);            
         }
 
