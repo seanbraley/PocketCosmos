@@ -100,7 +100,10 @@ public class PlayerData : MonoBehaviour {
     // update list of all known ships for a player
     public void AddNewShip(ShipInfo s)
     {
-        shipList.Add(s);
+        // dont add ships that already exist
+        if (!shipList.Exists(x => x.id == s.id)) {
+            shipList.Add(s);
+        }        
     }
 
     // update list of owned planets for a player
