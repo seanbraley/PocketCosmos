@@ -122,10 +122,6 @@ public class Planet : PlanetaryBody {
 	    lastResourceCollection = PlayerData.instance.GetPlanetLastCollectedTime(myNumber, planetNum);
 	    population = PlayerData.instance.GetPlanetPopulation(myNumber, planetNum);
 
-        // Adding population based on missing time
-        population += (long)(populationRate*
-                       (DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds);
-        this.dt = TimeSpan.FromSeconds((DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds%(360/orbitSpeed));
         // Set Color
         if (planetNum <= 2)  // hot planets generate more power, negative population rate (usually)
         {
@@ -169,8 +165,15 @@ public class Planet : PlanetaryBody {
                              parentBody.transform.position;
         transform.RotateAround(parentBody.transform.position, Vector3.forward, initialRotationOffset);
 
+
+        // Adding population based on missing time
+        population += (long)(populationRate *
+                       (DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds / (360 / orbitSpeed));
+        this.dt = TimeSpan.FromSeconds((DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds % (360 / orbitSpeed));
+        Debug.Log("DT for pop is: " + (DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds);
+
         // Adjust for persistent rotation
-	    System.TimeSpan dt = System.DateTime.Now - DateTime.ParseExact("2016-03-03 14:40:52,531", "yyyy-MM-dd HH:mm:ss,fff",
+        System.TimeSpan dt = System.DateTime.Now - DateTime.ParseExact("2016-03-03 14:40:52,531", "yyyy-MM-dd HH:mm:ss,fff",
                                        System.Globalization.CultureInfo.InvariantCulture);// HACK homeStar.discoveryTime;
         Debug.Log("Dt is: " + dt.TotalSeconds);
         transform.RotateAround(parentBody.transform.position, Vector3.forward, (float)(-orbitSpeed * dt.TotalSeconds));
