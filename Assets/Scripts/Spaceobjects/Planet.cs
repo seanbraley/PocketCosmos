@@ -55,6 +55,8 @@ public class Planet : PlanetaryBody {
 
     private Renderer renderer;
 
+    private TimeSpan dt = TimeSpan.Zero;
+
     private double rotationDistance;
     private int initialRotationOffset;
 
@@ -119,6 +121,11 @@ public class Planet : PlanetaryBody {
 
 	    lastResourceCollection = PlayerData.instance.GetPlanetLastCollectedTime(myNumber, planetNum);
 	    population = PlayerData.instance.GetPlanetPopulation(myNumber, planetNum);
+
+        // Adding population based on missing time
+	    //population += (populationRate*
+	    //               (DateTime.Now - PlayerData.instance.GetLastVisitTime(myNumber, planetNum)).TotalSeconds);
+	    //this.dt = TimeSpan.FromSeconds((DateTime.Now - PlayerData.instance.GetLastVisitTime(myNumber, planetNum)).TotalSeconds%(360/orbitSpeed));
         // Set Color
         if (planetNum <= 2)  // hot planets generate more power, negative population rate (usually)
         {
@@ -256,6 +263,19 @@ public class Planet : PlanetaryBody {
 	    if (CurrentWaypoint != null) {
 	    	CurrentWaypoint.transform.rotation = Quaternion.identity;
 	    }
+
+	    dt += TimeSpan.FromSeconds(Time.deltaTime);
+	    if (dt.TotalSeconds >= 360 / orbitSpeed)
+	    {
+	        dt = TimeSpan.Zero;
+	        AddPopulation();
+	    }
+    }
+
+    void AddPopulation()
+    {
+        population += (long)populationRate;
+        PlayerData.instance.SetPlanetPopulation(myNumber, planetNum, population);
     }
 
 	void DrawOrbit ()
