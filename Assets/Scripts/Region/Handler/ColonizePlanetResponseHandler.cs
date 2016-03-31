@@ -24,6 +24,7 @@ public class ColonizePlanetResponseHandler : PhotonOperationHandler
         {
             // TODO FIX THIS FOR ONLY 1 PLANET??
             view.LogDebug(response.Parameters[(byte)ClientParameterCode.Planets].ToString());
+            DisplayManager.Instance.DisplayMessage("Planet Colonized!");
 
             // Deserialize
             var xmlData = response.Parameters[(byte)ClientParameterCode.Planets].ToString();
@@ -40,6 +41,7 @@ public class ColonizePlanetResponseHandler : PhotonOperationHandler
         else
         {
             view.LogDebug("RESPONSE: " + response.DebugMessage);
+            DisplayManager.Instance.DisplayMessage(response.DebugMessage);
         }
     }
 }

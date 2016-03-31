@@ -28,6 +28,7 @@ public class SpacebuxResponseHandler : PhotonOperationHandler
         if (response.ReturnCode == 0)
         {
             view.LogDebug(response.Parameters[(byte)ClientParameterCode.Time].ToString());
+            DisplayManager.Instance.DisplayMessage("Spacebuck Collected");
 
             // Deserialize
             XmlSerializer serializer = new XmlSerializer(typeof(DateTime));
@@ -43,10 +44,12 @@ public class SpacebuxResponseHandler : PhotonOperationHandler
         else if (response.ReturnCode == 5)
         {
             view.LogDebug("Not enough spacebux to spend!");
+            DisplayManager.Instance.DisplayMessage("Not Enough Spacebux!");
         }
         else
         {
             view.LogDebug("RESPONSE: " + response.DebugMessage);
+            DisplayManager.Instance.DisplayMessage(response.DebugMessage);
         }
     }
 }

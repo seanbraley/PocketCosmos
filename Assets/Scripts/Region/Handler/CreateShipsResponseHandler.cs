@@ -24,6 +24,7 @@ public class CreateShipsResponseHandler : PhotonOperationHandler
         if (response.ReturnCode == 0)
         {
             view.LogDebug(response.Parameters[(byte)ClientParameterCode.PlayerShips].ToString());
+            DisplayManager.Instance.DisplayMessage("Ship Created!");
 
             // Deserialize
             var xmlData = response.Parameters[(byte)ClientParameterCode.PlayerShips].ToString();
@@ -42,15 +43,18 @@ public class CreateShipsResponseHandler : PhotonOperationHandler
         {
             // Not enough population
             view.LogDebug("RESPONSE: " + response.DebugMessage);
+            DisplayManager.Instance.DisplayMessage(response.DebugMessage);
         }
         else if (response.ReturnCode == 7)
         {
             // You don't own this planet
             view.LogDebug("RESPONSE: " + response.DebugMessage);
+            DisplayManager.Instance.DisplayMessage(response.DebugMessage);
         }
         else
         {
             view.LogDebug("RESPONSE: " + response.DebugMessage);
+            DisplayManager.Instance.DisplayMessage(response.DebugMessage);
         }
     }
 }

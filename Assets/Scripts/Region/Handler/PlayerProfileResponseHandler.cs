@@ -39,6 +39,7 @@ public class PlayerProfileResponseHandler : PhotonOperationHandler
         else
         {
             view.LogDebug("RESPONSE: " + response.DebugMessage);
+            DisplayManager.Instance.DisplayMessage(response.DebugMessage);
         }
     }
 }

@@ -25,6 +25,7 @@ public class DiscoveredStarsResponseHandler : PhotonOperationHandler
         if (response.ReturnCode == 0)
         {
             view.LogDebug("Star successfully discovered.");
+            DisplayManager.Instance.DisplayMessage("Star successfully discovered!");
 
             // Deserialize
             var xmlData = response.Parameters[(byte)ClientParameterCode.KnownStars].ToString();
@@ -42,6 +43,7 @@ public class DiscoveredStarsResponseHandler : PhotonOperationHandler
         else
         {
             view.LogDebug("RESPONSE: " + response.DebugMessage);
+            DisplayManager.Instance.DisplayMessage(response.DebugMessage);
         }
     }
 }

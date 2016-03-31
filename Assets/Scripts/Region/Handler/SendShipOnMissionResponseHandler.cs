@@ -24,11 +24,12 @@ public class SendShipOnMissionResponseHandler : PhotonOperationHandler
         if (response.ReturnCode == 0)
         {
             view.LogDebug(response.Parameters[(byte)ClientParameterCode.ShipId].ToString());           
-
+            DisplayManager.Instance.DisplayMessage("Ship Launched!");
         }
         else
         {
             view.LogDebug("RESPONSE: " + response.DebugMessage);
+            DisplayManager.Instance.DisplayMessage(response.DebugMessage);
         }
     }
 }
