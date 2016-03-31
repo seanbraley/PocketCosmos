@@ -75,6 +75,7 @@ public class PlanetMenu : MonoBehaviour {
     {
         if (_planet.personalOwnership && _planet.population >= 100)
         {
+
             ShipInfo s = new ShipInfo(1, _planet.planetNum, _planet.homeStar.myNumber);
             s.population = 100; // TESTING - REMOVE
             _planet.population -= s.population;
@@ -83,6 +84,9 @@ public class PlanetMenu : MonoBehaviour {
             //PlayerData.instance.shipList.Add(s);
             NetworkManager.instance._controller.SendNewShip(s); // Send ship creation request to server
             ShipSelectMenu.Instance.Refresh();
+        }
+        else {
+        	DisplayManager.Instance.DisplayMessage("Not Enough Population!");
         }
     }
     
