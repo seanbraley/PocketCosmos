@@ -3,7 +3,8 @@ using System.Collections;
 using System;
 using UnityEngine.SceneManagement;  // scene management at run-time.
 using Completed;
-
+using System.Xml.Serialization;
+using System.IO;
 
 public class Ship : MonoBehaviour {
 
@@ -103,7 +104,16 @@ public class Ship : MonoBehaviour {
             
             Star destinationStar = destination.GetComponent<Star>();
             Planet destinationPlanet = destination.GetComponent<Planet>();
-            NetworkManager.instance._controller.SendMissionComplete(id); // NETWORK STUFF
+
+            XmlSerializer serializer = new XmlSerializer(typeof(DateTime));
+            var xmlCurrentTime = "";
+            using (StringWriter textWriter = new StringWriter())
+            {
+                serializer.Serialize(textWriter, DateTime.Now);
+                xmlCurrentTime = textWriter.ToString();
+            }
+            NetworkManager.instance._controller.SendMissionComplete(id, xmlCurrentTime); // NETWORK STUFF
+
             if (destinationStar)
             {
                 // It's a star - discover the gameobject this ship was sent to

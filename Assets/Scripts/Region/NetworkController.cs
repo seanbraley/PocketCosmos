@@ -198,18 +198,17 @@ public class NetworkController : ViewController
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
 
-    public void SendMissionComplete(int value)
+    public void SendMissionComplete(int value, string timestring)
     {
         var param = new Dictionary<byte, object>()
         {
             {(byte) ClientParameterCode.ShipId, value },
+            {(byte) ClientParameterCode.Time, timestring},
             {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.CompleteShip}
         };
         ControlledView.LogDebug("SENDING SEND SHIP REQUEST");
         //PhotonEngine.Instance.Peer.OpCustom(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Login, Parameters = param }, true, 0, true);
         SendOperation(new OperationRequest() { OperationCode = (byte)ClientOperationCode.Region, Parameters = param }, true, 0, false);
     }
-    public void SendDiscoveredPlanet(long starID, int planetID)
-    {
-    }
+    
 }

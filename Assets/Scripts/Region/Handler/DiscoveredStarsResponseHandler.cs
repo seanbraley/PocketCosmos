@@ -41,7 +41,7 @@ public class DiscoveredStarsResponseHandler : PhotonOperationHandler
         }      
         else
         {
-            view.LogDebug("An error has occured.");
+            view.LogDebug("RESPONSE: " + response.DebugMessage);
         }
     }
 }
