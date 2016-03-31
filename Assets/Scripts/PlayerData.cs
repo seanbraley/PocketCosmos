@@ -136,6 +136,20 @@ public class PlayerData : MonoBehaviour {
         }
     }
 
+    public long GetPlanetPopulation(long starID, int planetID)
+    {
+        var p = ownedPlanets.Find(x => x.starID == starID && x.planetID == planetID);
+        if (p == null)
+        {
+            // not a known planet
+            return 0;
+        }
+        else
+        {
+            return p.planetpopulation;
+        }
+    }
+
     public DateTime GetPlanetLastCollectedTime(long starID, int planetID)
     {
         var p = ownedPlanets.Find(x => x.starID == starID && x.planetID == planetID);

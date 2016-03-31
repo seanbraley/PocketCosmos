@@ -69,6 +69,7 @@ public class Player : MonoBehaviour {
                         selected.GetComponent<PlanetaryBody>().SetHaloColor(Color.white);
                     }
                     DisplayManager.Instance.ShowPopulationBar(true);
+                    DisplayManager.Instance.SetPopulationBarValue(selectedPlanet.population);
                     DisplayManager.Instance.ShowEnergyBar(true);
                         PlanetMenu.Instance.gameObject.SetActive(true);
                     }

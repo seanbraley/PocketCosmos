@@ -118,7 +118,7 @@ public class Planet : PlanetaryBody {
         }
 
 	    lastResourceCollection = PlayerData.instance.GetPlanetLastCollectedTime(myNumber, planetNum);
-
+	    population = PlayerData.instance.GetPlanetPopulation(myNumber, planetNum);
         // Set Color
         if (planetNum <= 2)  // hot planets generate more power, negative population rate (usually)
         {
