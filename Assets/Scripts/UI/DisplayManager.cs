@@ -10,10 +10,13 @@ public class DisplayManager : MonoBehaviour {
 
     // Set these in the inspector
     public Text virtualPosition;
+    public GameObject Message_Prefab;
 
     private ResourceBar populationBar;
     private ResourceBar energyBar;
     private ResourceBar spacebuxBar;
+
+    private GameObject currentMessage = null;
 
     public void Awake() {
         if (Instance != null && Instance != this) {
@@ -66,5 +69,14 @@ public class DisplayManager : MonoBehaviour {
 
     public void ShowSpacebuxBar(bool show) {
         spacebuxBar.IsShowing = show;
+    }
+
+    public void DisplayMessage(string text) {
+        if (currentMessage != null) {
+            Destroy(currentMessage.gameObject);
+        }
+        currentMessage = Instantiate(Message_Prefab) as GameObject;
+        currentMessage.transform.parent = this.transform.parent;
+        currentMessage.GetComponent<Text>().text = text;
     }
 }
