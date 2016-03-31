@@ -87,13 +87,13 @@ public class PlayerData : MonoBehaviour {
     
     // update list of all known stars for a player
     public void UpdateKnownStars(long[] value) {
-        discoveredStarSystems = new List<long>(value); ;
+        discoveredStarSystems = new List<long>(value);
     }
 
     // add a newly discovered star
     public void AddDiscoveredStar(long value)
     {
-        discoveredStarSystems.Add(value); ;
+        discoveredStarSystems.Add(value);
     }
     
     // update list of all known ships for a player

@@ -72,7 +72,9 @@ public class PlanetaryBody : MonoBehaviour {
             _halo = null;
         }
     }
-
+    public void SetHaloColor(Color c) {
+        _halo.GetComponent<SpriteRenderer>().color = c;
+    }
 
     /// <summary>
     /// Start method will get the layer sprite
