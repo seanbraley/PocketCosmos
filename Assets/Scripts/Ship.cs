@@ -131,6 +131,7 @@ public class Ship : MonoBehaviour {
                 // It's a planet - perform an action on the planet depending on ship class
                 // Carrier ship: colonize the ship
                 destinationPlanet.personalOwnership = true;
+                destinationPlanet.orbitPath.SetColors(Color.green,Color.green);
                 destinationPlanet.ownershipState = true;
                 var owned = new OwnedPlanet(destination);
                 owned.lastcollectedtime = DateTime.Now;

@@ -86,6 +86,8 @@ public class Planet : PlanetaryBody {
         SetUpRNG(myNumber);
         
         base.Start();
+        // Draw orbit path (same color as planet)
+        orbitPath = GetComponent<LineRenderer>();
 
         homeStar = parentBody.GetComponent<SystemStar>();
 
@@ -94,6 +96,7 @@ public class Planet : PlanetaryBody {
         {
             personalOwnership = true;
             ownershipState = true;
+            orbitPath.SetColors(Color.green,Color.green);
         }
         else if (PlayerData.instance.CheckPlanetStatus(myNumber, planetNum) == 0)
         {
@@ -102,6 +105,7 @@ public class Planet : PlanetaryBody {
             this.gameObject.GetComponent<Spacebux>().enabled = false;
             this.gameObject.GetComponent<Population>().enabled = false;
             this.gameObject.GetComponent<Power>().enabled = false;
+            orbitPath.SetColors(Color.red,Color.red);
         }
         else 
         {
@@ -110,6 +114,7 @@ public class Planet : PlanetaryBody {
             this.gameObject.GetComponent<Spacebux>().enabled = false;
             this.gameObject.GetComponent<Population>().enabled = false;
             this.gameObject.GetComponent<Power>().enabled = false;
+            orbitPath.SetColors(Color.white,Color.white);
         }
 
         // Set Color
@@ -161,9 +166,6 @@ public class Planet : PlanetaryBody {
         Debug.Log("Dt is: " + dt.TotalSeconds);
         transform.RotateAround(parentBody.transform.position, Vector3.forward, (float)(-orbitSpeed * dt.TotalSeconds));
         Debug.Log(homeStar.myNumber + " planet number: " + planetNum + " rot. time = " + 360 / orbitSpeed);
-        // Draw orbit path (same color as planet)
-        orbitPath = GetComponent<LineRenderer>();
-        orbitPath.materials[0].color = Color.gray;
 
         // Draw the orbit.
         DrawOrbit();
