@@ -116,6 +116,12 @@ public class PlayerData : MonoBehaviour {
         ownedPlanets.Add(p);
     }
 
+    // update last visited time of star
+    public void UpdateLastVisitedTime(KnownStar s)
+    {
+        discoveredStarSystems.Find(x => x.starID == s.starID).lastVisited = s.lastVisited;
+    }
+    
 
     // Checks whether the ownership status of this planet
     public int CheckPlanetStatus(long starID, int planetID)
