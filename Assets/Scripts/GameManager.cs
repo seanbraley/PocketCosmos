@@ -79,22 +79,7 @@ namespace Completed
             //Call the InitGame function to initialize the starting level 
             if (SceneManager.GetActiveScene().buildIndex == SectorLevel)
                 InitGame();
-
-            // TODO: update to respond to server call
-            // First-time player initialization - Get first star, add to discovered star list
-            if (PlayerData.instance.discoveredStarSystems.Count == 0 && SceneManager.GetActiveScene().buildIndex == SectorLevel)
-            {
-                // First star system
-                GameObject firstStar = Player.instance.FindGameObjectAtPosition(Vector3.zero);  // TODO: update to respond to server call??
-
-                //PlayerData.instance.Spacebux += 100;  // TODO: update to respond to server call
-
-                // Discover the star
-                firstStar.GetComponent<Star>().Discovered = true;
-                //firstStar.GetComponent<Star>().SetDiscoveryTime(System.DateTime.Now);
-                PlayerData.instance.discoveredStarSystems.Add(firstStar.GetComponent<Star>().myNumber);
-            }
-            
+                        
         }
 
 
@@ -104,7 +89,8 @@ namespace Completed
 
             foreach (GameObject star in keepLoadedStars)
             {
-                if (PlayerData.instance.discoveredStarSystems.Contains(star.GetComponent<Star>().myNumber))
+                //if (PlayerData.instance.discoveredStarSystems.Contains(star.GetComponent<Star>().myNumber))
+                if (PlayerData.instance.discoveredStarSystems.Exists(x => x.starID == star.GetComponent<Star>().myNumber))
                 {
                     star.GetComponent<Star>().Discovered = true;
                 }

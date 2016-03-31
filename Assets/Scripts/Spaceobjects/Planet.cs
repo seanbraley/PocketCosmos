@@ -159,8 +159,10 @@ public class Planet : PlanetaryBody {
         transform.RotateAround(parentBody.transform.position, Vector3.forward, initialRotationOffset);
 
         // Adjust for persistent rotation
-        System.TimeSpan dt = System.DateTime.Now - homeStar.discoveryTime;
-        transform.RotateAround(parentBody.transform.position, Vector3.forward, -orbitSpeed * (float)dt.TotalSeconds);
+	    System.TimeSpan dt = System.DateTime.Now - DateTime.ParseExact("2016-03-03 14:40:52,531", "yyyy-MM-dd HH:mm:ss,fff",
+                                       System.Globalization.CultureInfo.InvariantCulture);// HACK homeStar.discoveryTime;
+        Debug.Log("Dt is: " + dt.TotalSeconds);
+        transform.RotateAround(parentBody.transform.position, Vector3.forward, (float)(-orbitSpeed * dt.TotalSeconds));
         Debug.Log(homeStar.myNumber + " planet number: " + planetNum + " rot. time = " + 360 / orbitSpeed);
         // Draw orbit path (same color as planet)
         orbitPath = GetComponent<LineRenderer>();

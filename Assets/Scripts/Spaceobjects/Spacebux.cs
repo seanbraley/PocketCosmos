@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Xml.Serialization;
+using System.IO;
 
 public class Spacebux : Resource {
     
@@ -43,8 +45,15 @@ public class Spacebux : Resource {
             {
                 //PlayerData.instance.ownedPlanets.Find(
                 //    x => x.starID == (long)_planet.homeStar.myNumber && x.planetID == _planet.planetNum).LastCollectedTime = currTime; // TO DO - update the local data state
+                XmlSerializer serializer = new XmlSerializer(typeof(DateTime));
+                var xmlCurrentTime = "";
+                using (StringWriter textWriter = new StringWriter())
+                {
+                    serializer.Serialize(textWriter, DateTime.Now);
+                    xmlCurrentTime = textWriter.ToString();
+                }
                 PlayerData.instance.spacebux += _amountIncrease; // update locally first
-                NetworkManager.instance._controller.CollectSpacebux(_amountIncrease); // collect spacebux
+                NetworkManager.instance._controller.CollectSpacebux((long)_planet.myNumber, _planet.planetNum, _amountIncrease, xmlCurrentTime); // collect spacebux
                 _ready = false;
                 _needToUpdate = true;
                 _planet.lastResourceCollection = DateTime.Now;

@@ -38,7 +38,7 @@ public class PlayerShipsResponseHandler : PhotonOperationHandler
         }
         else
         {
-            view.LogDebug("WHY ARE WE HERE");
+            view.LogDebug("RESPONSE: " + response.DebugMessage);
         }
     }
 }

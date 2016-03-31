@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System;
 using ExitGames.Client.Photon;
+using System.Globalization;
 
 //A PlayerProfileResponseHandler to deal with spacebux responses from the server
 
@@ -26,10 +27,18 @@ public class SpacebuxResponseHandler : PhotonOperationHandler
         view.LogDebug("GOT A RESPONSE for SPACEBUX");
         if (response.ReturnCode == 0)
         {
-            view.LogDebug(response.Parameters[(byte)ClientParameterCode.Spacebux].ToString());
-            
+            view.LogDebug(response.Parameters[(byte)ClientParameterCode.Time].ToString());
+
+            // Deserialize
+            XmlSerializer serializer = new XmlSerializer(typeof(DateTime));
+            DateTime collectionTime;
+            using (StringReader textReader = new StringReader(response.Parameters[(byte)ClientParameterCode.Time].ToString()))
+            {
+                collectionTime = (DateTime)serializer.Deserialize(textReader);
+            }
+
             // Update local data
-            PlayerData.instance.UpdateSpacebux((int)response.Parameters[(byte)ClientParameterCode.Spacebux]);
+            //PlayerData.instance.UpdateSpacebux((int)); // TODO: FIX THIS
         }
         else if (response.ReturnCode == 5)
         {
@@ -37,7 +46,7 @@ public class SpacebuxResponseHandler : PhotonOperationHandler
         }
         else
         {
-            view.LogDebug("WHY ARE WE HERE");
+            view.LogDebug("RESPONSE: " + response.DebugMessage);
         }
     }
 }
