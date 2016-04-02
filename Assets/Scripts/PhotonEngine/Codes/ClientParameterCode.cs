@@ -27,5 +27,7 @@ public enum ClientParameterCode : byte
     Class,
     PlayerShips,
     StarShips,
-    Planets
+    Planets,
+    StartTime,
+    EndTime
 }

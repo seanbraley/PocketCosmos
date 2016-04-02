@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ExitGames.Client.Photon;
+using System.Xml.Serialization;
+using System.IO;
 //The spefic ViewController to handle login event
 //This clss is responsible for crafting the login mesage to send to the server
 //It also has a list of the relevent Login handlers. 
@@ -35,8 +37,10 @@ public class NetworkController : ViewController
         OperationHandlers.Add((byte)updateVisitedTimeResponseHandler.Code, updateVisitedTimeResponseHandler);
         UpdatePopulationResponseHandler updatePopulationResponseHandler = new UpdatePopulationResponseHandler(this);
         OperationHandlers.Add((byte)updatePopulationResponseHandler.Code, updatePopulationResponseHandler);
+        MissionCompleteResponseHandler missionCompleteResponseHandler = new MissionCompleteResponseHandler(this);
+        OperationHandlers.Add((byte)missionCompleteResponseHandler.Code, missionCompleteResponseHandler);
 
-
+        
     }
 
 
@@ -190,11 +194,28 @@ public class NetworkController : ViewController
 
     public void SendShipOnMission(ShipInfo s)
     {
+        XmlSerializer serializer = new XmlSerializer(typeof(DateTime));
+        string xmlstartTime = "";
+        using (StringWriter textWriter = new StringWriter())
+        {
+            serializer.Serialize(textWriter, s.departure_time);
+            xmlstartTime = textWriter.ToString();
+        }
+
+        string xmlendTime = "";
+        using (StringWriter textWriter = new StringWriter())
+        {
+            serializer.Serialize(textWriter, s.arrival_time);
+            xmlendTime = textWriter.ToString();
+        }        
+
         var param = new Dictionary<byte, object>()
         {
             {(byte) ClientParameterCode.ShipId, (int) s.id},
             {(byte) ClientParameterCode.StarId, (long) s.destination_star},
             {(byte) ClientParameterCode.PlanetId, (int) s.destination_planet},
+            {(byte) ClientParameterCode.StartTime, xmlstartTime.ToString()},
+            {(byte) ClientParameterCode.EndTime, xmlendTime.ToString()},
             {(byte) ClientParameterCode.SubOperationCode, (int) MessageSubCode.SendShip}
         };
         ControlledView.LogDebug("SENDING SEND SHIP REQUEST");

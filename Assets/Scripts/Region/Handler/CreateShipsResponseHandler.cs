@@ -38,6 +38,9 @@ public class CreateShipsResponseHandler : PhotonOperationHandler
             foreach (SanShip s in shipCollection.Ships)
                 PlayerData.instance.AddNewShip(new ShipInfo(s));
 
+            // Update spacebux amount after creating this ship
+            PlayerData.instance.UpdateSpacebux((int)response.Parameters[(byte)ClientParameterCode.Spacebux]); 
+
         }
         else if (response.ReturnCode == 6)
         {

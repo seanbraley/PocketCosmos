@@ -18,6 +18,7 @@ public class PlayerData : MonoBehaviour {
     public List<OwnedPlanet> ownedPlanets;
     public List<KnownStar> discoveredStarSystems;
     public List<ShipInfo> shipList;
+    public List<ShipInfo> shipMissions;
 
 
     // ----- Accessors -----
@@ -106,6 +107,20 @@ public class PlayerData : MonoBehaviour {
         }        
     }
 
+    // update list of ship missions for a player
+    public void AddNewMission(ShipInfo s)
+    {
+        shipMissions.Add(s);
+    }
+
+
+    // update list of ships owned and active missions
+    public void EndMission(ShipInfo s)
+    {
+        shipMissions.Remove(s);
+        shipList.Remove(s);
+    }
+
     // update list of owned planets for a player
     public void AddOwnedPlanet(OwnedPlanet p)
     {
@@ -129,6 +144,7 @@ public class PlayerData : MonoBehaviour {
     // Checks whether the ownership status of this planet
     public int CheckPlanetStatus(long starID, int planetID)
     {
+        Debug.Log("Checking planet status of " + starID + " planet " + planetID);
         var p = ownedPlanets.Find(x => x.starID == starID && x.planetID == planetID);
         if (p == null) {
             // not a known planet

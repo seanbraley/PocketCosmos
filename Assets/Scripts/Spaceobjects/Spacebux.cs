@@ -53,11 +53,11 @@ public class Spacebux : Resource {
                     xmlCurrentTime = textWriter.ToString();
                 }
                 PlayerData.instance.spacebux += _amountIncrease; // update locally first
-                NetworkManager.instance._controller.CollectSpacebux((long)_planet.myNumber, _planet.planetNum, _amountIncrease, xmlCurrentTime); // collect spacebux
+                NetworkManager.instance._controller.CollectSpacebux((long)_planet.homeStar.myNumber, _planet.planetNum, _amountIncrease, xmlCurrentTime); // collect spacebux
                 _ready = false;
                 _needToUpdate = true;
                 _planet.lastResourceCollection = DateTime.Now;
-                PlayerData.instance.GetPlanetLastCollectedTime(_planet.myNumber, _planet.planetNum);
+                PlayerData.instance.GetPlanetLastCollectedTime(_planet.homeStar.myNumber, _planet.planetNum);
                 GetComponent<Planet>().SetWaypoint(null);
             }
             else {

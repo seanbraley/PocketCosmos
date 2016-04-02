@@ -24,7 +24,6 @@ public class DiscoveredStarsResponseHandler : PhotonOperationHandler
         view.LogDebug("GOT A RESPONSE for DISCOVERED STAR");
         if (response.ReturnCode == 0)
         {
-            view.LogDebug("Star successfully discovered.");
             DisplayManager.Instance.DisplayMessage("Star successfully discovered!");
 
             // Deserialize

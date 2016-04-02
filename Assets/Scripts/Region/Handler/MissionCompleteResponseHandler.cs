@@ -8,28 +8,27 @@ using System.IO;
 using System.Linq;
 
 //A PlayerShipsResponseHandler to deal with ship responses from the server
-public class SendShipOnMissionResponseHandler : PhotonOperationHandler
+public class MissionCompleteResponseHandler : PhotonOperationHandler
 {
     public override byte Code
     {
-        get { return (byte)MessageSubCode.SendShip; }
+        get { return (byte)MessageSubCode.CompleteShip; }
     }
-    public SendShipOnMissionResponseHandler(NetworkController controller) : base(controller)
+    public MissionCompleteResponseHandler(NetworkController controller) : base(controller)
     {
     }
     public override void OnHandleResponse(OperationResponse response)
     {
         NetworkManager view = _controller.ControlledView as NetworkManager;
-        view.LogDebug("GOT A RESPONSE for CREATING SHIP");
+        view.LogDebug("GOT A RESPONSE for COMPLETING MISSION.");
         if (response.ReturnCode == 0)
         {
             view.LogDebug(response.Parameters[(byte)ClientParameterCode.ShipId].ToString());
 
-            // Find the ship by its shipID and add it to the active missions
+            // Find the ship by its shipID and remove from ships ilst and lsit of active missions
             var s = PlayerData.instance.shipList.Find(x => x.id == (int)response.Parameters[(byte)ClientParameterCode.ShipId]);
-            PlayerData.instance.AddNewMission(s);
-
-            DisplayManager.Instance.DisplayMessage("Ship Launched!");
+            PlayerData.instance.EndMission(s);
+            
         }
         else
         {

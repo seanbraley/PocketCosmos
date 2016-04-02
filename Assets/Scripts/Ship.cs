@@ -13,7 +13,7 @@ public class Ship : MonoBehaviour {
 	private Vector3 endPos;
 	public GameObject destination;
 	private float travelTime;
-	private float timeToDestination;
+	public float timeToDestination;
 	private float speed;
 
 	public Material render;
@@ -79,9 +79,11 @@ public class Ship : MonoBehaviour {
 
     }
 
+
     public void SetInfo(ShipInfo info) {
     	_info = info;
     	ShipClass = info.ship_class;
+        timeToDestination = Vector3.Distance(origin.transform.position, destination.transform.position) / 5;
     }
 	
 	// Update is called once per frame

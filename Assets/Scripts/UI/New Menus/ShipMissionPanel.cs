@@ -121,16 +121,20 @@ public class ShipMissionPanel : MonoBehaviour {
             // It's a star
             _ship.destination_star = (uint)destinationStar.myNumber;
             _ship.destination_planet = 1;
-            NetworkManager.instance._controller.SendShipOnMission(_ship);
         }
         else if (destinationPlanet)
         {
             // It's a planet
-            _ship.destination_star = (uint)destinationPlanet.myNumber;
+            _ship.destination_star = (uint)destinationPlanet.homeStar.myNumber;
             _ship.destination_planet = destinationPlanet.planetNum;
-            NetworkManager.instance._controller.SendShipOnMission(_ship);
         }        
         ship.GetComponent<Ship>().SetInfo(_ship);
         gameObject.SetActive(false);
+
+        // Send stuff to server
+        var t = System.DateTime.Now;
+        _ship.departure_time = t;
+        _ship.arrival_time = t.AddSeconds(ship.GetComponent<Ship>().timeToDestination);
+        NetworkManager.instance._controller.SendShipOnMission(_ship);
     }
 }

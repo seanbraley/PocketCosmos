@@ -15,8 +15,8 @@ public class ShipInfo
     public uint destination_star;
     public int population;
     public long power;
-    public DateTime departure_time;
-    public DateTime arrival_time;
+    public DateTime departure_time { get; set; }
+    public DateTime arrival_time { get; set; }
 
     public ShipInfo(int ship_class, int origin_planet, uint origin_star)
     {
@@ -35,8 +35,6 @@ public class ShipInfo
         this.origin_star = (uint)s.HomeStar;
         this.destination_planet = s.DestPlanet;
         this.destination_star = (uint)s.DestStar;
-        //this.departure_time = s.StartTime;
-        //this.arrival_time = s.EndTime;
     }
 
     public ShipInfo()

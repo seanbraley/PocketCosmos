@@ -19,7 +19,6 @@ public class ColonizePlanetResponseHandler : PhotonOperationHandler
     public override void OnHandleResponse(OperationResponse response)
     {
         NetworkManager view = _controller.ControlledView as NetworkManager;
-        view.LogDebug("GOT A RESPONSE for KNOWN Planets");
         if (response.ReturnCode == 0)
         {
             // TODO FIX THIS FOR ONLY 1 PLANET??

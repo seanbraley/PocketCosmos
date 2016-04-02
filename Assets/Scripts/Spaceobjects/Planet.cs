@@ -94,13 +94,13 @@ public class Planet : PlanetaryBody {
         homeStar = parentBody.GetComponent<SystemStar>();
 
         // Set ownership status
-        if (PlayerData.instance.CheckPlanetStatus(myNumber, planetNum) == 1)
+        if (PlayerData.instance.CheckPlanetStatus(homeStar.myNumber, planetNum) == 1)
         {
             personalOwnership = true;
             ownershipState = true;
             orbitPath.SetColors(Color.green,Color.green);
         }
-        else if (PlayerData.instance.CheckPlanetStatus(myNumber, planetNum) == 0)
+        else if (PlayerData.instance.CheckPlanetStatus(homeStar.myNumber, planetNum) == 0)
         {
             personalOwnership = false;
             ownershipState = true;
@@ -119,8 +119,8 @@ public class Planet : PlanetaryBody {
             orbitPath.SetColors(Color.white,Color.white);
         }
 
-	    lastResourceCollection = PlayerData.instance.GetPlanetLastCollectedTime(myNumber, planetNum);
-	    population = PlayerData.instance.GetPlanetPopulation(myNumber, planetNum);
+	    lastResourceCollection = PlayerData.instance.GetPlanetLastCollectedTime(homeStar.myNumber, planetNum);
+	    population = PlayerData.instance.GetPlanetPopulation(homeStar.myNumber, planetNum);
 
         // Set Color
         if (planetNum <= 2)  // hot planets generate more power, negative population rate (usually)
@@ -169,11 +169,11 @@ public class Planet : PlanetaryBody {
         if (personalOwnership) {
             // Adding population based on missing time
             long populationIncrease = (long)(populationRate *
-                           (DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds / (360 / orbitSpeed));
-            NetworkManager.instance._controller.UpdatePopulation(myNumber, planetNum, (int)populationIncrease);
+                           (DateTime.Now - PlayerData.instance.GetLastVisitedTime(homeStar.myNumber)).TotalSeconds / (360 / orbitSpeed));
+            NetworkManager.instance._controller.UpdatePopulation(homeStar.myNumber, planetNum, (int)populationIncrease);
             population += populationIncrease;
-            this.dt = TimeSpan.FromSeconds((DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds % (360 / orbitSpeed));
-            Debug.Log("DT for pop is: " + (DateTime.Now - PlayerData.instance.GetLastVisitedTime(myNumber)).TotalSeconds);
+            this.dt = TimeSpan.FromSeconds((DateTime.Now - PlayerData.instance.GetLastVisitedTime(homeStar.myNumber)).TotalSeconds % (360 / orbitSpeed));
+            Debug.Log("DT for pop is: " + (DateTime.Now - PlayerData.instance.GetLastVisitedTime(homeStar.myNumber)).TotalSeconds);
         }
 
         // Adjust for persistent rotation
@@ -282,8 +282,8 @@ public class Planet : PlanetaryBody {
     void AddPopulation()
     {
         population += (long)populationRate;
-        NetworkManager.instance._controller.UpdatePopulation(myNumber, planetNum, (int)populationRate);
-        PlayerData.instance.SetPlanetPopulation(myNumber, planetNum, population);
+        NetworkManager.instance._controller.UpdatePopulation(homeStar.myNumber, planetNum, (int)populationRate);
+        PlayerData.instance.SetPlanetPopulation(homeStar.myNumber, planetNum, population);
     }
 
 	void DrawOrbit ()

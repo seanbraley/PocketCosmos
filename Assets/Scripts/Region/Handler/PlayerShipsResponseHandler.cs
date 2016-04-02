@@ -35,6 +35,8 @@ public class PlayerShipsResponseHandler : PhotonOperationHandler
             // Update local data
             foreach (SanShip s in shipCollection.Ships)
                 PlayerData.instance.AddNewShip(new ShipInfo(s));
+
+
         }
         else
         {
