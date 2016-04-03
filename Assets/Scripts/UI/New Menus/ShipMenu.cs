@@ -61,15 +61,11 @@ public class ShipMenu : MonoBehaviour {
                 _shipClassText.text = "Research Racer";
 
                 _shipClassImage.sprite = ResearchRacerSprite;
-				_shipSpecificButtonText.text = "Research";
-				_shipSpecificButtonImage.sprite = ResearchSprite;
 			}
 			else {
                 _shipClassText.text = "Colony Carrier";
 
                 _shipClassImage.sprite = ColonyCarrierSprite;
-				_shipSpecificButtonText.text = "Colonize";
-				_shipSpecificButtonImage.sprite = ColonizeSprite;
 
 			}
 		}
@@ -112,16 +108,8 @@ public class ShipMenu : MonoBehaviour {
 	}
 
 	private Button _travelButton;
-	private Button _destroyButton;
-
-	private Button _shipSpecificButton;
-	private Image _shipSpecificButtonImage;
-	private Text _shipSpecificButtonText;
 
 	private ProgressBar _progressBar;
-
-	public Sprite ResearchSprite;
-	public Sprite ColonizeSprite;
 
 	private ShipInfo _shipInfo;
 
@@ -152,11 +140,6 @@ public class ShipMenu : MonoBehaviour {
 		_destinationText = transform.Find("Destination/Text").GetComponent<Text>();
 
 		_travelButton = transform.Find("TravelButton").GetComponent<Button>();
-		_destroyButton = transform.Find("DestroyButton").GetComponent<Button>();
-
-		_shipSpecificButton = transform.Find("ShipSpecificButton").GetComponent<Button>();
-		_shipSpecificButtonImage = transform.Find("ShipSpecificButton/Image").GetComponent<Image>();
-		_shipSpecificButtonText = transform.Find("ShipSpecificButton/Text").GetComponent<Text>();
 
 		_progressBar = transform.Find("ProgressBar").GetComponent<ProgressBar>();
 		_progressBar.SetInfo(info);
@@ -170,19 +153,16 @@ public class ShipMenu : MonoBehaviour {
 		if (info.origin_planet != 0 && info.destination_planet != 0) {
 			StatusText = "On Route";
 			_travelButton.interactable = false;
-			_shipSpecificButton.interactable = false;
 			StatusColor = Color.red;
 		}
 		else if (info.origin_planet == 0 && info.destination_planet != 0) {
 			StatusText = "Arrived";
 			_travelButton.interactable = true;
-			_shipSpecificButton.interactable = true;
 			StatusColor = Color.blue;
 		}
 		else if (info.origin_planet != 0 && info.destination_planet == 0) {
 			StatusText = "Ready";
 			_travelButton.interactable = true;
-			_shipSpecificButton.interactable = true;
 			StatusColor = Color.green;
 		}
 
@@ -221,6 +201,7 @@ public class ShipMenu : MonoBehaviour {
 		ShipMissionPanel.Instance.SetInfo(_shipInfo);
 		ShipSelectMenu.Instance.gameObject.SetActive(false);
 		PlanetMenu.Instance.gameObject.SetActive(false);
+        StarMenu.Instance.gameObject.SetActive(false);
 		gameObject.SetActive(false);
 	}
 }

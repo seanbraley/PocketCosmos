@@ -38,9 +38,9 @@ public class Player : MonoBehaviour {
                 if (selectedStar) {
                     DisplayManager.Instance.ShowPopulationBar(false);
                     DisplayManager.Instance.ShowEnergyBar(true);
-                    ShipSelectMenu.Instance.gameObject.SetActive(true);
-                    ShipSelectMenu.Instance.PopulateShipSelectMenu(selectedStar.myNumber);
-
+                    //ShipSelectMenu.Instance.gameObject.SetActive(true);
+                    StarMenu.Instance.gameObject.SetActive(true);
+                    StarMenu.Instance.SetInfo(selectedStar);
                 }
                 else if (selectedSystemStar) {
                     DisplayManager.Instance.ShowPopulationBar(false);
@@ -121,6 +121,7 @@ public class Player : MonoBehaviour {
         // find the nearest one:
         float dist = Mathf.Infinity;
         GameObject nearest = null;
+        bool menuInWay = false;
         foreach (Collider col in cols)
         {
             // find the distance to pos:
@@ -235,6 +236,7 @@ public class Player : MonoBehaviour {
                 }
                 // Set selected object
                 selected = FindGameObjectAtPosition(clickPos);
+                Debug.Log("Selected object: " + selected.GetType());
                 selected.GetComponent<Star>().KeepLoaded();
                 GameManager.instance.selectedID = selected.GetComponent<Star>().myNumber;
                 // Highlight selection by turning on the halo
@@ -265,7 +267,6 @@ public class Player : MonoBehaviour {
                 GameObject prevSelect = selected;
                 // Set selected object
                 selected = FindGameObjectAtPosition(clickPos);
-                Debug.Log("Clicked " + selected.name);  //testing
                 //Collect(selected.GetComponent<Population>());  // testing
                 Collect(selected.GetComponent<Spacebux>());  // testing
             }

@@ -2,80 +2,58 @@
 using UnityEngine.UI;
 using Superbest_random; // Included for gaussian
 using System.Collections;
+using Completed;
 
-public class StarMenu : ContextMenu {
+public class StarMenu : MonoBehaviour
+{
+    public static StarMenu Instance;
 
-	protected Text totalPlanetsText;
-	protected Text discoveredPlanetsText;
-	protected Text ownedPlanetsText;
+    private Text _nameText;  // Later
 
-	protected Text energyBarText;
+    private Button _shipsButton;
+    private Button _viewSystemButton;
+
+    private Star star;
 
 
-	public override void Awake() {
-		base.Awake();
-		GameObject totalPlanets = transform.Find("TotalPlanets").gameObject;
-		GameObject discoveredPlanets = transform.Find("DiscoveredPlanets").gameObject;
-		GameObject ownedPlanets = transform.Find("OwnedPlanets").gameObject;
-		GameObject energyBar = transform.Find("EnergyBar/Count").gameObject;
+	public void Awake() {
+        if (Instance != null && Instance != this)
+        {
+            Debug.Log("Bye Bye instance");
+            Destroy(Instance.gameObject);
+        }
+        Instance = this; //shitty singleton, but anything more ruins everything for whatever reason.
+                         // I'm not even mad rn.
 
-		totalPlanetsText = totalPlanets.GetComponent<Text>();
-		discoveredPlanetsText = discoveredPlanets.GetComponent<Text>();
-		ownedPlanetsText = ownedPlanets.GetComponent<Text>();
-		energyBarText = energyBar.GetComponent<Text>();
-	}
 
-	public void SetInfo(Star star) {
-		if (star.Discovered)
-		{
-			SetTitle("Star #" + star.myNumber.ToString());
-			SetDescription("Big Giant Hot Thing (TO-DO)");
-            // Terrible things
-            System.Random tmpRNG = new System.Random((int)star.myNumber);
-            int numPlanets = (int)(SystemStar.MEAN_PLANET + (SystemStar.RANGE_PLANET * tmpRNG.NextGaussian()));
+        _nameText = transform.Find("Name").GetComponent<Text>();
 
-            int baseEnergyLevel = tmpRNG.Next(40, 100);  // Set power level
+        _shipsButton = transform.Find("ShipsButton").GetComponent<Button>();
+        _shipsButton.onClick.AddListener(() => ShowShipMenu());
 
-            // End terrible things
+	    _viewSystemButton = transform.Find("ViewSystemButton").GetComponent<Button>();
+        _viewSystemButton.onClick.AddListener(() => EnterSystem());
 
-            SetTotalPlanetsText(numPlanets.ToString());
-			SetDiscoveredPlanetsText("TO-DO");
-			SetOwnedPlanetsText("TO-DO");
-			SetEnergyBarText(baseEnergyLevel.ToString());
-		}
-		else {
-			SetTitle("Unknown Star");
-			SetDescription("Research this star to learn more about it!");
-			SetTotalPlanetsText("???");
-			SetDiscoveredPlanetsText("0");
-			SetOwnedPlanetsText("0");
-			SetEnergyBarText("???");
-		}
-	}
+        gameObject.SetActive(false);
+    }
 
-	public void SetInfo(SystemStar star) {
-		SetTitle("Star #" + star.myNumber.ToString());
-		SetDescription("Big Giant Hot Thing (TO-DO)");
-		SetTotalPlanetsText("TO-DO");
-		SetDiscoveredPlanetsText("TO-DO");
-		SetOwnedPlanetsText("TO-DO");
-		SetEnergyBarText("TO-DO");
-	}
+    public void ShowShipMenu()
+    {
+        Debug.Log("ShowShipMenu");
+        ShipSelectMenu.Instance.PopulateShipSelectMenu(star.myNumber);
+        ShipSelectMenu.Instance.gameObject.SetActive(true);
+        ShipSelectMenu.Instance.transform.SetAsLastSibling();
+        transform.SetAsFirstSibling();
+    }
 
-	public void SetTotalPlanetsText(string numPlanets) {
-		totalPlanetsText.text = "Total Planets: " + numPlanets;
-	}
+    public void EnterSystem()
+    {
+        Debug.Log("EnterSystem");
+        GameManager.instance.ToSystemView();
+    }
 
-	public void SetDiscoveredPlanetsText(string numPlanets) {
-		discoveredPlanetsText.text = "Discovered Planets: " + numPlanets;
-	}
-
-	public void SetOwnedPlanetsText(string numPlanets) {
-		ownedPlanetsText.text = "Owned Planets: " + numPlanets;
-	}
-
-	public void SetEnergyBarText(string energyCount) {
-		energyBarText.text = energyCount;
-	}
-
+    public void SetInfo(Star star)
+    {
+        this.star = star;
+    }
 }

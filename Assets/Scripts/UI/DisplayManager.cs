@@ -8,6 +8,19 @@ public class DisplayManager : MonoBehaviour {
 
     public static DisplayManager Instance;
 
+    public bool ContextMenuOpen
+    {
+        get
+        {
+            foreach (GameObject g in contextMenus)
+                if (g.activeSelf)
+                    return true;
+            return false;
+        }
+    }
+
+    public GameObject[] contextMenus;
+
     // Set these in the inspector
     public Text virtualPosition;
     public GameObject Message_Prefab;

@@ -105,62 +105,68 @@ namespace Completed
         //Update is called every frame.
         void Update()
         {
-            if (Input.GetKeyDown("space")) {
-                ReturnButton();
-            }
-
-            if (SceneManager.GetActiveScene().buildIndex == SectorLevel)
+            if (!DisplayManager.Instance.ContextMenuOpen)
             {
-                if (SystemInfo.deviceType == DeviceType.Handheld)
+                if (Input.GetKeyDown("space"))
                 {
-                    if (Input.touchCount > 0) // One finger touch is navigation
+                    ReturnButton();
+                }
+
+                if (SceneManager.GetActiveScene().buildIndex == SectorLevel)
                 {
-                        for (int i = 0; i < Input.touchCount; i++)
+                    if (SystemInfo.deviceType == DeviceType.Handheld)
+                    {
+                        if (Input.touchCount > 0) // One finger touch is navigation
                         {
-                            switch (Input.GetTouch(i).phase)
+                            for (int i = 0; i < Input.touchCount; i++)
                             {
-                                case TouchPhase.Began:
-                                    Debug.Log("Entering touch phase began, setting touch pos: " +
-                                              Input.GetTouch(i).position);
-                                    lastTouchPos = Input.GetTouch(i).position;
+                                switch (Input.GetTouch(i).phase)
+                                {
+                                    case TouchPhase.Began:
+                                        Debug.Log("Entering touch phase began, setting touch pos: " +
+                                                  Input.GetTouch(i).position);
+                                        lastTouchPos = Input.GetTouch(i).position;
 
-                                    Player.instance.checkTouchDoubleClick();
+                                        Player.instance.checkTouchDoubleClick();
 
 
-                                    break;
-                                case TouchPhase.Moved:
-                                    Vector2 touchDeltaPosition = lastTouchPos - Input.GetTouch(i).position;
-                                    Debug.Log("Entering touch phase moved, new touch is: " + Input.GetTouch(i).position);
-                                    Debug.Log("Moved, delta was: " + touchDeltaPosition);
-                                    //transform.Translate(-touchDeltaPosition.x * speed, -touchDeltaPosition.y * speed, 0);
-                                    if (touchDeltaPosition.magnitude >= touchThreshold)
-                                    {
-                                        Vector2 deltaVpos = new Vector2(-touchDeltaPosition.x*speed,
-                                            -touchDeltaPosition.y*speed);
-                                        ShiftAllStars(deltaVpos);
-                                    }
-                                    lastTouchPos = Input.GetTouch(i).position;
-                                    break;
+                                        break;
+                                    case TouchPhase.Moved:
+                                        Vector2 touchDeltaPosition = lastTouchPos - Input.GetTouch(i).position;
+                                        Debug.Log("Entering touch phase moved, new touch is: " +
+                                                  Input.GetTouch(i).position);
+                                        Debug.Log("Moved, delta was: " + touchDeltaPosition);
+                                        //transform.Translate(-touchDeltaPosition.x * speed, -touchDeltaPosition.y * speed, 0);
+                                        if (touchDeltaPosition.magnitude >= touchThreshold)
+                                        {
+                                            Vector2 deltaVpos = new Vector2(-touchDeltaPosition.x*speed,
+                                                -touchDeltaPosition.y*speed);
+                                            ShiftAllStars(deltaVpos);
+                                        }
+                                        lastTouchPos = Input.GetTouch(i).position;
+                                        break;
+                                }
                             }
                         }
                     }
-                }
-                else if (SystemInfo.deviceType == DeviceType.Desktop)
-                {
-                    if (Input.GetMouseButton(0))
+                    else if (SystemInfo.deviceType == DeviceType.Desktop)
                     {
-                        Vector2 mouseDeltaPosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - prevMousePos;
-                        ShiftAllStars(mouseDeltaPosition);
-                        //instance.virtualPosition += mouseDeltaPosition;
-                        prevMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    }
-                    else
-                    {
-                        prevMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        if (Input.GetMouseButton(0))
+                        {
+                            Vector2 mouseDeltaPosition = (Vector2) Camera.main.ScreenToWorldPoint(Input.mousePosition) -
+                                                         prevMousePos;
+                            ShiftAllStars(mouseDeltaPosition);
+                            //instance.virtualPosition += mouseDeltaPosition;
+                            prevMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        }
+                        else
+                        {
+                            prevMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        }
                     }
                 }
+                Player.instance.checkMouseDoubleClick();
             }
-            Player.instance.checkMouseDoubleClick();
         } // end Update()
 
         public void SetDiscovery(System.DateTime time)
