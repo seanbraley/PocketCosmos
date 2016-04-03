@@ -35,16 +35,28 @@ public class PlayerShipsResponseHandler : PhotonOperationHandler
             // Update local data
             foreach (SanShip s in shipCollection.Ships)
             {
+                // Ship is an owned ship                    
+                PlayerData.instance.AddNewShip(new ShipInfo(s));
+
                 // Determine if ship is on a mission or just an owned ship
                 if (s.DestStar != 0) {
                     // Ship has a destination - it's on a mission
                     PlayerData.instance.AddNewMission(new ShipInfo(s));
-                }
-                else {
-                    // Ship is an owned ship                    
-                    PlayerData.instance.AddNewShip(new ShipInfo(s));
-                }
-                
+
+                    // Check if this mission should be completed
+                    DateTime currenttime = DateTime.Now;
+                    if (s.EndTime <= currenttime) {
+                        XmlSerializer serializer = new XmlSerializer(typeof(DateTime));
+                        var xmlCurrentTime = "";
+                        using (StringWriter textWriter = new StringWriter())
+                        {
+                            serializer.Serialize(textWriter, DateTime.Now);
+                            xmlCurrentTime = textWriter.ToString();
+                        }
+                        NetworkManager.instance._controller.SendMissionComplete(s.ShipId, xmlCurrentTime); // NETWORK STUFF
+                    }       
+                    
+                }                
             }           
 
 
@@ -68,6 +80,8 @@ public class SanShip
     public virtual long DestStar { get; set; }
     public virtual int Population { get; set; }
     public virtual int Power { get; set; }
+    public virtual DateTime StartTime { get; set; }
+    public virtual DateTime EndTime { get; set; }
 }
 
 [XmlRoot("ShipList")]

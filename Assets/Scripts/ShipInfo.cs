@@ -35,7 +35,9 @@ public class ShipInfo
         this.origin_star = (uint)s.HomeStar;
         this.destination_planet = s.DestPlanet;
         this.destination_star = (uint)s.DestStar;
-    }
+        this.departure_time = s.StartTime;
+        this.arrival_time = s.EndTime;
+}
 
     public ShipInfo()
     {
