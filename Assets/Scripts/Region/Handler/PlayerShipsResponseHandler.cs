@@ -34,7 +34,18 @@ public class PlayerShipsResponseHandler : PhotonOperationHandler
 
             // Update local data
             foreach (SanShip s in shipCollection.Ships)
-                PlayerData.instance.AddNewShip(new ShipInfo(s));
+            {
+                // Determine if ship is on a mission or just an owned ship
+                if (s.DestStar != 0) {
+                    // Ship has a destination - it's on a mission
+                    PlayerData.instance.AddNewMission(new ShipInfo(s));
+                }
+                else {
+                    // Ship is an owned ship                    
+                    PlayerData.instance.AddNewShip(new ShipInfo(s));
+                }
+                
+            }           
 
 
         }
