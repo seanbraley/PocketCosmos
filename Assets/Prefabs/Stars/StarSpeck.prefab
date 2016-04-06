@@ -12,7 +12,8 @@ GameObject:
   - 198: {fileID: 19835318}
   - 199: {fileID: 19953522}
   - 114: {fileID: 11448020}
-  - 50: {fileID: 5090512}
+  - 54: {fileID: 5408566}
+  - 135: {fileID: 13572756}
   m_Layer: 0
   m_Name: StarSpeck
   m_TagString: Star
@@ -83,30 +84,28 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 104812}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5.520608, y: 0.27783605, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 444478}
   - {fileID: 407006}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!50 &5090512
-Rigidbody2D:
-  serializedVersion: 2
+--- !u!54 &5408566
+Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 104812}
-  m_UseAutoMass: 0
+  serializedVersion: 2
   m_Mass: 1
-  m_LinearDrag: 0
+  m_Drag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
   m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &11448020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -118,11 +117,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5da302100a9eedd4eac5877607d6cdfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentBody: {fileID: 0}
+  Halo_Prefab: {fileID: 132468, guid: a41836248d5f77b42bb793a594604e5a, type: 2}
   myNumber: 0
   planetPrefab:
   - {fileID: 179486, guid: 63f61d91097fa4946964ea17c10fada4, type: 2}
   - {fileID: 192934, guid: 47aa7d7df64224147b11110563f8c72f, type: 2}
   - {fileID: 129640, guid: d98666f949db3bb409061a08a3c0415f, type: 2}
+  lineRendererMaterial: {fileID: 2100000, guid: 245eac021811f9e408ff1a5d727c7046,
+    type: 2}
+  debug: 0
+  HomeStarIcon_Prefab: {fileID: 161466, guid: 66ad3767f7cac43439b2673eb54fe73d, type: 2}
+  UndiscoveredStarIcon_Prefab: {fileID: 159226, guid: f3b3415675a787841be79ce743887b44,
+    type: 2}
 --- !u!114 &11497792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -135,6 +142,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStar: 1
+--- !u!135 &13572756
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 104812}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.75
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &19835318
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1741,7 +1760,19 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: HomeStarIcon_Prefab
+      value: 
+      objectReference: {fileID: 161466, guid: 66ad3767f7cac43439b2673eb54fe73d, type: 2}
+    - target: {fileID: 0}
+      propertyPath: UndiscoveredStarIcon_Prefab
+      value: 
+      objectReference: {fileID: 159226, guid: f3b3415675a787841be79ce743887b44, type: 2}
+    - target: {fileID: 0}
+      propertyPath: Halo_Prefab
+      value: 
+      objectReference: {fileID: 132468, guid: a41836248d5f77b42bb793a594604e5a, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 104812}

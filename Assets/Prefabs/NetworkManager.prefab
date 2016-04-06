@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 438882}
   - 114: {fileID: 11466186}
   - 114: {fileID: 11478930}
+  - 114: {fileID: 11452284}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -29,6 +30,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11452284
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 168392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03181f72971144d4ba0aeafd0fb84125, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialPlay: 0
+  spacebux: 0
+  homestarID: 0
+  lastPosition: {x: 0, y: 0}
+  ownedPlanets: []
+  discoveredStarSystems: []
 --- !u!114 &11466186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -51,6 +69,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c0ad32bf91eba9458fdc52a46e38ec8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  messageBox: {fileID: 0}
+  ServerAddress: home.sbraley.ca:5055
+  ApplicationName: ProxyServer
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

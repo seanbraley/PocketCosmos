@@ -1,191 +1,394 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;  // scene management at run-time.
+using UnityEngine.EventSystems;     // handles input, raycasting, and sending events.
+using Completed;
 
+/// <summary>
+/// Handles player events and information - touches and mouse clicks.
+/// </summary>
 public class Player : MonoBehaviour {
 
-	/* KNOWN ISSUES:
-	 * 		- Some planets may be unclickable, dependent on size of planet and
-	 * 	 	  Orthographic size of object. Consider revising FindGameObjectAtPosition(pos).
-	 */
+    public static Player instance = null;      //Static instance of GameManager which allows it to be accessed by any other script.    
 
-	public GameObject focus;
-	public GameObject action;
-	private float clickTimer = 0;
-	private Vector3 hitPosition = Vector3.zero;
-	private Vector3 currentPosition = Vector3.zero;
-	private Vector3 cameraPosition = Vector3.zero;
-	public float cameraZoom = 100;
+    // for clicking on an object
+    private GameObject _selected;
+    public GameObject selected {
+        get {
+            return _selected;
+        }
+        set {
+            Component halo;
+            if (selected != null) {
+                selected.GetComponent<PlanetaryBody>().ShowHalo(false);
+            }
 
-	private LineRenderer outliner;
+            _selected = value;
 
-	public GameObject shipPrefab;
+            if (selected != null) {
+                selected.GetComponent<PlanetaryBody>().ShowHalo(true);
+                if (ShipMissionPanel.Instance.gameObject.activeSelf) {
+                    ShipMissionPanel.Instance.Destination = selected;
+                }
+                else {
+                Star selectedStar = selected.GetComponent<Star>();
+                SystemStar selectedSystemStar = selected.GetComponent<SystemStar>();                
+                Planet selectedPlanet = selected.GetComponent<Planet>();
+                if (selectedStar) {
+                    DisplayManager.Instance.ShowPopulationBar(false);
+                    DisplayManager.Instance.ShowEnergyBar(true);
+                    //ShipSelectMenu.Instance.gameObject.SetActive(true);
+                    StarMenu.Instance.gameObject.SetActive(true);
+                    StarMenu.Instance.SetInfo(selectedStar);
+                }
+                else if (selectedSystemStar) {
+                    DisplayManager.Instance.ShowPopulationBar(false);
+                    DisplayManager.Instance.ShowEnergyBar(true);
+                        ShipSelectMenu.Instance.gameObject.SetActive(true);
+                        ShipSelectMenu.Instance.PopulateShipSelectMenu(selectedSystemStar.myNumber);
 
-	public bool selectDestination = false;
+                    }
+                    else if (selectedPlanet) {
+                        // set colour according to status
+                        PlanetMenu.Instance.SetInfo(selectedPlanet);
+                        ShipSelectMenu.Instance.PopulateShipSelectMenu(selectedPlanet.homeStar.myNumber, selectedPlanet.planetNum);
 
-	// Use this for initialization
-	void Start () {
-		outliner = GetComponent<LineRenderer> ();
-		Color c1 = new Color (0,1,0);
-		outliner.materials [0].color = c1;
-    }
-	
-	void Update(){
-		float width = 0.025f * Camera.main.orthographicSize;
-		outliner.SetWidth (width,width);
-		// DRAG INITIALIZER
-		if(Input.GetMouseButtonDown(0)){
-			hitPosition = Input.mousePosition;
-			cameraPosition = transform.position;
-		}
-		// DRAG HANDLER
-		if(Input.GetMouseButton(0)){
-			clickTimer += Time.deltaTime;
-			currentPosition = Input.mousePosition;
-			LeftMouseDrag();        
-			focus = null;
-		}
-		//CLICK HANDLER
-		if (Input.GetMouseButtonUp(0)) {
-			if (clickTimer < 0.25f) {
-				Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				focus = FindGameObjectAtPosition(clickPos);
-				if (FindGameObjectAtPosition(clickPos) != null) {
-					action = FindGameObjectAtPosition(clickPos);
-				}
-				else
-					action = null;
-			}
-			clickTimer = 0;
-		}
-
-		// SCROLLING
-		if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetKey(KeyCode.UpArrow)) {
-			float newSize =  cameraZoom / 1.5f;
-			cameraZoom = Mathf.Max (5,newSize);
-		}
-		if (Input.GetAxis("Mouse ScrollWheel") < 0 || Input.GetKey(KeyCode.DownArrow)) {
-			float newSize = cameraZoom * 1.5f;
-			cameraZoom = Mathf.Min (50000,newSize);
-		}
-
-		if (cameraZoom != Camera.main.orthographicSize)
-		{
-			float delta = cameraZoom - Camera.main.orthographicSize;
-			if (Mathf.Abs(delta) < 0.1f)
-			{
-				Camera.main.orthographicSize = cameraZoom;
-			}
-			else
-			{
-				Camera.main.orthographicSize += delta * 10 * Time.deltaTime;
-			}
-		}
-
-		//FOCUS OBJECT
-		if (focus != null) {
-			Vector3 focusPos = new Vector3(focus.transform.position.x,
-			                               focus.transform.position.y,
-			                               transform.position.z);
-			float speed = Vector3.Distance(focusPos,transform.position);
-			Vector3 newPos;
-			if (speed < 0.1f)
-			{
-				newPos = focusPos;
-			}
-			else
-			{
-				newPos = Vector3.MoveTowards(transform.position,focusPos,
-			                                     speed * 5 * Time.deltaTime);
-			}
-			transform.position = newPos;
-			DrawOutline(focus);
-		}
-		else if (action != null) {
-			DrawOutline(action);
-		}
-		else {
-			outliner.enabled = false;
-		}
-
-		//Return to action object;
-		if (Input.GetKeyDown(KeyCode.A) && action != null) {
-			focus = action;
-		}
-
-	}
-	
-	void LeftMouseDrag(){
-		// From the Unity3D docs: "The z position is in world units from the camera."  In my case I'm using the y-axis as height
-		// with my camera facing back down the y-axis.  You can ignore this when the camera is orthograhic.
-		currentPosition.z = hitPosition.z = cameraPosition.y;
-		// Get direction of movement.  (Note: Don't normalize, the magnitude of change is going to be Vector3.Distance(currentPosition-hitPosition)
-		// anyways.  
-		Vector3 direction = Camera.main.ScreenToWorldPoint(currentPosition) - Camera.main.ScreenToWorldPoint(hitPosition);
-		// Invert direction to that terrain appears to move with the mouse.
-		direction = direction * -1;
-		Vector3 position = cameraPosition + direction;
-		transform.position = position;
-	}
-
-	public void DrawOutline(GameObject obj) {
-		if (obj != null) {
-			outliner.enabled = true;
-			int numSegments = 128;
-			float radius = obj.transform.localScale.x / 2;
-
-			/*
-			if (Camera.main.orthographicSize > 500) {
-				if (obj.tag == "Star") {
-					radius = obj.GetComponent<Light>().range;
-				}
-				if (obj.tag == Planet.TAG) {
-					DrawOutline(obj.GetComponent<Planet>().homeStar.gameObject);
-					return;
-				}
-			}
-			*/
-
-			outliner.SetVertexCount(numSegments + 1);
-			
-			float deltaTheta = (2.0f *  Mathf.PI) / numSegments;
-			float theta = 0;
-			
-			for (int i = 0; i < numSegments + 1; i++)
-			{
-				float x = radius * Mathf.Cos(theta);
-				float y = radius * Mathf.Sin(theta);
-				Vector3 pos = new Vector3(x, y, -5) + obj.transform.position;
-                outliner.SetPosition(i, pos);
-                theta += deltaTheta;
+                        if (selectedPlanet.personalOwnership && selectedPlanet.ownershipState) {
+                        // you own it and occupy it
+                        selected.GetComponent<PlanetaryBody>().SetHaloColor(Color.green);
+                    }
+                    else if (!selectedPlanet.personalOwnership && selectedPlanet.ownershipState)
+                    {
+                        // someone else owns it and occupies it
+                        selected.GetComponent<PlanetaryBody>().SetHaloColor(Color.red);
+                    }
+                    else
+                    {
+                        // no one owns it and it is unoccupied
+                        selected.GetComponent<PlanetaryBody>().SetHaloColor(Color.white);
+                    }
+                    DisplayManager.Instance.ShowPopulationBar(true);
+                    DisplayManager.Instance.SetPopulationBarValue(selectedPlanet.population);
+                    DisplayManager.Instance.ShowEnergyBar(true);
+                        PlanetMenu.Instance.gameObject.SetActive(true);
+                    }
+                }
+            }
+            else {
+                DisplayManager.Instance.ShowPopulationBar(false);
+                DisplayManager.Instance.ShowEnergyBar(false);
             }
         }
     }
-    
-    public GameObject FindGameObjectAtPosition(Vector3 posn) {
-		// get all colliders that intersect pos:
-		Collider[] cols;
-		if (Camera.main.orthographicSize > 30)
-			cols = Physics.OverlapSphere(posn, Camera.main.orthographicSize/5);
-		else {
-			cols = Physics.OverlapSphere(posn, 10);
-		}
-		// find the nearest one:
-		float dist = Mathf.Infinity;
-		GameObject nearest = null;
-		foreach (Collider col in cols){
-			// find the distance to pos:
-			float d = Vector3.Distance(posn, col.transform.position);
-			if (d < dist){ // if closer...
-				dist = d; // save its distance... 
-				nearest = col.gameObject; // and its gameObject
-			}
-		}
-		return nearest;
-	}
 
 
+    private int mouseClicks = 0;
+    private float mouseTimer = 0f;
+    private float mouseTimerLimit = .50f;
 
-	void OnGUI() {
 
-	}
+    // Awake is always called before any Start functions
+    // Only called once.
+    void Awake()
+    {
+        //Check if instance already exists
+        if (instance == null)
+
+            //if not, set instance to this
+            instance = this;
+
+        //If instance already exists and it's not this:
+        else if (instance != this)
+
+            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
+            Destroy(gameObject);
+
+        //Sets this to not be destroyed when reloading scene
+        DontDestroyOnLoad(gameObject);
+
+    }
+
+    public GameObject FindGameObjectAtPosition(Vector3 posn)
+    {
+        // get all colliders that intersect pos:
+        Collider[] cols;
+        if (Camera.main.orthographicSize > 30)
+            cols = Physics.OverlapSphere(posn, Camera.main.orthographicSize / 5);
+        else {
+            cols = Physics.OverlapSphere(posn, 10);
+        }
+        // find the nearest one:
+        float dist = Mathf.Infinity;
+        GameObject nearest = null;
+        bool menuInWay = false;
+        foreach (Collider col in cols)
+        {
+            // find the distance to pos:
+            float d = Vector3.Distance(posn, col.transform.position);
+            if (d < dist)
+            { // if closer...
+                dist = d; // save its distance... 
+                nearest = col.gameObject; // and its gameObject
+            }
+        }
+        return nearest;
+    }
+
+    /* ----- Mouse click/touch actions ----- */
+
+    // Double and single mouse clicks
+    // Source: http://answers.unity3d.com/answers/315649/view.html
+    public void checkMouseDoubleClick()
+    {
+        if (Input.GetMouseButtonDown(0) && GUIUtility.hotControl == 0)
+        {
+            mouseClicks++;
+            Debug.Log("Num of mouse clicks ->" + mouseClicks);
+        }
+
+        if (mouseClicks >= 1 && mouseClicks < 3)
+        {
+            mouseTimer += Time.fixedDeltaTime;
+
+            if (mouseClicks == 2)
+            {
+                if (mouseTimer - mouseTimerLimit < 0)
+                {
+                    Debug.Log("Mouse Double Click");
+                    mouseTimer = 0;
+                    mouseClicks = 0;
+                    /*Here you can add your double click event*/
+                    if (selected != null)
+                    if (selected != null && SceneManager.GetActiveScene().buildIndex == GameManager.SectorLevel)
+                    {                            
+                            if (selected.GetComponent<Star>().Discovered)
+                            {
+                                // Testing
+                                GameManager.instance.SetDiscovery(selected.GetComponent<Star>().GetDiscoveryTime());
+                                GameManager.instance.ToSystemView();
+                            }
+                            else {
+                                Debug.Log("You haven't discovered that star system yet!");
+                            }
+
+                            // Save last known position (position is correct here)
+                            //GameManager.instance.lastKnownPosition = GameManager.instance.virtualPosition;
+                            // Loads selected star's system
+                            //SceneManager.LoadScene(GameManager.instance.SystemLevel);
+                        }
+                    if (selected != null && SceneManager.GetActiveScene().buildIndex == GameManager.SystemLevel)
+                    {
+                        ClickSystemObject();
+                        
+                    }
+                }
+                else {
+                    Debug.Log("Timer expired");
+                    mouseClicks = 0;
+                    mouseTimer = 0;
+                    /*Here you can add your single click event*/
+                    if (SceneManager.GetActiveScene().buildIndex == GameManager.SectorLevel)
+                    {
+                        ClickSectorObject();
+                    }
+                    if (SceneManager.GetActiveScene().buildIndex == GameManager.SystemLevel)
+                    {
+                        ClickSystemObject();
+                    }
+                }
+            }
+
+            if (mouseTimer > mouseTimerLimit)
+            {
+                Debug.Log("Timer expired");
+                mouseClicks = 0;
+                mouseTimer = 0;
+                /*Here you can add your single click event*/
+                if (SceneManager.GetActiveScene().buildIndex == GameManager.SectorLevel)
+                {
+                    ClickSectorObject();
+                }
+                if (SceneManager.GetActiveScene().buildIndex == GameManager.SystemLevel)
+                {
+                    ClickSystemObject();
+                }
+            }
+        }
+    }
+
+    // Handles click events in the sector scene
+    public void ClickSectorObject()
+    {
+        // Check if the mouse was clicked over a UI element
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            // Not on a UI element so we can proceed
+            Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (FindGameObjectAtPosition(clickPos) != null)
+            {
+                // de-select previous object and turn off halo if applicable
+                GameObject prevSelect = selected;
+                if (prevSelect != null)
+                {
+                    prevSelect.GetComponent<Star>().Unload();
+                    selected.GetComponent<PlanetaryBody>().ShowHalo(false);
+                }
+                // Set selected object
+                selected = FindGameObjectAtPosition(clickPos);
+                Debug.Log("Selected object: " + selected.GetType());
+                selected.GetComponent<Star>().KeepLoaded();
+                GameManager.instance.selectedID = selected.GetComponent<Star>().myNumber;
+                // Highlight selection by turning on the halo
+                selected.GetComponent<PlanetaryBody>().ShowHalo(true);
+            }
+            else {
+                // Turn off the halo
+                if (selected != null)
+                    selected.GetComponent<Star>().Unload();
+                selected = null;
+                    GameManager.instance.selectedID = 0;
+            }
+        }
+
+    }
+
+    // Handles click events in the system scene
+    public void ClickSystemObject()
+    {
+        // Check if the mouse was clicked over a UI element
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            // Not on a UI element so we can proceed
+            Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (FindGameObjectAtPosition(clickPos) != null)
+            {
+                // de-select previous object and turn off halo if applicable
+                GameObject prevSelect = selected;
+                // Set selected object
+                selected = FindGameObjectAtPosition(clickPos);
+                //Collect(selected.GetComponent<Population>());  // testing
+                Collect(selected.GetComponent<Spacebux>());  // testing
+            }
+            else {
+                selected = null;
+            }
+        }
+
+    }
+
+    // Double and single taps
+    // Source: http://sushanta1991.blogspot.ca/2013/10/how-to-detect-double-tap-on-touch.html
+    public void checkTouchDoubleClick()
+    {
+        for (var i = 0; i < Input.touchCount; ++i)
+        {
+            if (Input.GetTouch(i).phase == TouchPhase.Began && GUIUtility.hotControl == 0)
+            {
+                if (Input.GetTouch(i).tapCount == 1)
+                {
+                    /*Here you can add your single click event*/
+                    if (SceneManager.GetActiveScene().buildIndex == GameManager.SectorLevel)
+                    {
+                        TouchSectorObject();
+                    }
+                    if (SceneManager.GetActiveScene().buildIndex == GameManager.SystemLevel)
+                    {
+                        TouchSystemObject();
+                    }
+                    
+                }
+                if (Input.GetTouch(i).tapCount == 2)
+                {
+                    /*Here you can add your double click event*/
+                    if (selected != null && SceneManager.GetActiveScene().buildIndex == GameManager.SectorLevel)
+                    {                        
+                        if (SceneManager.GetActiveScene().buildIndex == GameManager.SectorLevel)
+                        {
+                            // Save last known position
+                            //GameManager.instance.lastKnownPosition = GameManager.instance.virtualPosition;
+                            // Loads selected star's system                            
+                            if (selected.GetComponent<Star>().Discovered)
+                            {
+                                GameManager.instance.SetDiscovery(selected.GetComponent<Star>().GetDiscoveryTime());
+                                SceneManager.LoadScene(GameManager.SystemLevel);
+                            }
+                            else {
+                                Debug.Log("You haven't discovered that star system yet!");
+                            }
+                        }
+                        if (SceneManager.GetActiveScene().buildIndex == GameManager.SystemLevel)
+                        {
+                            TouchSystemObject();
+                        }
+                    }
+                }
+            } // end if
+        } // end for            
+    }
+
+    // Handles touch events in the sector scene
+    void TouchSectorObject()
+    {
+        // Finger is not over a UI element
+        if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+        {
+            Vector3 touchPos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+            if (FindGameObjectAtPosition(touchPos) != null)
+            {
+                // de-select previous object and turn off halo if applicable
+                GameObject prevSelect = selected;
+                if (prevSelect != null)
+                {
+                    prevSelect.GetComponent<Star>().Unload();
+                    selected.GetComponent<PlanetaryBody>().ShowHalo(false);
+                }
+                // Set selected object
+                selected = FindGameObjectAtPosition(touchPos);
+                selected.GetComponent<Star>().KeepLoaded();
+                GameManager.instance.selectedID = selected.GetComponent<Star>().myNumber;
+                // Highlight selection by turning on the halo
+                selected.GetComponent<PlanetaryBody>().ShowHalo(true);
+            }
+            else {
+                // Turn off the halo
+                if (selected != null)
+                    selected.GetComponent<Star>().Unload();
+                selected = null;
+                GameManager.instance.selectedID = 0;
+            }
+        }
+    }
+
+    // Handles touch events in the system scene
+    void TouchSystemObject()
+    {
+        // Finger is not over a UI element
+        if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+        {
+            Vector3 touchPos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+            if (FindGameObjectAtPosition(touchPos) != null)
+            {
+                // de-select previous object and turn off halo if applicable
+                GameObject prevSelect = selected;
+                // Set selected object
+                selected = FindGameObjectAtPosition(touchPos);
+                Debug.Log("Clicked " + selected.name);  //testing
+                //Collect(selected.GetComponent<Population>());  // testing
+                Collect(selected.GetComponent<Spacebux>());  // testing
+            }
+            else
+            {
+                selected = null;
+            }
+        }
+    }
+
+    // Collect resource
+    private void Collect(Resource resource)
+    {
+        if (resource != null)
+            resource.Gather();
+    }
+
 }

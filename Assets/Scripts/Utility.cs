@@ -13,7 +13,13 @@ public class Utility : MonoBehaviour {
 	
 	}
 
-	public static Color GetRandomColor() {
+    public enum ResourceType { Power, People, Spacebux, Unknown }
+
+    public enum OwnershipType { Player, Enemy, Unoccupied, Unknown }
+
+    public enum ShipType { Carrier, Scout, Destroyer, Unknown }
+
+    public static Color GetRandomColor() {
 		return new Color(Random.Range(0f,1f),Random.Range(0f,1f),Random.Range(0f,1f));
 	}
 

@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 402140}
   - 114: {fileID: 11477318}
+  - 114: {fileID: 11457186}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -28,6 +29,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11457186
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3866ea9d50640b44aa996c132ff6db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11477318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -39,8 +51,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36e2c64c5e9091149863d63ca723974e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedID: 0
+  SectorLevel: 2
+  SystemLevel: 3
+  virtualPosition: {x: 0, y: 0}
+  lastKnownPosition: {x: 0, y: 0}
   starPrefabs:
-  - {fileID: 167330, guid: 2ffe30e8bb899154f8c0718d58d816cd, type: 2}
+  - {fileID: 104812, guid: d8c1ae706c28fff4583c53930702443a, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -50,6 +67,18 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: starPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 104812, guid: d8c1ae706c28fff4583c53930702443a, type: 2}
+    - target: {fileID: 0}
+      propertyPath: virtualPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: virtualPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

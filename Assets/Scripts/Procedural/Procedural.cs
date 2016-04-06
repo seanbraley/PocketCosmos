@@ -24,6 +24,14 @@ public static class Procedural
             return System.Convert.ToUInt32(-(n * 2 - 1));
     }
 
+    /// <summary>
+    /// Pass in reference to the localRNG of the planetary body
+    /// </summary>
+    
+
+    
+
+
     public static Color GetColor(ushort i)
     {
         int r = i % 255;
@@ -124,14 +132,22 @@ public static class Procedural
 
     public static bool StarExists(int x, int y)
     {
-        if (x%3==0 && y%3==0)
+        if (x % 3 == 0 && y % 3 == 0)
         {
-            uint num = PointToNumber(x, y);
+            ulong num = PointToNumber(x, y);
 
-            float num2 = num / Mathf.PI;
-            float num3 = num2 - Mathf.RoundToInt(num2);
+            //double num2 = num / Mathf.PI;
+            double num2 = num / System.Math.PI;
+            double num3 = num2 - (ulong)num2;
             //Debug.Log(num3);
-            return (Mathf.Abs(num3) > 0.47f);
+            //Debug.Log(string.Format("Number: {0} generated for point <{1}, {2}> created?: {3}", Mathf.Abs(num3), x, y, Mathf.Abs(num3) > 0.46f));
+            //Debug.Log(string.Format("<{0},{1} results in: num {2}; num2 {3}; num3 {4}", x, y, num, num2, num3));
+            double checkVal = 0.95;
+            if (num3 > checkVal || -num3 > checkVal)
+                return true;
+            else
+                return false;
+            //return (Mathf.Abs(num3) > 0.46f);
         }
         return false;
 
